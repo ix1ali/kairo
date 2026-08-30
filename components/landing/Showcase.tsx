@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { Icon } from "@/components/icons/Ui";
+import { useT } from "@/components/LangProvider";
 
 export interface ShowcaseCard {
   id: string;
@@ -14,6 +15,7 @@ export interface ShowcaseCard {
 }
 
 export default function Showcase({ cards }: { cards: ShowcaseCard[] }) {
+  const t = useT();
   const rail = useRef<HTMLDivElement>(null);
 
   function scrollBy(dir: 1 | -1) {
@@ -54,22 +56,22 @@ export default function Showcase({ cards }: { cards: ShowcaseCard[] }) {
 
       <div className="mt-5 flex items-center justify-between gap-4">
         <p className="text-[12.5px] text-[#4E4E60]">
-          Six brands, six looks — all from the same engine, none of them touched by hand.
+          {t.showcase.footer}
         </p>
         <div className="flex shrink-0 gap-2">
           <button
             onClick={() => scrollBy(-1)}
-            aria-label="Previous"
+            aria-label={t.showcase.prev}
             className="grid h-10 w-10 place-items-center rounded-full border border-[#22222E] bg-white/[0.03] text-[#9B9BAE] transition-colors hover:border-[#3A3355] hover:bg-white/[0.07] hover:text-white"
           >
-            <Icon name="arrowRight" size={16} className="rotate-180" />
+            <Icon name="arrowRight" size={16} className="rotate-180 flip-rtl" />
           </button>
           <button
             onClick={() => scrollBy(1)}
-            aria-label="Next"
+            aria-label={t.showcase.next}
             className="grid h-10 w-10 place-items-center rounded-full border border-[#22222E] bg-white/[0.03] text-[#9B9BAE] transition-colors hover:border-[#3A3355] hover:bg-white/[0.07] hover:text-white"
           >
-            <Icon name="arrowRight" size={16} />
+            <Icon name="arrowRight" size={16} className="flip-rtl" />
           </button>
         </div>
       </div>

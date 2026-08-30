@@ -3,8 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Icon } from "@/components/icons/Ui";
+import { useT } from "@/components/LangProvider";
 
 export default function HeroImport({ compact = false }: { compact?: boolean }) {
+  const t = useT();
   const router = useRouter();
   const [url, setUrl] = useState("");
 
@@ -23,20 +25,20 @@ export default function HeroImport({ compact = false }: { compact?: boolean }) {
           </span>
           <input
             className="input py-3.5 pl-11 text-[15px]"
-            placeholder="yourstore.com"
+            placeholder={t.hero.placeholder}
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             aria-label="Your website or store link"
           />
         </div>
         <button type="submit" className="btn btn-primary shrink-0 px-6 py-3.5 text-base">
-          Get my 30 days
-          <Icon name="arrowRight" size={16} strokeWidth={2} />
+          {t.hero.cta}
+          <Icon name="arrowRight" size={16} strokeWidth={2} className="flip-rtl" />
         </button>
       </div>
       <p className="mt-2.5 flex items-center gap-1.5 text-[12.5px] text-[#5B5B70]">
         <Icon name="sparkle" size={13} className="text-[#A78BFA]" filled />
-        Paste any store or product link — Kairo reads your brand and products automatically.
+        {t.hero.hint}
       </p>
     </form>
   );

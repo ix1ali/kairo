@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { CREDIT_COSTS, CREDIT_PACKS, PACKAGES } from "@/lib/plans";
+import { dict } from "@/lib/i18n";
+import { getLang } from "@/lib/i18n/server";
 
 function Check({ dim = false }: { dim?: boolean }) {
   return (
@@ -16,7 +18,8 @@ function Check({ dim = false }: { dim?: boolean }) {
   );
 }
 
-export function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: string }) {
+export async function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: string }) {
+  const t = dict(await getLang()).pricing;
   return (
     <div className="grid gap-5 lg:grid-cols-3">
       {PACKAGES.map((pkg) => {
@@ -32,7 +35,7 @@ export function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: string }) 
           >
             {featured && (
               <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#7C5CFF] to-[#22D3EE] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
-                Most popular
+                {t.popular}
               </span>
             )}
 
@@ -41,21 +44,21 @@ export function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: string }) 
 
             <div className="mt-6 flex items-baseline gap-1">
               <span className="display text-5xl">${pkg.price}</span>
-              <span className="text-sm text-[#6C6C80]">{pkg.cadence}</span>
+              <span className="text-sm text-[#6C6C80]">{t.month}</span>
             </div>
 
             <div className="mt-5 grid grid-cols-3 gap-2 rounded-xl border border-[#1E1E28] bg-black/25 p-3 text-center">
               <div>
                 <p className="display text-lg">{pkg.totalPosts}</p>
-                <p className="text-[10px] uppercase tracking-wider text-[#5B5B70]">posts</p>
+                <p className="text-[10px] uppercase tracking-wider text-[#5B5B70]">{t.posts}</p>
               </div>
               <div>
                 <p className="display text-lg">{pkg.videosPerMonth || "—"}</p>
-                <p className="text-[10px] uppercase tracking-wider text-[#5B5B70]">videos</p>
+                <p className="text-[10px] uppercase tracking-wider text-[#5B5B70]">{t.videos}</p>
               </div>
               <div>
                 <p className="display text-lg">{pkg.credits}</p>
-                <p className="text-[10px] uppercase tracking-wider text-[#5B5B70]">credits</p>
+                <p className="text-[10px] uppercase tracking-wider text-[#5B5B70]">{t.credits}</p>
               </div>
             </div>
 
@@ -63,10 +66,10 @@ export function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: string }) 
               href={`${ctaPrefix}?plan=${pkg.id}`}
               className={`btn mt-5 w-full ${featured ? "btn-primary" : "btn-ghost"}`}
             >
-              Start with {pkg.name}
+              {t.startWith} {pkg.name}
             </Link>
             <p className="mt-2 text-center text-[11px] text-[#4E4E60]">
-              Billed monthly · Cancel anytime · No free trial
+              {t.billed}
             </p>
 
             <ul className="mt-6 space-y-2.5 border-t border-[#16161F] pt-6">
@@ -79,7 +82,7 @@ export function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: string }) 
             </ul>
 
             <p className="mt-6 text-[11px] leading-relaxed text-[#4E4E60]">
-              <span className="font-semibold text-[#6C6C80]">Best for:</span> {pkg.bestFor}
+              <span className="font-semibold text-[#6C6C80]">{t.bestFor}</span> {pkg.bestFor}
             </p>
           </div>
         );

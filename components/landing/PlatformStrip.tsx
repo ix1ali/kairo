@@ -1,5 +1,7 @@
 import { PLATFORM_COLOR, PLATFORM_ICONS } from "@/components/icons/Social";
 import { Icon, type IconName } from "@/components/icons/Ui";
+import { dict } from "@/lib/i18n";
+import { getLang } from "@/lib/i18n/server";
 
 const PLATFORMS: { key: string; label: string }[] = [
   { key: "instagram", label: "Instagram" },
@@ -74,7 +76,8 @@ function Row({ items, reverse = false }: { items: React.ReactNode[]; reverse?: b
   );
 }
 
-export default function PlatformStrip() {
+export default async function PlatformStrip() {
+  const t = dict(await getLang()).hero;
   const platformPills = PLATFORMS.map((p) => {
     const Cmp = PLATFORM_ICONS[p.key];
     return (
@@ -99,7 +102,7 @@ export default function PlatformStrip() {
   return (
     <div className="space-y-5">
       <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-[#4E4E60]">
-        Every platform. Every kind of business.
+        {t.ticker}
       </p>
       <div className="space-y-3">
         <Row items={platformPills} />

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FORMAT_ICON, PILLAR_COLOR, PILLAR_LABEL } from "@/components/PillarStyles";
+import { useT } from "@/components/LangProvider";
 
 export interface DemoPost {
   id: string;
@@ -34,6 +35,7 @@ export default function CalendarDemo({
   posts: DemoPost[];
   previews: Record<string, string>;
 }) {
+  const tr = useT();
   const [selected, setSelected] = useState(posts[2]?.id || posts[0]?.id);
   const [tab, setTab] = useState<"caption" | "art" | "why">("caption");
   const post = posts.find((p) => p.id === selected) || posts[0];
@@ -136,9 +138,9 @@ export default function CalendarDemo({
             <div className="mb-3 flex gap-1">
               {(
                 [
-                  ["caption", "Caption"],
-                  ["art", "Art direction"],
-                  ["why", "Why this post"],
+                  ["caption", tr.demo.tabCaption],
+                  ["art", tr.demo.tabArt],
+                  ["why", tr.demo.tabWhy],
                 ] as const
               ).map(([k, label]) => (
                 <button
@@ -167,20 +169,20 @@ export default function CalendarDemo({
               {tab === "why" && (
                 <ul className="space-y-2.5">
                   <li>
-                    <span className="font-semibold text-white">Funnel stage:</span> {post.funnel}. This
-                    slot exists to move people from where they are to the next step.
+                    <span className="font-semibold text-white">{tr.demo.whyFunnel}:</span> {post.funnel}.{" "}
+                    {tr.demo.whyFunnelBody}
                   </li>
                   <li>
-                    <span className="font-semibold text-white">Placement:</span> {post.theme} — the day of
-                    the week and the week of the month both shape what runs here.
+                    <span className="font-semibold text-white">{tr.demo.whyPlacement}:</span> {post.theme} —{" "}
+                    {tr.demo.whyPlacementBody}
                   </li>
                   <li>
-                    <span className="font-semibold text-white">Format:</span> {post.format} on{" "}
-                    {post.platform}, chosen because it is what this pillar performs best as.
+                    <span className="font-semibold text-white">{tr.demo.whyFormat}:</span> {post.format} ·{" "}
+                    {post.platform} — {tr.demo.whyFormatBody}
                   </li>
                   {post.productName && (
                     <li>
-                      <span className="font-semibold text-white">Product in focus:</span>{" "}
+                      <span className="font-semibold text-white">{tr.demo.whyProduct}:</span>{" "}
                       {post.productName}.
                     </li>
                   )}

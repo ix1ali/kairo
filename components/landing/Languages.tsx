@@ -1,5 +1,7 @@
 import { Flag } from "@/components/icons/Flag";
 import { LOCALES } from "@/lib/languages";
+import { dict } from "@/lib/i18n";
+import { getLang } from "@/lib/i18n/server";
 
 /** A spread across regions rather than the first N alphabetically. */
 const FEATURED = [
@@ -10,7 +12,8 @@ const FEATURED = [
   "id-ID", "th-TH", "ja-JP", "ko-KR", "zh-CN", "vi-VN",
 ];
 
-export default function Languages() {
+export default async function Languages() {
+  const t = dict(await getLang()).langs;
   const shown = FEATURED.map((code) => LOCALES.find((l) => l.code === code)).filter(
     (l): l is (typeof LOCALES)[number] => !!l
   );
@@ -19,15 +22,15 @@ export default function Languages() {
   return (
     <div>
       <div className="mx-auto mb-10 max-w-2xl text-center">
-        <p className="eyebrow">Languages</p>
+        <p className="eyebrow">{t.eyebrow}</p>
         <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">
-          {languages} languages.{" "}
-          <span className="grad-text-soft">{LOCALES.length} dialects.</span>
+          {languages} {t.languages}{" "}
+          <span className="grad-text-soft">
+            {LOCALES.length} {t.dialects}
+          </span>
         </h2>
         <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
-          Pick a country, not just a language. Kuwaiti Arabic does not sell like Egyptian, and
-          British English does not sell like American — so the copy is written the way people
-          actually speak where you are.
+          {t.sub}
         </p>
       </div>
 
@@ -51,8 +54,7 @@ export default function Languages() {
       </div>
 
       <p className="mt-6 text-center text-[13px] text-[#5B5B70]">
-        + {LOCALES.length - shown.length} more, including Levantine, Darija, Rioplatense and
-        Québécois.
+        + {LOCALES.length - shown.length} {t.more}
       </p>
     </div>
   );

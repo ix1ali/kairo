@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Icon, type IconName } from "@/components/icons/Ui";
 import { PACKAGES } from "@/lib/plans";
+import { useT } from "@/components/LangProvider";
 
 /**
  * What a month of content costs the traditional way.
@@ -20,6 +21,7 @@ const LINES: { key: string; label: string; note: string; icon: IconName; rate: n
 ];
 
 export default function Savings() {
+  const t = useT();
   const [planId, setPlanId] = useState("growth");
   const [rates, setRates] = useState<Record<string, number>>(
     Object.fromEntries(LINES.map((l) => [l.key, l.rate]))
@@ -46,8 +48,8 @@ export default function Savings() {
       <div className="panel p-6 sm:p-7">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-[15px] font-semibold text-white">Doing it the usual way</p>
-            <p className="text-[12.5px] text-[#5B5B70]">Change any rate to match your market</p>
+            <p className="text-[15px] font-semibold text-white">{t.savings.oldWay}</p>
+            <p className="text-[12.5px] text-[#5B5B70]">{t.savings.oldWaySub}</p>
           </div>
           <div className="flex gap-1 rounded-xl border border-[#1E1E28] bg-white/[0.02] p-1">
             {PACKAGES.map((p) => (
@@ -76,8 +78,12 @@ export default function Savings() {
                 <Icon name={r.icon} size={16} />
               </span>
               <div className="min-w-0 flex-1">
-                <p className="text-[13.5px] font-medium text-white">{r.label}</p>
-                <p className="text-[11.5px] text-[#5B5B70]">{r.note}</p>
+                <p className="text-[13.5px] font-medium text-white">
+                  {t.savings.lines[r.key as keyof typeof t.savings.lines].label}
+                </p>
+                <p className="text-[11.5px] text-[#5B5B70]">
+                  {t.savings.lines[r.key as keyof typeof t.savings.lines].note}
+                </p>
               </div>
               <div className="flex shrink-0 items-center gap-1.5">
                 <span className="text-[12px] text-[#5B5B70]">$</span>
@@ -100,7 +106,7 @@ export default function Savings() {
         </div>
 
         <div className="mt-4 flex items-center justify-between border-t border-[#1E1E28] pt-4">
-          <p className="text-[13.5px] text-[#9B9BAE]">Every month, before anyone posts anything</p>
+          <p className="text-[13.5px] text-[#9B9BAE]">{t.savings.total}</p>
           <p className="display text-2xl text-[#FF8A9E]">${traditional.toLocaleString()}</p>
         </div>
       </div>
@@ -110,37 +116,37 @@ export default function Savings() {
         <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#C8F751]/12 blur-[70px]" />
 
         <div className="relative">
-          <p className="text-[15px] font-semibold text-white">With Kairo</p>
-          <p className="text-[12.5px] text-[#7C8A5F]">{plan.name} — the same {plan.totalPosts} posts</p>
+          <p className="text-[15px] font-semibold text-white">{t.savings.withKairo}</p>
+          <p className="text-[12.5px] text-[#7C8A5F]">
+            {plan.name} — {t.savings.sameposts} {plan.totalPosts} {t.savings.posts}
+          </p>
 
           <div className="mt-6 flex items-baseline gap-2">
             <span className="display text-5xl">${plan.price}</span>
-            <span className="text-[14px] text-[#6C6C80]">/month</span>
+            <span className="text-[14px] text-[#6C6C80]">{t.savings.perMonth}</span>
           </div>
 
           <div className="mt-7 rounded-2xl border border-[#C8F751]/25 bg-[#C8F751]/[0.07] p-5 text-center">
             <p className="text-[11px] font-bold uppercase tracking-widest text-[#8FA85A]">
-              You keep
+              {t.savings.youKeep}
             </p>
             <p className="display mt-1.5 text-4xl text-[#C8F751]">${saved.toLocaleString()}</p>
-            <p className="mt-1 text-[13px] text-[#7C8A5F]">every month — {pct}% less</p>
+            <p className="mt-1 text-[13px] text-[#7C8A5F]">
+              {t.savings.everyMonth} — {pct}% {t.savings.less}
+            </p>
           </div>
 
           <ul className="mt-6 space-y-2.5">
-            {[
-              "The strategy is included, not a separate retainer",
-              "No briefing, no revisions round, no waiting",
-              "Delivered in about a minute, not in two weeks",
-            ].map((t) => (
-              <li key={t} className="flex gap-2.5 text-[13px] leading-relaxed text-[#A9B58F]">
+            {t.savings.points.map((point) => (
+              <li key={point} className="flex gap-2.5 text-[13px] leading-relaxed text-[#A9B58F]">
                 <Icon name="check" size={14} className="mt-0.5 shrink-0 text-[#C8F751]" strokeWidth={2.6} />
-                {t}
+                {point}
               </li>
             ))}
           </ul>
 
           <Link href={`/signup?plan=${plan.id}`} className="btn btn-primary mt-6 w-full py-3">
-            Start with {plan.name}
+            {t.savings.start} {plan.name}
           </Link>
         </div>
       </div>

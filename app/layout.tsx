@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
 import "./globals.css";
+import { dict } from "@/lib/i18n";
+import { getLang } from "@/lib/i18n/server";
+import { LangProvider } from "@/components/LangProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -44,10 +47,15 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const lang = await getLang();
+  const d = dict(lang);
+
   return (
-    <html lang="en" className={`${inter.variable} ${sora.variable}`}>
-      <body className="antialiased">{children}</body>
+    <html lang={lang} dir={d.dir} className={`${inter.variable} ${sora.variable}`}>
+      <body className="antialiased">
+        <LangProvider lang={lang}>{children}</LangProvider>
+      </body>
     </html>
   );
 }

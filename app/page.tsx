@@ -17,6 +17,8 @@ import Koala from "@/components/Koala";
 import { Icon, type IconName } from "@/components/icons/Ui";
 import { demoPlan, showcaseSamples } from "@/lib/demoSample";
 import { renderPosterSVG } from "@/lib/render/poster";
+import { dict } from "@/lib/i18n";
+import { getLang } from "@/lib/i18n/server";
 import { CATEGORIES } from "@/lib/strategy/categories";
 
 const IN_EVERY_POST: { icon: IconName; title: string; body: string }[] = [
@@ -29,7 +31,8 @@ const IN_EVERY_POST: { icon: IconName; title: string; body: string }[] = [
 ];
 
 
-export default function Home() {
+export default async function Home() {
+  const t = dict(await getLang());
   const { project, posts } = demoPlan();
 
   const demoPosts: DemoPost[] = posts.map((p) => ({
@@ -82,19 +85,18 @@ export default function Home() {
               <div>
                 <span className="inline-flex items-center gap-2 rounded-full border border-[#2A2438] bg-[#12101C]/80 px-3.5 py-1.5 text-xs font-medium text-[#B9AEE8] backdrop-blur">
                   <Icon name="sparkle" size={13} filled />
-                  Meet Kai, your content koala
+                  {t.hero.badge}
                 </span>
 
                 <h1 className="display mt-6 text-[2.5rem] leading-[1.02] text-balance sm:text-[3rem] lg:text-[3.5rem]">
-                  <RevealHeadline text="A whole month of content." delay={80} />
-                  <span className="grad-text-soft mt-1 block">
-                    <RevealHeadline text="Done in a minute." delay={340} />
+                  <RevealHeadline text={t.hero.line1} delay={80} />
+                  <span className="mt-1 block">
+                    <RevealHeadline text={t.hero.line2} wordClass="grad-text-soft" delay={340} />
                   </span>
                 </h1>
 
                 <p className="mt-5 max-w-md text-[16px] leading-relaxed text-[#9B9BAE]">
-                  Paste your store link. Kai learns your brand, writes a real marketing plan, and
-                  hands you 30 days of posts — designed, written and ready to publish.
+                  {t.hero.sub}
                 </p>
 
                 <div className="mt-7">
@@ -120,8 +122,8 @@ export default function Home() {
                       <Icon name="check" size={13} strokeWidth={3} />
                     </span>
                     <div>
-                      <p className="text-[11px] font-semibold text-white">Day 12 posted</p>
-                      <p className="text-[10px] text-[#5B5B70]">18 of 30 done</p>
+                      <p className="text-[11px] font-semibold text-white">{t.hero.chipPosted}</p>
+                      <p className="text-[10px] text-[#5B5B70]">{t.hero.chipPostedSub}</p>
                     </div>
                   </div>
                 </div>
@@ -135,8 +137,8 @@ export default function Home() {
                       <Icon name="calendar" size={13} />
                     </span>
                     <div>
-                      <p className="text-[11px] font-semibold text-white">30 days ready</p>
-                      <p className="text-[10px] text-[#5B5B70]">Strategy included</p>
+                      <p className="text-[11px] font-semibold text-white">{t.hero.chipReady}</p>
+                      <p className="text-[10px] text-[#5B5B70]">{t.hero.chipReadySub}</p>
                     </div>
                   </div>
                 </div>
@@ -155,12 +157,12 @@ export default function Home() {
         <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <div className="mx-auto mb-12 max-w-2xl text-center">
-              <p className="eyebrow">The difference</p>
+              <p className="eyebrow">{t.difference.eyebrow}</p>
               <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">
-                Most brands post. <span className="text-[#6C6C80]">Few brands plan.</span>
+                {t.difference.h1} <span className="text-[#6C6C80]">{t.difference.h2}</span>
               </h2>
               <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
-                Thirty unrelated posts fill a grid. Thirty planned posts build a customer.
+                {t.difference.sub}
               </p>
             </div>
 
@@ -171,8 +173,8 @@ export default function Home() {
         {/* ================= HOW IT WORKS ================= */}
         <section id="how" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
           <div className="mx-auto mb-14 max-w-2xl text-center">
-            <p className="eyebrow">How it works</p>
-            <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">Four steps. One finished month.</h2>
+            <p className="eyebrow">{t.how.eyebrow}</p>
+            <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.how.h1}</h2>
           </div>
           <HowItWorks />
         </section>
@@ -181,12 +183,10 @@ export default function Home() {
         <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <div className="mb-10 max-w-2xl">
-              <p className="eyebrow">Made by Kairo</p>
-              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">Six brands. One engine.</h2>
+              <p className="eyebrow">{t.showcase.eyebrow}</p>
+              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.showcase.h1}</h2>
               <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
-                Every card below was generated from a brand brief — palette, voice, products — with
-                nothing edited afterwards. Different industry, different look, same thirty-day logic
-                underneath.
+                {t.showcase.sub}
               </p>
             </div>
             <Showcase cards={showcase} />
@@ -197,12 +197,12 @@ export default function Home() {
         <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <div className="mx-auto mb-12 max-w-2xl text-center">
-              <p className="eyebrow">What you get</p>
-              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">Every day arrives finished.</h2>
+              <p className="eyebrow">{t.everyPost.eyebrow}</p>
+              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.everyPost.h1}</h2>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {IN_EVERY_POST.map((f) => (
+              {IN_EVERY_POST.map((f, i) => (
                 <div
                   key={f.title}
                   className="group rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#3A3355] hover:bg-white/[0.045]"
@@ -210,8 +210,10 @@ export default function Home() {
                   <span className="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-[#7C5CFF]/25 to-[#22D3EE]/12 text-[#A78BFA] transition-transform duration-300 group-hover:scale-110">
                     <Icon name={f.icon} size={20} />
                   </span>
-                  <p className="display text-lg">{f.title}</p>
-                  <p className="mt-2 text-[13.5px] leading-relaxed text-[#7C7C90]">{f.body}</p>
+                  <p className="display text-lg">{t.everyPost.items[i].title}</p>
+                  <p className="mt-2 text-[13.5px] leading-relaxed text-[#7C7C90]">
+                    {t.everyPost.items[i].body}
+                  </p>
                 </div>
               ))}
             </div>
@@ -227,7 +229,7 @@ export default function Home() {
         <section id="plan" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
           <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
             <div className="max-w-xl">
-              <p className="eyebrow">A real month, generated live</p>
+              <p className="eyebrow">{t.demo.eyebrow}</p>
               <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">Click any day.</h2>
               <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
                 This is a genuine plan for a sample coffee brand, built by the same engine that runs
@@ -246,7 +248,7 @@ export default function Home() {
           <CalendarDemo posts={demoPosts} previews={previews} />
 
           <div className="mt-10">
-            <p className="eyebrow mb-4">One look, all thirty days</p>
+            <p className="eyebrow mb-4">{t.demo.oneLook}</p>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
               {gallery.map((p) => (
                 <div
@@ -269,13 +271,12 @@ export default function Home() {
         {/* ================= SAVINGS ================= */}
         <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
           <div className="mx-auto mb-12 max-w-2xl text-center">
-            <p className="eyebrow">The maths</p>
+            <p className="eyebrow">{t.savings.eyebrow}</p>
             <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">
-              What this replaces.
+              {t.savings.h1}
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
-              A designer, a copywriter, an editor and a strategist — for one month of content.
-              Change the rates to match what you actually pay.
+              {t.savings.sub}
             </p>
           </div>
           <Savings />
@@ -284,17 +285,17 @@ export default function Home() {
         {/* ================= PRICING ================= */}
         <section id="pricing" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
           <div className="mx-auto mb-14 max-w-2xl text-center">
-            <p className="eyebrow">Pricing</p>
-            <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">Pick your posting volume.</h2>
+            <p className="eyebrow">{t.pricing.eyebrow}</p>
+            <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.pricing.h1}</h2>
             <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
-              Every plan delivers a complete 30-day campaign the moment you add a brand.
+              {t.pricing.sub}
             </p>
           </div>
           <PricingCards />
           <p className="mt-8 text-center text-[13px] text-[#5B5B70]">
-            Need to change a post?{" "}
+            {t.pricing.creditsLink}{" "}
             <Link href="/pricing" className="text-[#A78BFA] hover:text-[#C4B5FD]">
-              Credits let you rebuild anything →
+              {t.pricing.creditsLinkCta}
             </Link>
           </p>
         </section>
@@ -303,8 +304,8 @@ export default function Home() {
         <section id="faq" className="border-t border-[#14141C] bg-[#09090F] py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <div className="mx-auto mb-12 max-w-2xl text-center">
-              <p className="eyebrow">Questions</p>
-              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">Straight answers.</h2>
+              <p className="eyebrow">{t.faq.eyebrow}</p>
+              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.faq.h1}</h2>
             </div>
             <FAQ />
           </div>
@@ -315,9 +316,9 @@ export default function Home() {
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[24rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7C5CFF]/16 blur-[130px]" />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center px-5 text-center sm:px-8">
             <Koala size={150} mood="wow" />
-            <h2 className="display mt-6 text-4xl sm:text-5xl">Stop deciding what to post.</h2>
+            <h2 className="display mt-6 text-4xl sm:text-5xl">{t.finalCta.h1}</h2>
             <p className="mx-auto mt-4 max-w-md text-[15.5px] leading-relaxed text-[#9B9BAE]">
-              Give Kai your link once. Get a strategy, a calendar and thirty finished posts.
+              {t.finalCta.sub}
             </p>
             <div className="mt-8">
               <HeroImport compact />

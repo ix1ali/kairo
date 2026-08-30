@@ -3,16 +3,18 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Logo } from "@/components/Logo";
-
-const LINKS = [
-  { href: "/#how", label: "How it works" },
-  { href: "/#plan", label: "The plan" },
-  { href: "/#dashboard", label: "Dashboard" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/#faq", label: "FAQ" },
-];
+import { useT } from "@/components/LangProvider";
+import LangSwitch from "@/components/LangSwitch";
 
 export default function Nav() {
+  const t = useT();
+  const LINKS = [
+    { href: "/#how", label: t.nav.how },
+    { href: "/#plan", label: t.nav.plan },
+    { href: "/#dashboard", label: t.nav.dashboard },
+    { href: "/pricing", label: t.nav.pricing },
+    { href: "/#faq", label: t.nav.faq },
+  ];
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -45,18 +47,19 @@ export default function Nav() {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
+          <LangSwitch compact />
           <Link href="/login" className="btn btn-quiet btn-sm">
-            Sign in
+            {t.nav.signIn}
           </Link>
           <Link href="/signup" className="btn btn-primary btn-sm">
-            Get started
+            {t.nav.getStarted}
           </Link>
         </div>
 
         <button
           onClick={() => setOpen((v) => !v)}
           className="btn btn-ghost btn-sm md:hidden"
-          aria-label="Toggle menu"
+          aria-label={t.nav.menu}
           aria-expanded={open}
         >
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -82,12 +85,15 @@ export default function Nav() {
                 {l.label}
               </Link>
             ))}
+            <div className="mt-3 flex justify-center">
+              <LangSwitch />
+            </div>
             <div className="mt-3 grid grid-cols-2 gap-2">
               <Link href="/login" className="btn btn-ghost btn-sm" onClick={() => setOpen(false)}>
-                Sign in
+                {t.nav.signIn}
               </Link>
               <Link href="/signup" className="btn btn-primary btn-sm" onClick={() => setOpen(false)}>
-                Get started
+                {t.nav.getStarted}
               </Link>
             </div>
           </div>

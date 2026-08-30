@@ -1,0 +1,268 @@
+export const en = {
+  dir: "ltr" as "ltr" | "rtl",
+  label: "English",
+  short: "EN",
+
+  nav: {
+    how: "How it works",
+    plan: "The plan",
+    dashboard: "Dashboard",
+    pricing: "Pricing",
+    faq: "FAQ",
+    signIn: "Sign in",
+    getStarted: "Get started",
+    menu: "Toggle menu",
+    language: "Language",
+  },
+
+  hero: {
+    badge: "Meet Kai, your content koala",
+    line1: "A whole month of content.",
+    line2: "Done in a minute.",
+    sub: "Paste your store link. Kai learns your brand, writes a real marketing plan, and hands you 30 days of posts — designed, written and ready to publish.",
+    placeholder: "yourstore.com",
+    cta: "Get my 30 days",
+    hint: "Paste any store or product link — Kairo reads your brand and products automatically.",
+    chipPosted: "Day 12 posted",
+    chipPostedSub: "18 of 30 done",
+    chipReady: "30 days ready",
+    chipReadySub: "Strategy included",
+    ticker: "Every platform. Every kind of business.",
+  },
+
+  difference: {
+    eyebrow: "The difference",
+    h1: "Most brands post.",
+    h2: "Few brands plan.",
+    sub: "Thirty unrelated posts fill a grid. Thirty planned posts build a customer.",
+    chaosTitle: "Posting randomly",
+    chaosSub: "What most brands actually do",
+    chaosPoints: [
+      "Whatever you thought of that morning",
+      "Every post looks like a different brand",
+      "You sell on every post, or never",
+      "No idea why anything worked",
+    ],
+    planTitle: "A Kairo month",
+    planSub: "One campaign, thirty days",
+    planPoints: [
+      "Every day has one job in the funnel",
+      "One look, one voice, all thirty days",
+      "The offer lands after trust is built",
+      "Slow stock gets its own rescue week",
+    ],
+    weeks: [
+      { label: "Get seen", goal: "Reach" },
+      { label: "Build trust", goal: "Proof" },
+      { label: "Sell", goal: "Revenue" },
+      { label: "Keep them", goal: "Loyalty" },
+    ],
+  },
+
+  how: {
+    eyebrow: "How it works",
+    h1: "Four steps. One finished month.",
+    steps: [
+      {
+        title: "Drop your link",
+        body: "Paste your store, a single product page, or fill it in by hand. Kairo pulls your name, colours, logo, socials and products.",
+      },
+      {
+        title: "It learns your brand",
+        body: "Palette, tone of voice, who buys from you, which products are heroes and which ones are stuck on the shelf.",
+      },
+      {
+        title: "You get a real plan",
+        body: "Not thirty random posts. A month with a strategy underneath it — get seen, build trust, sell, keep them.",
+      },
+      {
+        title: "Approve and post",
+        body: "Every day comes finished. Download the image, copy the caption, tick it off. Kairo tracks what went out.",
+      },
+    ],
+    mockBrandRead: "Brand read",
+    mockYourDays: "Your 30 days",
+    mockPosts: "30 posts",
+    mockPosted: "Posted",
+    mockSaved: "Saved",
+  },
+
+  showcase: {
+    eyebrow: "Made by Kairo",
+    h1: "Six brands. One engine.",
+    sub: "Every card below was generated from a brand brief — palette, voice, products — with nothing edited afterwards. Different industry, different look, same thirty-day logic underneath.",
+    footer: "Six brands, six looks — all from the same engine, none of them touched by hand.",
+    prev: "Previous",
+    next: "Next",
+  },
+
+  everyPost: {
+    eyebrow: "What you get",
+    h1: "Every day arrives finished.",
+    items: [
+      { title: "A finished image", body: "Sized for the platform, built from your palette. Download and post." },
+      { title: "The caption", body: "A real hook and a reason to act, not a wall of adjectives." },
+      { title: "Hashtags", body: "Mixed across reach, niche and community. Counts adapt per platform." },
+      { title: "When to post", body: "The slot is chosen, not guessed. Morning value, evening offer." },
+      { title: "Why it exists", body: "Every day has a job: get seen, build trust, sell, or keep them." },
+      { title: "Video scripts", body: "On Studio: timed shot lists, sound direction and a loop cue." },
+    ],
+  },
+
+  tactics: {
+    eyebrow: "Content strategies",
+    h1: "ways to make a post.",
+    sub: "Kairo picks a different tactic every day, so thirty posts never collapse into thirty product shots.",
+    footer: "Every one arrives with a production note — how to shoot it, how long to hold the shot, what to put on screen.",
+    more: "more",
+    groups: {
+      ugc: { title: "Creator & customer made", note: "The formats that read as a recommendation, not an ad." },
+      teach: { title: "Teaching", note: "Earns the save, and the save earns the reach." },
+      product: { title: "Product", note: "Shows the thing doing its job, from six different angles." },
+      story: { title: "Story", note: "The human layer. People buy from people." },
+      convert: { title: "Conversion", note: "The ask, made clearly, after the trust is built." },
+      community: { title: "Community", note: "Two-way posts. Comments are reach." },
+    },
+  },
+
+  demo: {
+    eyebrow: "A real month, generated live",
+    h1: "Open any day.",
+    h2: "It is already finished.",
+    sub: "A real month for a sample coffee brand, built by the same engine that runs your account. Tap a date to read the caption, the art direction, and why that post sits on that day.",
+    oneLook: "One look, all thirty days",
+    tabCaption: "Caption",
+    tabArt: "Art direction",
+    tabWhy: "Why this post",
+    whyFunnel: "Funnel stage",
+    whyPlacement: "Placement",
+    whyFormat: "Format",
+    whyProduct: "Product in focus",
+    whyFunnelBody: "This slot exists to move people from where they are to the next step.",
+    whyPlacementBody: "The day of the week and the week of the month both shape what runs here.",
+    whyFormatBody: "chosen because it is what this pillar performs best as.",
+  },
+
+  langs: {
+    eyebrow: "Languages",
+    languages: "languages.",
+    dialects: "dialects.",
+    sub: "Pick a country, not just a language. Kuwaiti Arabic does not sell like Egyptian, and British English does not sell like American — so the copy is written the way people actually speak where you are.",
+    more: "more, including Levantine, Darija, Rioplatense and Québécois.",
+  },
+
+  savings: {
+    eyebrow: "The maths",
+    h1: "What this replaces.",
+    sub: "A designer, a copywriter, an editor and a strategist — for one month of content. Change the rates to match what you actually pay.",
+    oldWay: "Doing it the usual way",
+    oldWaySub: "Change any rate to match your market",
+    lines: {
+      designer: { label: "Graphic designer", note: "per finished post" },
+      copywriter: { label: "Copywriter", note: "per caption" },
+      videographer: { label: "Videographer + editor", note: "per short video" },
+      strategist: { label: "Strategist", note: "monthly plan and competitor work" },
+    },
+    total: "Every month, before anyone posts anything",
+    withKairo: "With Kairo",
+    sameposts: "the same",
+    posts: "posts",
+    perMonth: "/month",
+    youKeep: "You keep",
+    everyMonth: "every month",
+    less: "less",
+    points: [
+      "The strategy is included, not a separate retainer",
+      "No briefing, no revisions round, no waiting",
+      "Delivered in about a minute, not in two weeks",
+    ],
+    start: "Start with",
+  },
+
+  pricing: {
+    eyebrow: "Pricing",
+    h1: "Pick your posting volume.",
+    sub: "Every plan delivers a complete 30-day campaign the moment you add a brand.",
+    creditsLink: "Need to change a post?",
+    creditsLinkCta: "Credits let you rebuild anything →",
+    popular: "Most popular",
+    month: "/month",
+    posts: "posts",
+    videos: "videos",
+    credits: "credits",
+    startWith: "Start with",
+    billed: "Billed monthly · Cancel anytime · No free trial",
+    bestFor: "Best for:",
+  },
+
+  faq: {
+    eyebrow: "Questions",
+    h1: "Straight answers.",
+    items: [
+      {
+        q: "Is this just an AI caption generator?",
+        a: "No. Kairo starts with strategy: positioning, who you are actually talking to, which competitor archetypes you are up against and where the gaps are. Only then does it build the calendar. Every one of the 30 days has a reason to exist — a funnel stage, a content pillar, a place in the monthly arc.",
+      },
+      {
+        q: "Why is there no free trial?",
+        a: "Because the product is not a demo you poke at — it is a finished 30-day campaign delivered the moment you add a project. You do see three sample days before anything is generated, and you can cancel before the next month.",
+      },
+      {
+        q: "What exactly do I get for each day?",
+        a: "A finished visual sized for the platform, a caption built on a proper copywriting framework, a hashtag set mixed across reach, niche and community, a call to action, the posting time, and the art direction behind the design. Video days also come with a timed script and shot list.",
+      },
+      {
+        q: "How does it handle my competitors?",
+        a: "You add their site or social profiles. Kairo reads their public pages for positioning, catalogue size and where they post, matches them to the archetype they behave like, names their structural gap, and turns that gap into the angle your month attacks.",
+      },
+      {
+        q: "Can I change posts I do not like?",
+        a: "Yes. Edit any post directly, or rebuild it with a prompt using credits — rewrite the caption, ask for a different angle, redesign the visual, or regenerate the whole day.",
+      },
+      {
+        q: "What about slow-moving products?",
+        a: "You tag each product as a hero, a core line or a slow mover. Heroes anchor every recommendation; slow movers get deliberate rescue campaigns, usually in week three, aimed at the actual reason they are not selling.",
+      },
+      {
+        q: "Does it write in my language?",
+        a: "You pick a country, not just a language, so the copy lands in the dialect people actually speak there. Non-English output needs an AI provider key — without one the copy is generated in English and the app says so plainly.",
+      },
+      {
+        q: "Do I have to post it manually?",
+        a: "Yes, for now. You download the asset and the caption and post it. The dashboard tracks what has gone out, what is due today and what is overdue.",
+      },
+      {
+        q: "Can I run more than one brand?",
+        a: "That is the point of projects. Each brand gets its own logo, colours, voice, products and calendar. Starter includes one, Growth three, Studio eight.",
+      },
+    ],
+  },
+
+  finalCta: {
+    h1: "Stop deciding what to post.",
+    sub: "Give Kai your link once. Get a strategy, a calendar and thirty finished posts.",
+  },
+
+  footer: {
+    blurb: "A real marketing plan, then thirty days of content built to execute it. Strategy first, assets second, guesswork never.",
+    product: "Product",
+    useCases: "Use cases",
+    account: "Account",
+    how: "How it works",
+    inside: "Inside the plan",
+    dashboard: "Dashboard",
+    pricing: "Pricing",
+    coffee: "Coffee & food",
+    gyms: "Gyms & studios",
+    beauty: "Beauty & skincare",
+    ecom: "Ecommerce brands",
+    create: "Create account",
+    signIn: "Sign in",
+    billing: "Billing",
+    credits: "Credits",
+    rights: "Built for brands that post with intent.",
+    noTrial: "No free trial. Every plan starts with a full 30-day calendar.",
+  },
+};
+
+export type Dict = typeof en;

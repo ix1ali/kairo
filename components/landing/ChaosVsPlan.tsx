@@ -1,4 +1,6 @@
 import { Icon } from "@/components/icons/Ui";
+import { dict } from "@/lib/i18n";
+import { getLang } from "@/lib/i18n/server";
 
 /* Deterministic, so server and client render identically. */
 const CHAOS = [
@@ -16,12 +18,7 @@ const CHAOS = [
   { rot: 5, c: "#7A5C9E", h: 54, kind: "photo" },
 ];
 
-const WEEKS = [
-  { n: 1, label: "Get seen", goal: "Reach", tint: 0.3 },
-  { n: 2, label: "Build trust", goal: "Proof", tint: 0.5 },
-  { n: 3, label: "Sell", goal: "Revenue", tint: 0.85 },
-  { n: 4, label: "Keep them", goal: "Loyalty", tint: 0.45 },
-];
+const WEEK_TINTS = [0.3, 0.5, 0.85, 0.45];
 
 function ChaosCard({ item }: { item: (typeof CHAOS)[number] }) {
   return (
@@ -79,7 +76,10 @@ function PlanCard({ tint, accent }: { tint: number; accent: boolean }) {
   );
 }
 
-export default function ChaosVsPlan() {
+export default async function ChaosVsPlan() {
+  const t = dict(await getLang()).difference;
+  const WEEKS = t.weeks.map((w, i) => ({ n: i + 1, label: w.label, goal: w.goal, tint: WEEK_TINTS[i] }));
+
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       {/* ---------- chaos ---------- */}
@@ -89,8 +89,8 @@ export default function ChaosVsPlan() {
             <Icon name="shuffle" size={19} />
           </span>
           <div>
-            <p className="text-base font-semibold text-white">Posting randomly</p>
-            <p className="text-[12.5px] text-[#8A6570]">What most brands actually do</p>
+            <p className="text-base font-semibold text-white">{t.chaosTitle}</p>
+            <p className="text-[12.5px] text-[#8A6570]">{t.chaosSub}</p>
           </div>
         </div>
 
@@ -101,15 +101,10 @@ export default function ChaosVsPlan() {
         </div>
 
         <ul className="mt-6 space-y-2">
-          {[
-            "Whatever you thought of that morning",
-            "Every post looks like a different brand",
-            "You sell on every post, or never",
-            "No idea why anything worked",
-          ].map((t) => (
-            <li key={t} className="flex items-center gap-2.5 text-[13px] text-[#9A7A82]">
+          {t.chaosPoints.map((point) => (
+            <li key={point} className="flex items-center gap-2.5 text-[13px] text-[#9A7A82]">
               <Icon name="close" size={13} className="text-[#FF6B8A]" strokeWidth={2.4} />
-              {t}
+              {point}
             </li>
           ))}
         </ul>
@@ -124,8 +119,8 @@ export default function ChaosVsPlan() {
             <Icon name="checkCircle" size={19} />
           </span>
           <div>
-            <p className="text-base font-semibold text-white">A Kairo month</p>
-            <p className="text-[12.5px] text-[#8A85B0]">One campaign, thirty days</p>
+            <p className="text-base font-semibold text-white">{t.planTitle}</p>
+            <p className="text-[12.5px] text-[#8A85B0]">{t.planSub}</p>
           </div>
         </div>
 
@@ -156,20 +151,15 @@ export default function ChaosVsPlan() {
           {/* progression arrow */}
           <div className="flex items-center gap-2 pt-1 pl-[74px]">
             <div className="h-px flex-1 bg-gradient-to-r from-[#7C5CFF]/30 via-[#7C5CFF]/70 to-[#C8F751]/70" />
-            <Icon name="arrowRight" size={13} className="text-[#C8F751]" />
+            <Icon name="arrowRight" size={13} className="flip-rtl text-[#C8F751]" />
           </div>
         </div>
 
         <ul className="relative mt-5 space-y-2">
-          {[
-            "Every day has one job in the funnel",
-            "One look, one voice, all thirty days",
-            "The offer lands after trust is built",
-            "Slow stock gets its own rescue week",
-          ].map((t) => (
-            <li key={t} className="flex items-center gap-2.5 text-[13px] text-[#A9A5C4]">
+          {t.planPoints.map((point) => (
+            <li key={point} className="flex items-center gap-2.5 text-[13px] text-[#A9A5C4]">
               <Icon name="check" size={13} className="text-[#C8F751]" strokeWidth={2.6} />
-              {t}
+              {point}
             </li>
           ))}
         </ul>

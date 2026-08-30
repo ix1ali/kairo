@@ -1,64 +1,61 @@
 import { CONTENT_TYPES } from "@/lib/strategy/contentTypes";
 import { Icon, type IconName } from "@/components/icons/Ui";
+import { dict } from "@/lib/i18n";
+import { getLang } from "@/lib/i18n/server";
 
-const GROUPS: { title: string; note: string; icon: IconName; keys: string[]; accent: string }[] = [
+const GROUP_META: { id: "ugc" | "teach" | "product" | "story" | "convert" | "community"; icon: IconName; keys: string[]; accent: string }[] = [
   {
-    title: "Creator & customer made",
-    note: "The formats that read as a recommendation, not an ad.",
+    id: "ugc",
     icon: "users",
     accent: "#C8F751",
     keys: ["ugc-review", "ugc-unboxing", "ugc-getready", "customer-feature", "review-dump"],
   },
   {
-    title: "Teaching",
-    note: "Earns the save, and the save earns the reach.",
+    id: "teach",
     icon: "brain",
     accent: "#22D3EE",
     keys: ["tutorial", "mistakes", "myth-buster", "explainer", "data-post", "faq"],
   },
   {
-    title: "Product",
-    note: "Shows the thing doing its job, from six different angles.",
+    id: "product",
     icon: "image",
     accent: "#7C5CFF",
     keys: ["close-up", "how-its-made", "flat-lay", "comparison", "before-after", "use-cases"],
   },
   {
-    title: "Story",
-    note: "The human layer. People buy from people.",
+    id: "story",
     icon: "megaphone",
     accent: "#FFB443",
     keys: ["founder-story", "bts", "day-in-life", "team-spotlight", "standards"],
   },
   {
-    title: "Conversion",
-    note: "The ask, made clearly, after the trust is built.",
+    id: "convert",
     icon: "target",
     accent: "#FF6B8A",
     keys: ["offer-launch", "bundle", "restock", "countdown", "objection-answer"],
   },
   {
-    title: "Community",
-    note: "Two-way posts. Comments are reach.",
+    id: "community",
     icon: "heart",
     accent: "#5EEAD4",
     keys: ["this-or-that", "hot-take", "qa", "trend", "giveaway", "meme"],
   },
 ];
 
-export default function ContentTypes() {
+export default async function ContentTypes() {
+  const t = dict(await getLang()).tactics;
   const byKey = Object.fromEntries(CONTENT_TYPES.map((c) => [c.key, c]));
+  const GROUPS = GROUP_META.map((g) => ({ ...g, title: t.groups[g.id].title, note: t.groups[g.id].note }));
 
   return (
     <div>
       <div className="mx-auto mb-12 max-w-2xl text-center">
-        <p className="eyebrow">Content strategies</p>
+        <p className="eyebrow">{t.eyebrow}</p>
         <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">
-          {CONTENT_TYPES.length} ways to make a post.
+          {CONTENT_TYPES.length} {t.h1}
         </h2>
         <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
-          Kairo picks a different tactic every day, so thirty posts never collapse into thirty
-          product shots.
+          {t.sub}
         </p>
       </div>
 
@@ -97,7 +94,7 @@ export default function ContentTypes() {
               })}
               {g.keys.length > 4 && (
                 <span className="rounded-lg px-2 py-1.5 text-[11.5px] text-[#5B5B70]">
-                  +{g.keys.length - 4} more
+                  +{g.keys.length - 4} {t.more}
                 </span>
               )}
             </div>
@@ -106,8 +103,7 @@ export default function ContentTypes() {
       </div>
 
       <p className="mt-8 text-center text-[13px] leading-relaxed text-[#5B5B70]">
-        Every one arrives with a production note — how to shoot it, how long to hold the shot, what
-        to put on screen.
+        {t.footer}
       </p>
     </div>
   );

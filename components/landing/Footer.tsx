@@ -1,37 +1,42 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { dict } from "@/lib/i18n";
+import { getLang } from "@/lib/i18n/server";
+import LangSwitch from "@/components/LangSwitch";
 
-const COLUMNS = [
-  {
-    title: "Product",
-    links: [
-      { href: "/#how", label: "How it works" },
-      { href: "/#plan", label: "Inside the plan" },
-      { href: "/#dashboard", label: "Dashboard" },
-      { href: "/pricing", label: "Pricing" },
-    ],
-  },
-  {
-    title: "Use cases",
-    links: [
-      { href: "/#categories", label: "Coffee & food" },
-      { href: "/#categories", label: "Gyms & studios" },
-      { href: "/#categories", label: "Beauty & skincare" },
-      { href: "/#categories", label: "Ecommerce brands" },
-    ],
-  },
-  {
-    title: "Account",
-    links: [
-      { href: "/signup", label: "Create account" },
-      { href: "/login", label: "Sign in" },
-      { href: "/dashboard/billing", label: "Billing" },
-      { href: "/dashboard/credits", label: "Credits" },
-    ],
-  },
-];
 
-export default function Footer() {
+export default async function Footer() {
+  const t = dict(await getLang()).footer;
+  const COLUMNS = [
+    {
+      title: t.product,
+      links: [
+        { href: "/#how", label: t.how },
+        { href: "/#plan", label: t.inside },
+        { href: "/#dashboard", label: t.dashboard },
+        { href: "/pricing", label: t.pricing },
+      ],
+    },
+    {
+      title: t.useCases,
+      links: [
+        { href: "/#categories", label: t.coffee },
+        { href: "/#categories", label: t.gyms },
+        { href: "/#categories", label: t.beauty },
+        { href: "/#categories", label: t.ecom },
+      ],
+    },
+    {
+      title: t.account,
+      links: [
+        { href: "/signup", label: t.create },
+        { href: "/login", label: t.signIn },
+        { href: "/dashboard/billing", label: t.billing },
+        { href: "/dashboard/credits", label: t.credits },
+      ],
+    },
+  ];
+
   return (
     <footer className="relative border-t border-[#16161F] bg-[#07070B]">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
@@ -39,10 +44,12 @@ export default function Footer() {
           <div>
             <Logo />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#6C6C80]">
-              A real marketing plan, then thirty days of content built to execute it. Strategy first,
-              assets second, guesswork never.
+              {t.blurb}
             </p>
-            <div className="mt-6 flex gap-2">
+            <div className="mt-6">
+              <LangSwitch />
+            </div>
+            <div className="mt-4 flex gap-2">
               {["Instagram", "TikTok", "LinkedIn", "X"].map((s) => (
                 <span
                   key={s}
@@ -76,10 +83,10 @@ export default function Footer() {
 
         <div className="mt-14 flex flex-col gap-4 border-t border-[#16161F] pt-8 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-[#4E4E60]">
-            © {new Date().getFullYear()} Kairo. Built for brands that post with intent.
+            © {new Date().getFullYear()} Kairo. {t.rights}
           </p>
           <p className="text-xs text-[#4E4E60]">
-            No free trial. Every plan starts with a full 30-day calendar.
+            {t.noTrial}
           </p>
         </div>
       </div>

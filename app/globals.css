@@ -341,3 +341,30 @@ select.input {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+
+/* ---------- right-to-left ---------- */
+
+[dir="rtl"] .display,
+[dir="rtl"] body {
+  letter-spacing: 0;
+}
+
+/* Arabic has no uppercase, and wide tracking hurts legibility. */
+[dir="rtl"] .eyebrow {
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+
+/* Arrow glyphs point the other way in RTL. */
+[dir="rtl"] .flip-rtl {
+  transform: scaleX(-1);
+}
+
+/* The marquee keeps its own direction regardless of text direction. */
+[dir="rtl"] .marquee-track {
+  direction: ltr;
+}
+[dir="rtl"] .marquee-track > div {
+  direction: rtl;
+}

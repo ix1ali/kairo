@@ -1,9 +1,11 @@
 import { Icon, type IconName } from "@/components/icons/Ui";
 import { InstagramIcon, TikTokIcon } from "@/components/icons/Social";
+import { dict, type Dict } from "@/lib/i18n";
+import { getLang } from "@/lib/i18n/server";
 
 /* ---------------- step visuals ---------------- */
 
-function BrowserMock() {
+function BrowserMock({ t }: { t: Dict["how"] }) {
   return (
     <div className="rounded-2xl border border-[#1E1E28] bg-[#0C0C13] p-3 shadow-2xl">
       <div className="mb-3 flex items-center gap-1.5">
@@ -25,10 +27,10 @@ function BrowserMock() {
   );
 }
 
-function BrandDnaMock() {
+function BrandDnaMock({ t }: { t: Dict["how"] }) {
   return (
     <div className="rounded-2xl border border-[#1E1E28] bg-[#0C0C13] p-4 shadow-2xl">
-      <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-[#4E4E60]">Brand read</p>
+      <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-[#4E4E60]">{t.mockBrandRead}</p>
       <div className="mb-3 flex gap-1.5">
         {["#E4732B", "#F2C14E", "#12100E", "#FFF8F0"].map((c) => (
           <span key={c} className="h-8 w-8 rounded-lg border border-white/10" style={{ background: c }} />
@@ -51,12 +53,12 @@ function BrandDnaMock() {
           ["Midnight Oak", "#C8F751", "hero"],
           ["Sunrise Filter", "#9B9BAE", "core"],
           ["Decaf Ember", "#FFB443", "slow"],
-        ].map(([n, c, t]) => (
+        ].map(([n, c, tier]) => (
           <div key={n} className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: c }} />
             <span className="text-[12px] text-[#9B9BAE]">{n}</span>
             <span className="ml-auto text-[10px] uppercase tracking-wider" style={{ color: c }}>
-              {t}
+              {tier}
             </span>
           </div>
         ))}
@@ -65,16 +67,16 @@ function BrandDnaMock() {
   );
 }
 
-function CalendarMock() {
+function CalendarMock({ t }: { t: Dict["how"] }) {
   const weeks = [0.32, 0.5, 0.85, 0.45];
   return (
     <div className="rounded-2xl border border-[#1E1E28] bg-[#0C0C13] p-4 shadow-2xl">
       <div className="mb-3 flex items-center justify-between">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-[#4E4E60]">Your 30 days</p>
-        <span className="chip">30 posts</span>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-[#4E4E60]">{t.mockYourDays}</p>
+        <span className="chip">{t.mockPosts}</span>
       </div>
       <div className="space-y-1.5">
-        {weeks.map((t, wi) => (
+        {weeks.map((tint, wi) => (
           <div key={wi} className="flex items-center gap-2">
             <span className="w-5 text-[9px] font-bold text-[#5B5B70]">W{wi + 1}</span>
             <div className="grid flex-1 grid-cols-7 gap-1">
@@ -83,8 +85,8 @@ function CalendarMock() {
                   key={d}
                   className="aspect-square rounded"
                   style={{
-                    background: `linear-gradient(150deg, rgba(124,92,255,${t * 0.55}), rgba(34,211,238,${t * 0.2}))`,
-                    border: `1px solid rgba(124,92,255,${0.15 + t * 0.25})`,
+                    background: `linear-gradient(150deg, rgba(124,92,255,${tint * 0.55}), rgba(34,211,238,${tint * 0.2}))`,
+                    border: `1px solid rgba(124,92,255,${0.15 + tint * 0.25})`,
                   }}
                 />
               ))}
@@ -96,7 +98,7 @@ function CalendarMock() {
   );
 }
 
-function ApprovedMock() {
+function ApprovedMock({ t }: { t: Dict["how"] }) {
   return (
     <div className="rounded-2xl border border-[#1E1E28] bg-[#0C0C13] p-4 shadow-2xl">
       <div className="flex gap-3">
@@ -118,11 +120,11 @@ function ApprovedMock() {
           <div className="mt-2.5 flex gap-1.5">
             <span className="inline-flex items-center gap-1 rounded-lg bg-[#C8F751]/15 px-2 py-1 text-[10px] font-semibold text-[#C8F751]">
               <Icon name="check" size={10} strokeWidth={3} />
-              Posted
+              {t.mockPosted}
             </span>
             <span className="inline-flex items-center gap-1 rounded-lg bg-white/[0.05] px-2 py-1 text-[10px] text-[#6C6C80]">
               <Icon name="download" size={10} />
-              Saved
+              {t.mockSaved}
             </span>
           </div>
         </div>
@@ -131,42 +133,23 @@ function ApprovedMock() {
   );
 }
 
-const STEPS: { n: string; title: string; body: string; icon: IconName; visual: React.ReactNode }[] = [
-  {
-    n: "01",
-    title: "Drop your link",
-    body: "Paste your store, a single product page, or fill it in by hand. Kairo pulls your name, colours, logo, socials and products.",
-    icon: "link",
-    visual: <BrowserMock />,
-  },
-  {
-    n: "02",
-    title: "It learns your brand",
-    body: "Palette, tone of voice, who buys from you, which products are heroes and which ones are stuck on the shelf.",
-    icon: "brain",
-    visual: <BrandDnaMock />,
-  },
-  {
-    n: "03",
-    title: "You get a real plan",
-    body: "Not thirty random posts. A month with a strategy underneath it — get seen, build trust, sell, keep them.",
-    icon: "calendar",
-    visual: <CalendarMock />,
-  },
-  {
-    n: "04",
-    title: "Approve and post",
-    body: "Every day comes finished. Download the image, copy the caption, tick it off. Kairo tracks what went out.",
-    icon: "checkCircle",
-    visual: <ApprovedMock />,
-  },
+const STEP_META: { n: string; icon: IconName }[] = [
+  { n: "01", icon: "link" },
+  { n: "02", icon: "brain" },
+  { n: "03", icon: "calendar" },
+  { n: "04", icon: "checkCircle" },
 ];
 
-export default function HowItWorks() {
+export default async function HowItWorks() {
+  const t = dict(await getLang()).how;
+  const visuals = [<BrowserMock key="a" t={t} />, <BrandDnaMock key="b" t={t} />, <CalendarMock key="c" t={t} />, <ApprovedMock key="d" t={t} />];
+  const STEPS = STEP_META.map((m, i) => ({ ...m, title: t.steps[i].title, body: t.steps[i].body, visual: visuals[i] }));
+
   return (
     <div className="relative">
       {/* connecting line */}
-      <div className="absolute left-[27px] top-4 bottom-16 hidden w-px bg-gradient-to-b from-[#7C5CFF] via-[#7C5CFF]/40 to-[#22D3EE]/50 md:block" />
+      {/* start-* follows the writing direction, so the line stays with the icons in RTL */}
+      <div className="absolute start-[27px] top-4 bottom-16 hidden w-px bg-gradient-to-b from-[#7C5CFF] via-[#7C5CFF]/40 to-[#22D3EE]/50 md:block" />
 
       <div className="space-y-12 md:space-y-16">
         {STEPS.map((s) => (
