@@ -28,7 +28,7 @@ export default function Nav() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled ? "border-b border-[#1A1A24] bg-[#07070B]/95 backdrop-blur-xl" : "border-b border-transparent"
+        scrolled ? "border-b border-[#EDEAE4] bg-[#FAF9F7]/95 backdrop-blur-xl" : "border-b border-transparent"
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -39,7 +39,7 @@ export default function Nav() {
             <Link
               key={l.href}
               href={l.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-[#9B9BAE] transition-colors hover:bg-white/5 hover:text-white"
+              className="rounded-lg px-3 py-2 text-sm font-medium text-[#615D70] transition-colors hover:bg-[#F3F1EE] hover:text-[#141220]"
             >
               {l.label}
             </Link>
@@ -73,14 +73,14 @@ export default function Nav() {
       </div>
 
       {open && (
-        <div className="border-t border-[#1A1A24] bg-[#07070B]/97 px-5 py-4 backdrop-blur-xl md:hidden">
+        <div className="border-t border-[#EDEAE4] bg-[#FAF9F7]/97 px-5 py-4 backdrop-blur-xl md:hidden">
           <div className="flex flex-col gap-1">
             {LINKS.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#9B9BAE] hover:bg-white/5 hover:text-white"
+                className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#615D70] hover:bg-[#F3F1EE] hover:text-[#141220]"
               >
                 {l.label}
               </Link>

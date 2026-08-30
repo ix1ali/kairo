@@ -34,7 +34,7 @@ export function Section({
       id={id}
       className={[
         "py-14 sm:py-20 lg:py-24",
-        tone === "raised" ? "border-y border-[#14141C] bg-[#09090F]" : "",
+        tone === "raised" ? "border-y border-[#E6E2DC] bg-[#F3F1EE]" : "",
         className,
       ]
         .filter(Boolean)
@@ -75,7 +75,7 @@ export function SectionHead({
         {title}
       </h2>
       {sub && (
-        <p className="mt-3.5 text-[14.5px] leading-relaxed text-[#8A8A9E] sm:text-[15px]">{sub}</p>
+        <p className="mt-3.5 text-[14.5px] leading-relaxed text-[#615D70] sm:text-[15px]">{sub}</p>
       )}
     </div>
   );

@@ -8,7 +8,7 @@ export const LANGS: { code: Lang; label: string; short: string }[] = [
   { code: "ar", label: "العربية", short: "AR" },
 ];
 
-export const LANG_COOKIE = "kairo_lang";
+export const LANG_COOKIE = "koala_lang";
 
 const DICTS: Record<Lang, Dict> = { en, ar };
 

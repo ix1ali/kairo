@@ -1,4 +1,4 @@
-// Kairo strategy knowledge base.
+// Koala strategy knowledge base.
 // This is the marketing brain: pillars, funnel logic, per-category playbooks,
 // competitor archetypes, hook libraries and caption frameworks.
 

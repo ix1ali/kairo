@@ -34,9 +34,9 @@ export default async function SettingsPage() {
               ["Projects", `${projects.length} of ${pkg.projects}`],
               ["Credits", user.credits.toLocaleString()],
             ].map(([k, v]) => (
-              <div key={k} className="rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3">
-                <p className="text-[11px] uppercase tracking-wider text-[#4E4E60]">{k}</p>
-                <p className="mt-0.5 truncate text-[14px] text-white">{v}</p>
+              <div key={k} className="rounded-xl border border-[#E6E2DC] bg-white px-4 py-3">
+                <p className="text-[11px] uppercase tracking-wider text-[#6E697E]">{k}</p>
+                <p className="mt-0.5 truncate text-[14px] text-[#141220]">{v}</p>
               </div>
             ))}
           </div>
@@ -52,8 +52,8 @@ export default async function SettingsPage() {
 
         <section className="panel p-6">
           <h2 className="display mb-2 text-lg">Generation providers</h2>
-          <p className="mb-5 text-[13px] leading-relaxed text-[#7C7C90]">
-            Kairo works with no keys at all — the strategy engine writes your plan and the built-in
+          <p className="mb-5 text-[13px] leading-relaxed text-[#6B6678]">
+            Koala works with no keys at all — the strategy engine writes your plan and the built-in
             design engine renders every asset from your brand system. Adding a key upgrades image
             and video generation without changing anything else.
           </p>
@@ -63,22 +63,22 @@ export default async function SettingsPage() {
             <span className="chip chip-on">Copy: {textProvider}</span>
           </div>
 
-          <div className="divide-y divide-[#16161F] overflow-hidden rounded-xl border border-[#1E1E28]">
+          <div className="divide-y divide-[#EDEAE4] overflow-hidden rounded-xl border border-[#E6E2DC]">
             {providers.map((p) => (
               <div key={p.key} className="flex items-center justify-between gap-4 px-4 py-3.5">
                 <div className="min-w-0">
-                  <p className="text-[14px] font-medium text-white">{p.name}</p>
-                  <p className="text-[12px] text-[#5B5B70]">{p.note}</p>
+                  <p className="text-[14px] font-medium text-[#141220]">{p.name}</p>
+                  <p className="text-[12px] text-[#6E697E]">{p.note}</p>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
-                  <code className="hidden rounded bg-white/[0.05] px-2 py-1 text-[11px] text-[#6C6C80] sm:block">
+                  <code className="hidden rounded bg-[#F3F1EE] px-2 py-1 text-[11px] text-[#6E697E] sm:block">
                     {p.key}
                   </code>
                   <span
                     className="chip"
                     style={
                       p.configured
-                        ? { color: "#C8F751", borderColor: "#C8F75155", background: "#C8F75114" }
+                        ? { color: "#357A38", borderColor: "#357A3855", background: "#357A3814" }
                         : undefined
                     }
                   >
@@ -89,9 +89,9 @@ export default async function SettingsPage() {
             ))}
           </div>
 
-          <p className="mt-4 rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3 text-[12px] leading-relaxed text-[#5B5B70]">
-            Add keys to <code className="text-[#8A8A9E]">.env.local</code> in the project root and
-            restart the dev server. See <code className="text-[#8A8A9E]">.env.example</code> for the
+          <p className="mt-4 rounded-xl border border-[#E6E2DC] bg-white px-4 py-3 text-[12px] leading-relaxed text-[#6E697E]">
+            Add keys to <code className="text-[#615D70]">.env.local</code> in the project root and
+            restart the dev server. See <code className="text-[#615D70]">.env.example</code> for the
             full list.
           </p>
         </section>
@@ -99,13 +99,13 @@ export default async function SettingsPage() {
         <section className="panel p-6">
           <h2 className="display mb-4 text-lg">Your projects</h2>
           {projects.length === 0 ? (
-            <p className="text-[14px] text-[#7C7C90]">No projects yet.</p>
+            <p className="text-[14px] text-[#6B6678]">No projects yet.</p>
           ) : (
             <div className="space-y-2">
               {projects.map((p) => (
                 <div
                   key={p.id}
-                  className="flex items-center justify-between gap-3 rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3"
+                  className="flex items-center justify-between gap-3 rounded-xl border border-[#E6E2DC] bg-white px-4 py-3"
                 >
                   <div className="flex min-w-0 items-center gap-3">
                     <span
@@ -115,8 +115,8 @@ export default async function SettingsPage() {
                       }}
                     />
                     <div className="min-w-0">
-                      <p className="truncate text-[14px] font-medium text-white">{p.name}</p>
-                      <p className="text-[12px] text-[#5B5B70]">
+                      <p className="truncate text-[14px] font-medium text-[#141220]">{p.name}</p>
+                      <p className="text-[12px] text-[#6E697E]">
                         Created {new Date(p.createdAt).toLocaleDateString()}
                       </p>
                     </div>

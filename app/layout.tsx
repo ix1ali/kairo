@@ -28,11 +28,11 @@ const sora = Sora({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   title: {
-    default: "Kairo — 30 days of content, planned and produced",
-    template: "%s · Kairo",
+    default: "Koala — 30 days of content, planned and produced",
+    template: "%s · Koala",
   },
   description:
-    "Kairo turns your brand, products and goals into a complete 30-day marketing calendar. Strategy first, then every post designed, written and ready to download.",
+    "Koala turns your brand, products and goals into a complete 30-day marketing calendar. Strategy first, then every post designed, written and ready to download.",
   keywords: [
     "social media content calendar",
     "AI marketing plan",
@@ -41,15 +41,15 @@ export const metadata: Metadata = {
     "social media automation",
   ],
   openGraph: {
-    title: "Kairo — 30 days of content, planned and produced",
+    title: "Koala — 30 days of content, planned and produced",
     description:
-      "A real marketing plan, not random posts. Kairo builds your 30-day calendar, designs every asset and writes every caption.",
+      "A real marketing plan, not random posts. Koala builds your 30-day calendar, designs every asset and writes every caption.",
     type: "website",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#07070B",
+  themeColor: "#FAF9F7",
   width: "device-width",
   initialScale: 1,
 };

@@ -14,7 +14,7 @@ export const metadata = { title: "Overview" };
 function Stat({ label, value, accent }: { label: string; value: string | number; accent?: string }) {
   return (
     <div className="panel px-5 py-4">
-      <p className="text-[11px] uppercase tracking-wider text-[#5B5B70]">{label}</p>
+      <p className="text-[11px] uppercase tracking-wider text-[#6E697E]">{label}</p>
       <p className="display mt-1.5 text-2xl" style={accent ? { color: accent } : undefined}>
         {value}
       </p>
@@ -48,8 +48,8 @@ export default async function DashboardHome() {
           </div>
           <span className="chip chip-on">Step 1 of 2</span>
           <h1 className="display mt-5 text-3xl">Choose a plan to begin</h1>
-          <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-[#9B9BAE]">
-            Kairo does not run a free trial. Pick your posting volume and your first 30-day campaign
+          <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-[#615D70]">
+            Koala does not run a free trial. Pick your posting volume and your first 30-day campaign
             is generated the moment you add a brand.
           </p>
           <Link href="/dashboard/billing" className="btn btn-primary mt-7 px-6 py-3">
@@ -82,8 +82,8 @@ export default async function DashboardHome() {
             <Koala size={150} mood="happy" />
           </div>
           <h2 className="display text-2xl">Add your first brand</h2>
-          <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-[#9B9BAE]">
-            Paste your website and Kairo reads your brand automatically, or fill it in yourself.
+          <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-[#615D70]">
+            Paste your website and Koala reads your brand automatically, or fill it in yourself.
             Either way, you get a strategy and {pkg.totalPosts} finished posts in about a minute.
           </p>
           <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -97,14 +97,14 @@ export default async function DashboardHome() {
         <>
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
             <Stat label="Projects" value={`${projects.length}/${pkg.projects}`} />
-            <Stat label="Posted" value={stats.posted} accent="#C8F751" />
-            <Stat label="Scheduled" value={stats.approved} accent="#22D3EE" />
+            <Stat label="Posted" value={stats.posted} accent="#357A38" />
+            <Stat label="Scheduled" value={stats.approved} accent="#0284C7" />
             <Stat label="Drafts" value={stats.drafts} />
-            <Stat label="Credits" value={user.credits.toLocaleString()} accent="#A78BFA" />
+            <Stat label="Credits" value={user.credits.toLocaleString()} accent="#6D4DF6" />
           </div>
 
           <section className="mt-8">
-            <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#5B5B70]">
+            <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#6E697E]">
               Your brands
             </h2>
             <div className="grid gap-4 md:grid-cols-2">
@@ -116,11 +116,11 @@ export default async function DashboardHome() {
                   <Link
                     key={p.id}
                     href={`/dashboard/projects/${p.id}`}
-                    className="panel group p-5 transition-all hover:border-[#3A3355] hover:bg-white/[0.045]"
+                    className="panel group p-5 transition-all hover:border-[#C6B8F5] hover:bg-[#F3F1EE]"
                   >
                     <div className="flex items-start gap-3.5">
                       <span
-                        className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-xl text-lg font-bold text-white"
+                        className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-xl text-lg font-bold text-[#141220]"
                         style={{
                           background: `linear-gradient(135deg, ${p.colors.primary}, ${p.colors.secondary})`,
                         }}
@@ -133,8 +133,8 @@ export default async function DashboardHome() {
                         )}
                       </span>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate font-semibold text-white">{p.name}</p>
-                        <p className="truncate text-[13px] text-[#6C6C80]">
+                        <p className="truncate font-semibold text-[#141220]">{p.name}</p>
+                        <p className="truncate text-[13px] text-[#6E697E]">
                           {p.tagline || p.category}
                         </p>
                       </div>
@@ -142,13 +142,13 @@ export default async function DashboardHome() {
                     </div>
 
                     <div className="mt-4">
-                      <div className="mb-1.5 flex justify-between text-[11px] text-[#5B5B70]">
+                      <div className="mb-1.5 flex justify-between text-[11px] text-[#6E697E]">
                         <span>{s.posted} posted</span>
                         <span>{pct}%</span>
                       </div>
-                      <div className="h-1.5 overflow-hidden rounded-full bg-[#16161F]">
+                      <div className="h-1.5 overflow-hidden rounded-full bg-[#EDEAE4]">
                         <div
-                          className="h-full rounded-full bg-gradient-to-r from-[#7C5CFF] to-[#22D3EE]"
+                          className="h-full rounded-full bg-gradient-to-r from-[#6D4DF6] to-[#0284C7]"
                           style={{ width: `${pct}%` }}
                         />
                       </div>
@@ -162,7 +162,7 @@ export default async function DashboardHome() {
                         </span>
                       ))}
                       {p.products.filter((x) => x.tier === "slow").length > 0 && (
-                        <span className="chip" style={{ color: "#FFB443", borderColor: "#FFB44340" }}>
+                        <span className="chip" style={{ color: "#A65209", borderColor: "#A6520940" }}>
                           {p.products.filter((x) => x.tier === "slow").length} slow mover
                           {p.products.filter((x) => x.tier === "slow").length > 1 ? "s" : ""}
                         </span>
@@ -175,13 +175,13 @@ export default async function DashboardHome() {
               {projects.length < pkg.projects && (
                 <Link
                   href="/dashboard/projects/new"
-                  className="flex min-h-[172px] flex-col items-center justify-center rounded-2xl border border-dashed border-[#25252F] p-5 text-center transition-colors hover:border-[#7C5CFF]/50 hover:bg-white/[0.02]"
+                  className="flex min-h-[172px] flex-col items-center justify-center rounded-2xl border border-dashed border-[#DCD7CF] p-5 text-center transition-colors hover:border-[#6D4DF6]/50 hover:bg-white"
                 >
-                  <span className="grid h-10 w-10 place-items-center rounded-xl border border-[#25252F] text-[#6C6C80]">
+                  <span className="grid h-10 w-10 place-items-center rounded-xl border border-[#DCD7CF] text-[#6E697E]">
                     +
                   </span>
-                  <p className="mt-3 text-sm font-medium text-[#9B9BAE]">Add another brand</p>
-                  <p className="mt-1 text-[12px] text-[#4E4E60]">
+                  <p className="mt-3 text-sm font-medium text-[#615D70]">Add another brand</p>
+                  <p className="mt-1 text-[12px] text-[#6E697E]">
                     {pkg.projects - projects.length} remaining on {pkg.name}
                   </p>
                 </Link>
@@ -191,10 +191,10 @@ export default async function DashboardHome() {
 
           {upcoming.length > 0 && (
             <section className="mt-10">
-              <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#5B5B70]">
+              <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#6E697E]">
                 Next up
               </h2>
-              <div className="panel divide-y divide-[#16161F]">
+              <div className="panel divide-y divide-[#EDEAE4]">
                 {upcoming.map((p) => {
                   const project = projects.find((x) => x.id === p.projectId)!;
                   const st = STATUS_STYLE[p.status];
@@ -202,7 +202,7 @@ export default async function DashboardHome() {
                     <Link
                       key={p.id}
                       href={`/dashboard/projects/${p.projectId}?day=${p.day}`}
-                      className="flex items-center gap-4 px-5 py-3.5 transition-colors hover:bg-white/[0.03]"
+                      className="flex items-center gap-4 px-5 py-3.5 transition-colors hover:bg-white"
                     >
                       <span
                         className="h-9 w-9 shrink-0 rounded-lg"
@@ -211,8 +211,8 @@ export default async function DashboardHome() {
                         }}
                       />
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-white">{p.hook}</p>
-                        <p className="truncate text-[12px] text-[#5B5B70]">
+                        <p className="truncate text-sm font-medium text-[#141220]">{p.hook}</p>
+                        <p className="truncate text-[12px] text-[#6E697E]">
                           {project.name} · Day {p.day} · {p.timeOfDay} · {p.platform}
                         </p>
                       </div>

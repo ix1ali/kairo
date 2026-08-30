@@ -38,7 +38,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ projectI
     const md = [
       `# ${project.name} — 30 day marketing plan`,
       "",
-      `_Generated ${new Date(s.generatedAt).toLocaleDateString()} by Kairo (${s.engine})_`,
+      `_Generated ${new Date(s.generatedAt).toLocaleDateString()} by Koala (${s.engine})_`,
       "",
       `## Positioning`,
       s.positioning,

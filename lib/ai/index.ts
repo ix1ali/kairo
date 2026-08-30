@@ -1,7 +1,7 @@
 /**
  * Pluggable generation layer.
  *
- * Kairo always works without any API keys: the deterministic strategy engine
+ * Koala always works without any API keys: the deterministic strategy engine
  * writes the plan and the SVG poster engine renders the artwork. When keys are
  * present, these providers take over image and copy generation for higher
  * fidelity output. Add keys to .env.local — nothing else needs to change.
@@ -92,7 +92,7 @@ export async function generateImage(req: ImageRequest): Promise<string | null> {
     if (provider === "openai") return await openaiImage(req);
     if (provider === "higgsfield") return await higgsfieldImage(req);
   } catch (err) {
-    console.error("[kairo:ai] image generation failed", err);
+    console.error("[koala:ai] image generation failed", err);
   }
   return null;
 }
@@ -182,7 +182,7 @@ export async function generateVideo(prompt: string): Promise<string | null> {
     const json = await res.json();
     return json?.url || json?.video_url || null;
   } catch (err) {
-    console.error("[kairo:ai] video generation failed", err);
+    console.error("[koala:ai] video generation failed", err);
     return null;
   }
 }
@@ -250,7 +250,7 @@ export async function refineCopy(system: string, user: string): Promise<string |
       return json?.candidates?.[0]?.content?.parts?.[0]?.text || null;
     }
   } catch (err) {
-    console.error("[kairo:ai] copy refinement failed", err);
+    console.error("[koala:ai] copy refinement failed", err);
   }
   return null;
 }

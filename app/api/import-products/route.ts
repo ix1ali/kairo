@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     return json(result);
   } catch (err) {
     if (err instanceof ImportError) return fail(err.message);
-    console.error("[kairo:import-products]", err);
+    console.error("[koala:import-products]", err);
     return fail("Could not read that link. Add your products manually instead.");
   }
 }

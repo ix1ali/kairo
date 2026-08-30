@@ -261,7 +261,7 @@ export function buildStrategy(project: Project, pkg: PackageDef): Strategy {
 
   return {
     generatedAt: new Date().toISOString(),
-    engine: "kairo-strategy-v1",
+    engine: "koala-strategy-v1",
     positioning,
     oneLiner,
     goal: goal.label,

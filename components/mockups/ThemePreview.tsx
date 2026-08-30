@@ -35,7 +35,7 @@ export default function ThemePreview({ t }: { t: MockTheme }) {
           >
             K
           </span>
-          <span className="text-[13px] font-bold tracking-tight">Kairo</span>
+          <span className="text-[13px] font-bold tracking-tight">Koala</span>
         </div>
         <div className="hidden items-center gap-3 text-[11px] sm:flex" style={{ color: t.muted }}>
           <span>How it works</span>

@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 
 /**
- * Kai — the Kairo koala.
+ * Kai — the Koala mascot.
  *
  * Rendered to read as a soft-body 3D character rather than a flat cartoon:
  * offset radial gradients for form, ambient occlusion where shapes meet,
@@ -124,7 +124,7 @@ export default function Koala({
         width={sizeClass ? "100%" : size}
         height={sizeClass ? "100%" : size}
         role="img"
-        aria-label="Kai, the Kairo koala"
+        aria-label="Kai, the Koala mascot"
         style={{
           transform: `rotateY(${tilt.x}deg) rotateX(${-tilt.y}deg)`,
           transition: "transform 0.6s cubic-bezier(0.22,1,0.36,1)",

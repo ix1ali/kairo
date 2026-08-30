@@ -26,15 +26,15 @@ export default async function CreditsPage() {
 
       {spend.length > 0 && (
         <section className="mt-10">
-          <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#5B5B70]">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#6E697E]">
             Recent spend
           </h2>
-          <div className="panel divide-y divide-[#16161F]">
+          <div className="panel divide-y divide-[#EDEAE4]">
             {spend.map((r, i) => (
               <div key={i} className="flex items-center justify-between gap-4 px-5 py-3.5">
                 <div className="min-w-0">
-                  <p className="truncate text-[13.5px] text-[#ECECF3]">{r.prompt}</p>
-                  <p className="text-[12px] text-[#5B5B70]">
+                  <p className="truncate text-[13.5px] text-[#141220]">{r.prompt}</p>
+                  <p className="text-[12px] text-[#6E697E]">
                     Day {r.day} · {new Date(r.at).toLocaleString()}
                   </p>
                 </div>

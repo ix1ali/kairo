@@ -27,7 +27,7 @@ export default function SeedDemoButton({ className = "btn btn-ghost" }: { classN
       <button onClick={seed} className={className} disabled={busy}>
         {busy ? "Building 30 days…" : "Load an example project"}
       </button>
-      {error && <p className="mt-2 text-[12px] text-[#FFA7BB]">{error}</p>}
+      {error && <p className="mt-2 text-[12px] text-[#DB2777]">{error}</p>}
     </div>
   );
 }

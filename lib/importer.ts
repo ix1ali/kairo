@@ -10,7 +10,7 @@
 const PRIVATE_HOST =
   /^(localhost$|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|0\.|169\.254\.|\[?::1\]?$)/i;
 
-const UA = "Mozilla/5.0 (compatible; KairoImport/1.0; +https://kairo.app)";
+const UA = "Mozilla/5.0 (compatible; KoalaImport/1.0; +https://koala.app)";
 
 export class ImportError extends Error {}
 

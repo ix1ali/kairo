@@ -5,7 +5,7 @@ import { uid } from "@/lib/db";
 import { resolveCategory } from "@/lib/strategy/categories";
 
 /**
- * Brand import: give Kairo a website URL and it reads the public page to
+ * Brand import: give Koala a website URL and it reads the public page to
  * pre-fill the project — name, description, palette, logo, socials and a
  * best-guess category. Everything stays editable in the wizard.
  */
@@ -194,7 +194,7 @@ export async function POST(req: Request) {
       signal: controller.signal,
       redirect: "follow",
       headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; KairoBrandImport/1.0; +https://kairo.app)",
+        "User-Agent": "Mozilla/5.0 (compatible; KoalaBrandImport/1.0; +https://koala.app)",
         Accept: "text/html,application/xhtml+xml",
       },
     });

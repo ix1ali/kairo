@@ -8,9 +8,12 @@ import { MOCK_THEMES, gradientCss, type MockTheme } from "@/lib/mockThemes";
  * one at a time.
  */
 export const metadata: Metadata = {
-  title: { absolute: "Theme mockups · Kairo" },
+  title: { absolute: "Theme mockups · Koala" },
   robots: { index: false, follow: false },
 };
+
+/** The direction that actually shipped. */
+const LIVE = "paper";
 
 function Swatches({ t }: { t: MockTheme }) {
   const chips = [
@@ -53,11 +56,16 @@ function Group({ title, blurb, themes }: { title: string; blurb: string; themes:
           <div key={t.id} id={t.id} className="scroll-mt-24">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h3 className="text-[15px] font-bold text-white">
+                <h3 className="flex flex-wrap items-center gap-2 text-[15px] font-bold text-white">
                   {t.name}
-                  <span className="ml-2 rounded-md bg-white/[0.06] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#8A8A9E]">
+                  <span className="rounded-md bg-white/[0.06] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#8A8A9E]">
                     {t.id}
                   </span>
+                  {t.id === LIVE && (
+                    <span className="rounded-md bg-[#C8F751]/15 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#C8F751]">
+                      In use
+                    </span>
+                  )}
                 </h3>
                 <p className="mt-0.5 max-w-[52ch] text-[12.5px] leading-relaxed text-[#8A8A9E]">
                   {t.note}
@@ -123,8 +131,8 @@ export default function MockupsPage() {
       />
 
       <footer className="mt-16 border-t border-white/10 pt-6 text-[12.5px] text-[#6C6C80]">
-        Tell me which one — or mix them (for example Aurora&rsquo;s gradient on Midnight&rsquo;s
-        base) — and I will apply it across the whole site and dashboard.
+        Paper is the one that shipped — its tokens now drive the whole site and dashboard. The
+        rest are kept here so the decision can be revisited without rebuilding them.
       </footer>
     </main>
   );

@@ -60,7 +60,7 @@ export default function CalendarDemo({
 
         <div className="mb-2 grid grid-cols-7 gap-1.5 text-center">
           {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
-            <span key={i} className="text-[10px] font-semibold tracking-widest text-[#4E4E60]">
+            <span key={i} className="text-[10px] font-semibold tracking-widest text-[#6E697E]">
               {d}
             </span>
           ))}
@@ -69,24 +69,24 @@ export default function CalendarDemo({
         <div className="grid grid-cols-7 gap-1.5">
           {posts.map((p) => {
             const on = p.id === selected;
-            const color = PILLAR_COLOR[p.pillar] || "#7C5CFF";
+            const color = PILLAR_COLOR[p.pillar] || "#6D4DF6";
             return (
               <button
                 key={p.id}
                 onClick={() => setSelected(p.id)}
                 className={`group relative aspect-square rounded-xl border p-1.5 text-left transition-all ${
                   on
-                    ? "border-[#7C5CFF] bg-[#7C5CFF]/12 shadow-[0_0_0_3px_rgba(124,92,255,0.16)]"
-                    : "border-[#1E1E28] bg-white/[0.02] hover:border-[#33333F] hover:bg-white/[0.05]"
+                    ? "border-[#6D4DF6] bg-[#6D4DF6]/12 shadow-[0_0_0_3px_rgba(124,92,255,0.16)]"
+                    : "border-[#E6E2DC] bg-white hover:border-[#C9C4BC] hover:bg-[#F3F1EE]"
                 }`}
                 aria-label={`Day ${p.day}: ${p.hook}`}
               >
-                <span className="block text-[11px] font-bold leading-none text-[#9B9BAE]">{p.day}</span>
+                <span className="block text-[11px] font-bold leading-none text-[#615D70]">{p.day}</span>
                 <span
                   className="absolute bottom-1.5 left-1.5 h-1.5 w-1.5 rounded-full"
                   style={{ background: color, boxShadow: `0 0 8px ${color}` }}
                 />
-                <span className="absolute bottom-1 right-1.5 text-[9px] text-[#4E4E60]">
+                <span className="absolute bottom-1 right-1.5 text-[9px] text-[#6E697E]">
                   {FORMAT_ICON[p.format] || "▣"}
                 </span>
               </button>
@@ -94,9 +94,9 @@ export default function CalendarDemo({
           })}
         </div>
 
-        <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 border-t border-[#16161F] pt-4">
+        <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 border-t border-[#EDEAE4] pt-4">
           {Object.entries(PILLAR_LABEL).map(([key, label]) => (
-            <span key={key} className="flex items-center gap-1.5 text-[11px] text-[#6C6C80]">
+            <span key={key} className="flex items-center gap-1.5 text-[11px] text-[#6E697E]">
               <span
                 className="h-1.5 w-1.5 rounded-full"
                 style={{ background: PILLAR_COLOR[key] }}
@@ -109,12 +109,12 @@ export default function CalendarDemo({
 
       {/* preview */}
       <div className="panel overflow-hidden">
-        <div className="flex items-center justify-between border-b border-[#16161F] px-5 py-3.5">
+        <div className="flex items-center justify-between border-b border-[#EDEAE4] px-5 py-3.5">
           <div className="min-w-0">
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-[#4E4E60]">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-[#6E697E]">
               Day {post.day} · {post.timeOfDay} · {post.platform}
             </p>
-            <p className="truncate text-sm font-semibold text-white">{post.theme}</p>
+            <p className="truncate text-sm font-semibold text-[#141220]">{post.theme}</p>
           </div>
           <span
             className="chip shrink-0"
@@ -130,7 +130,7 @@ export default function CalendarDemo({
 
         <div className="grid gap-4 p-5 sm:grid-cols-[150px_1fr]">
           <div
-            className="overflow-hidden rounded-xl border border-[#1E1E28] bg-black [&>svg]:h-auto [&>svg]:w-full"
+            className="overflow-hidden rounded-xl border border-[#E6E2DC] bg-[#F3F1EE] [&>svg]:h-auto [&>svg]:w-full"
             dangerouslySetInnerHTML={{ __html: previews[post.id] || "" }}
           />
 
@@ -147,7 +147,7 @@ export default function CalendarDemo({
                   key={k}
                   onClick={() => setTab(k)}
                   className={`rounded-lg px-2.5 py-1.5 text-[11px] font-semibold transition-colors ${
-                    tab === k ? "bg-white/10 text-white" : "text-[#6C6C80] hover:text-[#ECECF3]"
+                    tab === k ? "bg-[#EDEAE4] text-[#141220]" : "text-[#6E697E] hover:text-[#141220]"
                   }`}
                 >
                   {label}
@@ -155,12 +155,12 @@ export default function CalendarDemo({
               ))}
             </div>
 
-            <div className="max-h-[220px] overflow-y-auto pr-1 text-[13px] leading-relaxed text-[#9B9BAE] scrollbar-none">
+            <div className="max-h-[220px] overflow-y-auto pr-1 text-[13px] leading-relaxed text-[#615D70] scrollbar-none">
               {tab === "caption" && (
                 <>
-                  <p className="mb-2 font-semibold text-white">{post.hook}</p>
+                  <p className="mb-2 font-semibold text-[#141220]">{post.hook}</p>
                   <p className="whitespace-pre-line">{post.caption.split("\n").slice(1).join("\n").trim()}</p>
-                  <p className="mt-3 text-[12px] text-[#5B5B70]">
+                  <p className="mt-3 text-[12px] text-[#6E697E]">
                     {post.hashtags.map((h) => `#${h}`).join(" ")}
                   </p>
                 </>
@@ -169,20 +169,20 @@ export default function CalendarDemo({
               {tab === "why" && (
                 <ul className="space-y-2.5">
                   <li>
-                    <span className="font-semibold text-white">{tr.demo.whyFunnel}:</span> {post.funnel}.{" "}
+                    <span className="font-semibold text-[#141220]">{tr.demo.whyFunnel}:</span> {post.funnel}.{" "}
                     {tr.demo.whyFunnelBody}
                   </li>
                   <li>
-                    <span className="font-semibold text-white">{tr.demo.whyPlacement}:</span> {post.theme} —{" "}
+                    <span className="font-semibold text-[#141220]">{tr.demo.whyPlacement}:</span> {post.theme} —{" "}
                     {tr.demo.whyPlacementBody}
                   </li>
                   <li>
-                    <span className="font-semibold text-white">{tr.demo.whyFormat}:</span> {post.format} ·{" "}
+                    <span className="font-semibold text-[#141220]">{tr.demo.whyFormat}:</span> {post.format} ·{" "}
                     {post.platform} — {tr.demo.whyFormatBody}
                   </li>
                   {post.productName && (
                     <li>
-                      <span className="font-semibold text-white">{tr.demo.whyProduct}:</span>{" "}
+                      <span className="font-semibold text-[#141220]">{tr.demo.whyProduct}:</span>{" "}
                       {post.productName}.
                     </li>
                   )}

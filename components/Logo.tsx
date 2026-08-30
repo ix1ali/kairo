@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useId } from "react";
 
 /**
- * The Kairo mark: Kai's face, reduced to what still reads at 20px —
+ * The Koala mark: Kai's face, reduced to what still reads at 20px —
  * two ears, a rounded head, and the glowing visor.
  */
 export function LogoMark({ size = 32, className = "" }: { size?: number; className?: string }) {
@@ -14,15 +14,15 @@ export function LogoMark({ size = 32, className = "" }: { size?: number; classNa
         <radialGradient id={`${u}-s`} cx="34%" cy="24%" r="82%">
           <stop offset="0%" stopColor="#FFFFFF" />
           <stop offset="55%" stopColor="#E9EDF5" />
-          <stop offset="100%" stopColor="#AEB6C9" />
+          <stop offset="100%" stopColor="#615D70" />
         </radialGradient>
         <radialGradient id={`${u}-e`} cx="40%" cy="32%" r="80%">
-          <stop offset="0%" stopColor="#D6CBFF" />
-          <stop offset="100%" stopColor="#9182D6" />
+          <stop offset="0%" stopColor="#6D4DF6" />
+          <stop offset="100%" stopColor="#5B3FE0" />
         </radialGradient>
         <linearGradient id={`${u}-v`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#1E1E30" />
-          <stop offset="100%" stopColor="#06060C" />
+          <stop offset="0%" stopColor="#E6E2DC" />
+          <stop offset="100%" stopColor="#FAF9F7" />
         </linearGradient>
       </defs>
 
@@ -37,12 +37,12 @@ export function LogoMark({ size = 32, className = "" }: { size?: number; classNa
 
       {/* visor */}
       <rect x="8.6" y="15.4" width="22.8" height="11.4" rx="5.7" fill={`url(#${u}-v)`} />
-      <circle cx="15.4" cy="21.1" r="3.5" fill="#7C5CFF" />
-      <circle cx="24.6" cy="21.1" r="3.5" fill="#22D3EE" />
+      <circle cx="15.4" cy="21.1" r="3.5" fill="#6D4DF6" />
+      <circle cx="24.6" cy="21.1" r="3.5" fill="#0284C7" />
       <path d="M8.6 15.4h22.8v4.6c-7.4 2.3-15.4 2.3-22.8 0v-4.6Z" fill="#FFFFFF" fillOpacity="0.16" />
 
       {/* nose */}
-      <ellipse cx="20" cy="30.4" rx="4.1" ry="3.2" fill="#25252F" />
+      <ellipse cx="20" cy="30.4" rx="4.1" ry="3.2" fill="#DCD7CF" />
     </svg>
   );
 }
@@ -66,7 +66,7 @@ export function Logo({
           className="display text-[1.35rem] font-bold tracking-[-0.04em]"
           style={{ fontFamily: "var(--font-display)" }}
         >
-          Kairo
+          Koala
         </span>
       )}
     </span>

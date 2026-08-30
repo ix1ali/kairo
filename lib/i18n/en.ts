@@ -22,7 +22,7 @@ export const en = {
     sub: "Paste your store link. Kai learns your brand, writes a real marketing plan, and hands you 30 days of posts — designed, written and ready to publish.",
     placeholder: "yourstore.com",
     cta: "Build my content plan",
-    hint: "Paste any store or product link — Kairo reads your brand and products automatically.",
+    hint: "Paste any store or product link — Koala reads your brand and products automatically.",
     chipPosted: "Day 12 posted",
     chipPostedSub: "18 of 30 done",
     chipReady: "30 days ready",
@@ -43,7 +43,7 @@ export const en = {
       "You sell on every post, or never",
       "No idea why anything worked",
     ],
-    planTitle: "A Kairo month",
+    planTitle: "A Koala month",
     planSub: "One campaign, thirty days",
     planPoints: [
       "Every day has one job in the funnel",
@@ -65,7 +65,7 @@ export const en = {
     steps: [
       {
         title: "Drop your link",
-        body: "Paste your store, a single product page, or fill it in by hand. Kairo pulls your name, colours, logo, socials and products.",
+        body: "Paste your store, a single product page, or fill it in by hand. Koala pulls your name, colours, logo, socials and products.",
       },
       {
         title: "It learns your brand",
@@ -77,7 +77,7 @@ export const en = {
       },
       {
         title: "Approve and post",
-        body: "Every day comes finished. Download the image, copy the caption, tick it off. Kairo tracks what went out.",
+        body: "Every day comes finished. Download the image, copy the caption, tick it off. Koala tracks what went out.",
       },
     ],
     mockBrandRead: "Brand read",
@@ -88,7 +88,7 @@ export const en = {
   },
 
   showcase: {
-    eyebrow: "Made by Kairo",
+    eyebrow: "Made by Koala",
     h1: "Six brands. One engine.",
     sub: "Every card below was generated from a brand brief — palette, voice, products — with nothing edited afterwards. Different industry, different look, same thirty-day logic underneath.",
     footer: "Six brands, six looks — all from the same engine, none of them touched by hand.",
@@ -112,7 +112,7 @@ export const en = {
   tactics: {
     eyebrow: "Content strategies",
     h1: "ways to make a post.",
-    sub: "Kairo picks a different tactic every day, so thirty posts never collapse into thirty product shots.",
+    sub: "Koala picks a different tactic every day, so thirty posts never collapse into thirty product shots.",
     footer: "Every one arrives with a production note — how to shoot it, how long to hold the shot, what to put on screen.",
     more: "more",
     groups: {
@@ -154,12 +154,12 @@ export const en = {
 models: {
     eyebrow: "The engine room",
     h1: "Twelve models. Nothing for you to set up.",
-    sub: "Every model Kairo needs is already connected on our side. You never create an account with a provider, never paste a key, never choose a model — the engine sends each job to whichever one is best at it and hands you the finished file.",
+    sub: "Every model Koala needs is already connected on our side. You never create an account with a provider, never paste a key, never choose a model — the engine sends each job to whichever one is best at it and hands you the finished file.",
     jobs: { image: "Images", video: "Video and voice", copy: "Copy and strategy" },
     a1: "No keys, ever",
     a1sub: "There is no settings page asking for an API key, because there is nothing for you to connect.",
     a2: "Routed for you",
-    a2sub: "A product still, a talking-head clip and a caption do not want the same model. Kairo picks per job.",
+    a2sub: "A product still, a talking-head clip and a caption do not want the same model. Koala picks per job.",
     a3: "Included in your plan",
     a3sub: "Model costs are ours, not yours. Your price does not move when a provider changes theirs.",
   },
@@ -173,15 +173,13 @@ models: {
     stillsEyebrow: "The stills",
     stillsH1: "One look, held for thirty days.",
     stillsSub: "This is what consistency actually looks like. Same palette, same typographic weight, same treatment — across an entire month, in English and Arabic.",
-    stillsMore: "Show all forty",
-    stillsLess: "Show fewer",
     stillsFooter: "Generated stills across a dozen industries.",
   },
 
   video: {
     eyebrow: "Video",
     h1: "Your video, your way.",
-    sub: "Before a single frame is made, Kairo asks how you want it. Captions or clean? A voice or just music? A person on camera or the product alone? Nothing is assumed.",
+    sub: "Before a single frame is made, Koala asks how you want it. Captions or clean? A voice or just music? A person on camera or the product alone? Nothing is assumed.",
     asked: "Asked before anything is generated",
     options: [
       { label: "Captions", note: "Burned in, styled to your brand, in your language — or none at all." },
@@ -204,7 +202,7 @@ models: {
       strategist: { label: "Strategist", note: "monthly plan and competitor work" },
     },
     total: "Every month, before anyone posts anything",
-    withKairo: "With Kairo",
+    withKoala: "With Koala",
     sameposts: "the same",
     posts: "posts",
     perMonth: "/month",
@@ -242,7 +240,7 @@ models: {
     items: [
       {
         q: "Is this just an AI caption generator?",
-        a: "No. Kairo starts with strategy: positioning, who you are actually talking to, which competitor archetypes you are up against and where the gaps are. Only then does it build the calendar. Every one of the 30 days has a reason to exist — a funnel stage, a content pillar, a place in the monthly arc.",
+        a: "No. Koala starts with strategy: positioning, who you are actually talking to, which competitor archetypes you are up against and where the gaps are. Only then does it build the calendar. Every one of the 30 days has a reason to exist — a funnel stage, a content pillar, a place in the monthly arc.",
       },
       {
         q: "Why is there no free trial?",
@@ -254,7 +252,7 @@ models: {
       },
       {
         q: "How does it handle my competitors?",
-        a: "You add their site or social profiles. Kairo reads their public pages for positioning, catalogue size and where they post, matches them to the archetype they behave like, names their structural gap, and turns that gap into the angle your month attacks.",
+        a: "You add their site or social profiles. Koala reads their public pages for positioning, catalogue size and where they post, matches them to the archetype they behave like, names their structural gap, and turns that gap into the angle your month attacks.",
       },
       {
         q: "Can I change posts I do not like?",

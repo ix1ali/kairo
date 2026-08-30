@@ -27,7 +27,7 @@ export default function LangSwitch({ compact = false }: { compact?: boolean }) {
 
   return (
     <div
-      className={`inline-flex shrink-0 items-center gap-0.5 rounded-xl border border-[#1E1E28] bg-white/[0.03] p-0.5 ${
+      className={`inline-flex shrink-0 items-center gap-0.5 rounded-xl border border-[#E6E2DC] bg-white p-0.5 ${
         pending ? "opacity-70" : ""
       }`}
     >
@@ -39,7 +39,7 @@ export default function LangSwitch({ compact = false }: { compact?: boolean }) {
             onClick={() => choose(l.code)}
             aria-pressed={on}
             className={`rounded-lg px-2.5 py-1.5 text-[12px] font-semibold transition-colors ${
-              on ? "bg-white/10 text-white" : "text-[#6C6C80] hover:text-[#ECECF3]"
+              on ? "bg-[#EDEAE4] text-[#141220]" : "text-[#6E697E] hover:text-[#141220]"
             } ${busy === l.code ? "animate-pulse" : ""}`}
           >
             {compact ? l.short : l.label}

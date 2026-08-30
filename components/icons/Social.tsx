@@ -90,10 +90,10 @@ export const PLATFORM_COLOR: Record<string, string> = {
   tiktok: "#25F4EE",
   facebook: "#1877F2",
   linkedin: "#0A66C2",
-  x: "#E7E9EA",
+  x: "#141220",
   youtube: "#FF0033",
   pinterest: "#E60023",
-  threads: "#EDEDF3",
+  threads: "#141220",
 };
 
 export function PlatformIcon({ platform, size = 20, className }: { platform: string } & P) {

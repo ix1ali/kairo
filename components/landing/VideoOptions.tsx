@@ -4,10 +4,10 @@ import { dict } from "@/lib/i18n";
 import { getLang } from "@/lib/i18n/server";
 
 const META: { icon: IconName; accent: string; choices: string[] }[] = [
-  { icon: "text", accent: "#22D3EE", choices: ["Burned in", "Soft subs", "None"] },
-  { icon: "megaphone", accent: "#A78BFA", choices: ["AI voice", "Your voice", "Music only"] },
-  { icon: "users", accent: "#C8F751", choices: ["Presenter", "Hands only", "Product only"] },
-  { icon: "bolt", accent: "#FFB443", choices: ["Trending", "Licensed", "Silent"] },
+  { icon: "text", accent: "#0284C7", choices: ["Burned in", "Soft subs", "None"] },
+  { icon: "megaphone", accent: "#6D4DF6", choices: ["AI voice", "Your voice", "Music only"] },
+  { icon: "users", accent: "#357A38", choices: ["Presenter", "Hands only", "Product only"] },
+  { icon: "bolt", accent: "#A65209", choices: ["Trending", "Licensed", "Silent"] },
 ];
 
 export default async function VideoOptions() {
@@ -17,7 +17,7 @@ export default async function VideoOptions() {
     <div>
       <SectionHead eyebrow={t.eyebrow} title={t.h1} sub={t.sub} className="mb-6 sm:mb-7" />
       <div className="mb-9 text-center sm:mb-12">
-        <span className="inline-flex items-center gap-2 rounded-full border border-[#C8F751]/30 bg-[#C8F751]/[0.08] px-3.5 py-1.5 text-[12px] font-medium text-[#C8F751]">
+        <span className="inline-flex items-center gap-2 rounded-full border border-[#357A38]/30 bg-[#357A38]/[0.08] px-3.5 py-1.5 text-[12px] font-medium text-[#357A38]">
           <Icon name="checkCircle" size={13} />
           {t.asked}
         </span>
@@ -29,7 +29,7 @@ export default async function VideoOptions() {
           return (
             <div
               key={o.label}
-              className="lift group rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-5 transition-colors hover:border-[#33333F]"
+              className="lift group rounded-2xl border border-[#E6E2DC] bg-white p-5 transition-colors hover:border-[#C9C4BC]"
             >
               <span
                 className="mb-4 grid h-11 w-11 place-items-center rounded-xl transition-transform duration-300 group-hover:scale-110"
@@ -37,10 +37,10 @@ export default async function VideoOptions() {
               >
                 <Icon name={m.icon} size={19} />
               </span>
-              <p className="text-[15px] font-semibold text-white">{o.label}</p>
-              <p className="mt-1.5 min-h-[52px] text-[12.5px] leading-relaxed text-[#7C7C90]">{o.note}</p>
+              <p className="text-[15px] font-semibold text-[#141220]">{o.label}</p>
+              <p className="mt-1.5 min-h-[52px] text-[12.5px] leading-relaxed text-[#6B6678]">{o.note}</p>
 
-              <div className="mt-3 flex flex-wrap gap-1.5 border-t border-[#16161F] pt-3.5">
+              <div className="mt-3 flex flex-wrap gap-1.5 border-t border-[#EDEAE4] pt-3.5">
                 {m.choices.map((c, ci) => (
                   <span
                     key={c}
@@ -48,7 +48,7 @@ export default async function VideoOptions() {
                     style={
                       ci === 0
                         ? { borderColor: `${m.accent}55`, background: `${m.accent}18`, color: m.accent }
-                        : { borderColor: "#1E1E28", color: "#6C6C80" }
+                        : { borderColor: "#E6E2DC", color: "#6E697E" }
                     }
                   >
                     {c}

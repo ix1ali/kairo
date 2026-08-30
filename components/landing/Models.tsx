@@ -59,7 +59,7 @@ const MODELS: Mark[] = [
   },
   {
     name: "Higgsfield",
-    color: "#A78BFA",
+    color: "#6D4DF6",
     job: "video",
     glyph: g(
       <>
@@ -170,9 +170,9 @@ const MODELS: Mark[] = [
 ];
 
 const JOB_COLOR: Record<Mark["job"], string> = {
-  image: "#7C5CFF",
-  video: "#22D3EE",
-  copy: "#C8F751",
+  image: "#6D4DF6",
+  video: "#0284C7",
+  copy: "#357A38",
 };
 
 export default async function Models() {
@@ -191,7 +191,7 @@ export default async function Models() {
         {MODELS.map((m) => (
           <span
             key={m.name}
-            className="lift inline-flex items-center gap-2 rounded-xl border border-[#1E1E28] bg-white/[0.025] px-3 py-2.5 text-[13px] font-medium text-[#C4C4D4] sm:gap-2.5 sm:rounded-2xl sm:px-4 sm:py-3 sm:text-[14px]"
+            className="lift inline-flex items-center gap-2 rounded-xl border border-[#E6E2DC] bg-white px-3 py-2.5 text-[13px] font-medium text-[#3A3548] sm:gap-2.5 sm:rounded-2xl sm:px-4 sm:py-3 sm:text-[14px]"
           >
             <span style={{ color: m.color }}>{m.glyph}</span>
             {m.name}
@@ -207,7 +207,7 @@ export default async function Models() {
       {/* what each dot means */}
       <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
         {(["image", "video", "copy"] as const).map((k) => (
-          <span key={k} className="inline-flex items-center gap-2 text-[12px] text-[#5B5B70]">
+          <span key={k} className="inline-flex items-center gap-2 text-[12px] text-[#6E697E]">
             <span
               className="h-1.5 w-1.5 rounded-full"
               style={{ background: JOB_COLOR[k] }}
@@ -221,13 +221,13 @@ export default async function Models() {
         {assurances.map((a) => (
           <div
             key={a.title}
-            className="rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-5 text-center sm:p-6"
+            className="rounded-2xl border border-[#E6E2DC] bg-white p-5 text-center sm:p-6"
           >
-            <span className="mx-auto mb-3.5 grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-[#7C5CFF]/25 to-[#22D3EE]/12 text-[#A78BFA]">
+            <span className="mx-auto mb-3.5 grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-[#6D4DF6]/25 to-[#0284C7]/12 text-[#6D4DF6]">
               <Icon name={a.icon} size={18} />
             </span>
-            <p className="text-[14.5px] font-semibold text-white">{a.title}</p>
-            <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#7C7C90]">{a.body}</p>
+            <p className="text-[14.5px] font-semibold text-[#141220]">{a.title}</p>
+            <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#6B6678]">{a.body}</p>
           </div>
         ))}
       </div>

@@ -38,12 +38,12 @@ export default async function Footer() {
   ];
 
   return (
-    <footer className="relative border-t border-[#16161F] bg-[#07070B]">
+    <footer className="relative border-t border-[#EDEAE4] bg-[#FAF9F7]">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr_1fr]">
           <div>
             <Logo />
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#6C6C80]">
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#6E697E]">
               {t.blurb}
             </p>
             <div className="mt-6">
@@ -53,7 +53,7 @@ export default async function Footer() {
               {["Instagram", "TikTok", "LinkedIn", "X"].map((s) => (
                 <span
                   key={s}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#1E1E28] bg-white/[0.03] text-[10px] font-bold text-[#6C6C80]"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#E6E2DC] bg-white text-[10px] font-bold text-[#6E697E]"
                   title={s}
                 >
                   {s.slice(0, 2)}
@@ -64,13 +64,13 @@ export default async function Footer() {
 
           {COLUMNS.map((col) => (
             <div key={col.title}>
-              <h4 className="mb-4 text-sm font-semibold text-white">{col.title}</h4>
+              <h4 className="mb-4 text-sm font-semibold text-[#141220]">{col.title}</h4>
               <ul className="space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l.label}>
                     <Link
                       href={l.href}
-                      className="text-sm text-[#6C6C80] transition-colors hover:text-[#ECECF3]"
+                      className="text-sm text-[#6E697E] transition-colors hover:text-[#141220]"
                     >
                       {l.label}
                     </Link>
@@ -81,11 +81,11 @@ export default async function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-[#16161F] pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-[#4E4E60]">
-            © {new Date().getFullYear()} Kairo. {t.rights}
+        <div className="mt-14 flex flex-col gap-4 border-t border-[#EDEAE4] pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-[#6E697E]">
+            © {new Date().getFullYear()} Koala. {t.rights}
           </p>
-          <p className="text-xs text-[#4E4E60]">
+          <p className="text-xs text-[#6E697E]">
             {t.noTrial}
           </p>
         </div>

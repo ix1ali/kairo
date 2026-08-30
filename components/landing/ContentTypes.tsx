@@ -8,37 +8,37 @@ const GROUP_META: { id: "ugc" | "teach" | "product" | "story" | "convert" | "com
   {
     id: "ugc",
     icon: "users",
-    accent: "#C8F751",
+    accent: "#357A38",
     keys: ["ugc-review", "ugc-unboxing", "ugc-getready", "customer-feature", "review-dump"],
   },
   {
     id: "teach",
     icon: "brain",
-    accent: "#22D3EE",
+    accent: "#0284C7",
     keys: ["tutorial", "mistakes", "myth-buster", "explainer", "data-post", "faq"],
   },
   {
     id: "product",
     icon: "image",
-    accent: "#7C5CFF",
+    accent: "#6D4DF6",
     keys: ["close-up", "how-its-made", "flat-lay", "comparison", "before-after", "use-cases"],
   },
   {
     id: "story",
     icon: "megaphone",
-    accent: "#FFB443",
+    accent: "#A65209",
     keys: ["founder-story", "bts", "day-in-life", "team-spotlight", "standards"],
   },
   {
     id: "convert",
     icon: "target",
-    accent: "#FF6B8A",
+    accent: "#DB2777",
     keys: ["offer-launch", "bundle", "restock", "countdown", "objection-answer"],
   },
   {
     id: "community",
     icon: "heart",
-    accent: "#5EEAD4",
+    accent: "#0F766E",
     keys: ["this-or-that", "hot-take", "qa", "trend", "giveaway", "meme"],
   },
 ];
@@ -64,7 +64,7 @@ export default async function ContentTypes() {
         {GROUPS.map((g) => (
           <div
             key={g.title}
-            className="rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-5 transition-colors hover:border-[#33333F]"
+            className="rounded-2xl border border-[#E6E2DC] bg-white p-5 transition-colors hover:border-[#C9C4BC]"
           >
             <div className="mb-3 flex items-center gap-2.5">
               <span
@@ -74,12 +74,12 @@ export default async function ContentTypes() {
                 <Icon name={g.icon} size={17} />
               </span>
               <div>
-                <p className="text-[14px] font-semibold text-white">{g.title}</p>
-                <p className="text-[11.5px] text-[#5B5B70]">{g.note}</p>
+                <p className="text-[14px] font-semibold text-[#141220]">{g.title}</p>
+                <p className="text-[11.5px] text-[#6E697E]">{g.note}</p>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-1.5 border-t border-[#16161F] pt-3.5">
+            <div className="flex flex-wrap gap-1.5 border-t border-[#EDEAE4] pt-3.5">
               {g.keys.slice(0, 4).map((k) => {
                 const c = byKey[k];
                 if (!c) return null;
@@ -87,14 +87,14 @@ export default async function ContentTypes() {
                   <span
                     key={k}
                     title={c.why}
-                    className="rounded-lg border border-[#1E1E28] bg-white/[0.03] px-2.5 py-1.5 text-[11.5px] text-[#9B9BAE]"
+                    className="rounded-lg border border-[#E6E2DC] bg-white px-2.5 py-1.5 text-[11.5px] text-[#615D70]"
                   >
                     {c.name}
                   </span>
                 );
               })}
               {g.keys.length > 4 && (
-                <span className="rounded-lg px-2 py-1.5 text-[11.5px] text-[#5B5B70]">
+                <span className="rounded-lg px-2 py-1.5 text-[11.5px] text-[#6E697E]">
                   +{g.keys.length - 4} {t.more}
                 </span>
               )}
@@ -103,7 +103,7 @@ export default async function ContentTypes() {
         ))}
       </div>
 
-      <p className="mt-8 text-center text-[13px] leading-relaxed text-[#5B5B70]">
+      <p className="mt-8 text-center text-[13px] leading-relaxed text-[#6E697E]">
         {t.footer}
       </p>
     </div>

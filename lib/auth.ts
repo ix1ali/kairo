@@ -3,11 +3,11 @@ import { cookies } from "next/headers";
 import { read, mutate, uid } from "./db";
 import type { User } from "./types";
 
-const COOKIE = "kairo_session";
+const COOKIE = "koala_session";
 const MAX_AGE = 60 * 60 * 24 * 30;
 
 function secret() {
-  return process.env.AUTH_SECRET || "kairo-dev-secret-change-me-in-production";
+  return process.env.AUTH_SECRET || "koala-dev-secret-change-me-in-production";
 }
 
 export function hashPassword(password: string, salt?: string) {

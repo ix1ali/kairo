@@ -1,4 +1,4 @@
-# Kairo
+# Koala
 
 **A whole month of content. Done in a minute.**
 
@@ -7,7 +7,7 @@ radial gradients, ambient occlusion and a glossy visor; his eyes track the
 pointer, he glances down as you scroll, and he blinks on his own.
 (`components/Koala.tsx`)
 
-Kairo takes a brand — logo, colours, voice, products, audience, goals — and produces a real
+Koala takes a brand — logo, colours, voice, products, audience, goals — and produces a real
 marketing campaign: a written strategy, a competitor teardown, and a 30-day calendar where every
 post is designed, written, hashtagged and ready to download.
 
@@ -35,7 +35,7 @@ npm run dev
 
 Then open http://localhost:3000.
 
-No API keys are needed. Kairo ships with two engines that work offline:
+No API keys are needed. Koala ships with two engines that work offline:
 
 - **Strategy engine** (`lib/strategy/`) — writes positioning, audience segments, competitor
   archetypes, pillar weighting and the full calendar.
