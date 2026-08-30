@@ -320,10 +320,13 @@ export function renderPosterSVG(post: Post, project: Project, logoDataUri: strin
   const w = 1080;
   const h = vertical ? 1920 : 1350;
 
-  const bg = project.colors.background || "#0B0B12";
-  const primary = project.colors.primary || "#7C5CFF";
-  const secondary = project.colors.secondary || "#22D3EE";
-  const ink = project.colors.text || readableOn(bg);
+  // A reference palette, when present, overrides the brand accents for this
+  // post only — the brand background and text stay put so it still belongs.
+  const ref = post.styleRef?.colors || [];
+  const bg = ref[2] || project.colors.background || "#0B0B12";
+  const primary = ref[0] || project.colors.primary || "#7C5CFF";
+  const secondary = ref[1] || project.colors.secondary || "#22D3EE";
+  const ink = ref.length ? readableOn(bg) : project.colors.text || readableOn(bg);
   const muted = mix(bg, ink, 0.62);
 
   const ctx: Ctx = {

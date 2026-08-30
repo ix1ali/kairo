@@ -137,6 +137,8 @@ export interface Post {
   metrics: { reach: number; likes: number; comments: number; saves: number } | null;
   revisions: PostRevision[];
   assetUrl: string | null;
+  /** Palette lifted from a reference image the user asked Kairo to match. */
+  styleRef: { colors: string[]; note: string } | null;
 }
 
 export interface Project {
@@ -162,6 +164,7 @@ export interface Project {
   goals: string[];
   goal: string;
   contentMix: { static: boolean; carousel: boolean; video: boolean; story: boolean };
+  videoStyle: { captions: string; voice: string; talent: string; sound: string };
   competitorsInput: string;
   competitorProfiles: CompetitorProfile[];
   strategy: Strategy | null;

@@ -1,0 +1,65 @@
+import { Icon, type IconName } from "@/components/icons/Ui";
+import { dict } from "@/lib/i18n";
+import { getLang } from "@/lib/i18n/server";
+
+const META: { icon: IconName; accent: string; choices: string[] }[] = [
+  { icon: "text", accent: "#22D3EE", choices: ["Burned in", "Soft subs", "None"] },
+  { icon: "megaphone", accent: "#A78BFA", choices: ["AI voice", "Your voice", "Music only"] },
+  { icon: "users", accent: "#C8F751", choices: ["Presenter", "Hands only", "Product only"] },
+  { icon: "bolt", accent: "#FFB443", choices: ["Trending", "Licensed", "Silent"] },
+];
+
+export default async function VideoOptions() {
+  const t = dict(await getLang()).video;
+
+  return (
+    <div>
+      <div className="mx-auto mb-12 max-w-2xl text-center">
+        <p className="eyebrow">{t.eyebrow}</p>
+        <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.h1}</h2>
+        <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">{t.sub}</p>
+        <span className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#C8F751]/30 bg-[#C8F751]/[0.08] px-3.5 py-1.5 text-[12px] font-medium text-[#C8F751]">
+          <Icon name="checkCircle" size={13} />
+          {t.asked}
+        </span>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {t.options.map((o, i) => {
+          const m = META[i];
+          return (
+            <div
+              key={o.label}
+              className="lift group rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-5 transition-colors hover:border-[#33333F]"
+            >
+              <span
+                className="mb-4 grid h-11 w-11 place-items-center rounded-xl transition-transform duration-300 group-hover:scale-110"
+                style={{ background: `${m.accent}1F`, color: m.accent }}
+              >
+                <Icon name={m.icon} size={19} />
+              </span>
+              <p className="text-[15px] font-semibold text-white">{o.label}</p>
+              <p className="mt-1.5 min-h-[52px] text-[12.5px] leading-relaxed text-[#7C7C90]">{o.note}</p>
+
+              <div className="mt-3 flex flex-wrap gap-1.5 border-t border-[#16161F] pt-3.5">
+                {m.choices.map((c, ci) => (
+                  <span
+                    key={c}
+                    className="rounded-lg border px-2 py-1 text-[10.5px] font-medium"
+                    style={
+                      ci === 0
+                        ? { borderColor: `${m.accent}55`, background: `${m.accent}18`, color: m.accent }
+                        : { borderColor: "#1E1E28", color: "#6C6C80" }
+                    }
+                  >
+                    {c}
+                  </span>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

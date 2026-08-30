@@ -25,7 +25,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   const editable = [
     "name", "tagline", "category", "description", "website", "logoUrl", "images",
     "brandTheme", "colors", "voice", "audience", "market", "language", "locale", "socials",
-    "platforms", "products", "goals", "goal", "contentMix", "competitorsInput", "competitorProfiles",
+    "platforms", "products", "goals", "goal", "contentMix", "videoStyle", "competitorsInput", "competitorProfiles",
   ];
 
   mutate((d) => {

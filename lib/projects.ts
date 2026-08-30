@@ -4,7 +4,7 @@ import { buildCalendar, buildStrategy } from "./strategy/engine";
 import { localisePosts } from "./strategy/localise";
 import type { Post, Product, Project, User } from "./types";
 import { DEFAULT_LOCALE, localeLabel } from "./languages";
-import { DEFAULT_GOAL, DEFAULT_MIX } from "./strategy/goals";
+import { DEFAULT_GOAL, DEFAULT_MIX, DEFAULT_VIDEO_STYLE } from "./strategy/goals";
 import type { CompetitorProfile } from "./types";
 
 /**
@@ -93,6 +93,7 @@ export interface ProjectInput {
   goals?: string[];
   goal?: string;
   contentMix?: { static: boolean; carousel: boolean; video: boolean; story: boolean };
+  videoStyle?: { captions: string; voice: string; talent: string; sound: string };
   competitorsInput?: string;
   competitorProfiles?: CompetitorProfile[];
   startDate?: string;
@@ -146,6 +147,7 @@ export function createProjectWithPlan(user: User, input: ProjectInput): Project 
     goals: input.goals || [],
     goal: input.goal || DEFAULT_GOAL,
     contentMix: input.contentMix || { ...DEFAULT_MIX },
+    videoStyle: input.videoStyle || { ...DEFAULT_VIDEO_STYLE },
     competitorsInput: (input.competitorsInput || "").trim(),
     competitorProfiles: (input.competitorProfiles || []).filter((c) => (c.name || "").trim()),
     strategy: null,

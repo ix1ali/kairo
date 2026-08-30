@@ -303,6 +303,46 @@ select.input {
 .animate-marquee { animation: marquee 40s linear infinite; }
 .animate-marquee-reverse { animation: marquee 40s linear infinite reverse; }
 
+/* Vertical version, for the wall of creatives. */
+@keyframes marqueeY {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+.animate-marquee-y { animation: marqueeY 46s linear infinite; }
+.animate-marquee-y-reverse { animation: marqueeY 46s linear infinite reverse; }
+
+.marquee-mask-y {
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* Cards lift toward the pointer without a JS tilt library. */
+.lift {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+}
+.lift:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9);
+}
+
+/* Soft brand glow behind a card, revealed on hover. */
+.glow-hover {
+  position: relative;
+}
+.glow-hover::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(124, 92, 255, 0.6), rgba(34, 211, 238, 0.45));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+.glow-hover:hover::before {
+  opacity: 1;
+}
+
 /* Fades the rows out at both edges so items enter and leave instead of
    getting chopped off at the viewport border. */
 .marquee-mask {
@@ -318,7 +358,8 @@ select.input {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-floaty, .animate-rise, .animate-ring, .animate-marquee, .animate-marquee-reverse, .reveal-word, .skeleton {
+  .animate-floaty, .animate-rise, .animate-ring, .animate-marquee, .animate-marquee-reverse,
+  .animate-marquee-y, .animate-marquee-y-reverse, .reveal-word, .skeleton {
     animation: none !important;
   }
   html { scroll-behavior: auto; }
@@ -345,7 +386,22 @@ select.input {
 
 /* ---------- right-to-left ---------- */
 
-[dir="rtl"] .display,
+/* IBM Plex Sans Arabic reads far better than a Latin face with fallback glyphs. */
+[dir="rtl"] body,
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select,
+[dir="rtl"] button {
+  font-family: var(--font-arabic), var(--font-sans);
+}
+
+[dir="rtl"] .display {
+  font-family: var(--font-arabic), var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+
 [dir="rtl"] body {
   letter-spacing: 0;
 }

@@ -154,3 +154,118 @@ export function mixToFormats(mix: ContentMix | undefined): string[] {
   if (m.story) out.push("story");
   return out.length ? out : ["static", "carousel"];
 }
+
+/* ------------------------------------------------------------------ */
+/* video preferences                                                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Asked before a single frame is planned. These change the script that gets
+ * written, not just a label on it.
+ */
+export interface VideoStyle {
+  captions: "burned" | "soft" | "none";
+  voice: "ai" | "own" | "music";
+  talent: "presenter" | "hands" | "product";
+  sound: "trending" | "licensed" | "silent";
+}
+
+export const DEFAULT_VIDEO_STYLE: VideoStyle = {
+  captions: "burned",
+  voice: "ai",
+  talent: "product",
+  sound: "trending",
+};
+
+export const VIDEO_PREFS: {
+  key: keyof VideoStyle;
+  label: string;
+  icon: IconName;
+  accent: string;
+  choices: { value: string; label: string; note: string }[];
+}[] = [
+  {
+    key: "captions",
+    label: "Captions",
+    icon: "text",
+    accent: "#22D3EE",
+    choices: [
+      { value: "burned", label: "Burned in", note: "Always visible, styled to your brand" },
+      { value: "soft", label: "Soft subs", note: "Uploaded as a subtitle track" },
+      { value: "none", label: "None", note: "Clean frame, no text" },
+    ],
+  },
+  {
+    key: "voice",
+    label: "Voice",
+    icon: "megaphone",
+    accent: "#A78BFA",
+    choices: [
+      { value: "ai", label: "Generated voice", note: "Script written to be read aloud" },
+      { value: "own", label: "Your own voice", note: "You record over the shot list" },
+      { value: "music", label: "No voice", note: "Told visually, music only" },
+    ],
+  },
+  {
+    key: "talent",
+    label: "On camera",
+    icon: "users",
+    accent: "#C8F751",
+    choices: [
+      { value: "presenter", label: "A presenter", note: "Someone talking to camera" },
+      { value: "hands", label: "Hands only", note: "Hands using the product, no face" },
+      { value: "product", label: "Product only", note: "Cinematic, nobody in frame" },
+    ],
+  },
+  {
+    key: "sound",
+    label: "Sound",
+    icon: "bolt",
+    accent: "#FFB443",
+    choices: [
+      { value: "trending", label: "Trending audio", note: "Cut to a sound that is moving now" },
+      { value: "licensed", label: "Licensed track", note: "Safe for ads and reposting" },
+      { value: "silent", label: "Ambient only", note: "Real sound from the scene" },
+    ],
+  },
+];
+
+/** Turns the choices into the lines that go on the storyboard. */
+export function videoStyleNotes(style: VideoStyle | undefined): string[] {
+  const s = style || DEFAULT_VIDEO_STYLE;
+  const lines: string[] = [];
+
+  lines.push(
+    s.captions === "burned"
+      ? "CAPTIONS: burned in, high contrast, max 4 words per line, brand colour on the key word."
+      : s.captions === "soft"
+      ? "CAPTIONS: upload as a subtitle track. Keep the frame clean."
+      : "CAPTIONS: none. The visual has to carry it alone."
+  );
+
+  lines.push(
+    s.voice === "ai"
+      ? "VOICE: generated voiceover. Write to be read aloud — short sentences, no clauses."
+      : s.voice === "own"
+      ? "VOICE: record it yourself over this shot list. Speak, do not read."
+      : "VOICE: none. Tell it in pictures; the first frame must land without words."
+  );
+
+  lines.push(
+    s.talent === "presenter"
+      ? "TALENT: a presenter to camera. Product enters frame by 3s, face stays in shot."
+      : s.talent === "hands"
+      ? "TALENT: hands only. No faces. Shoot over the shoulder or top down."
+      : "TALENT: no people. Product, surface and light do the work."
+  );
+
+  lines.push(
+    s.sound === "trending"
+      ? "SOUND: trending audio, low under the voice. Cut on the beat."
+      : s.sound === "licensed"
+      ? "SOUND: licensed track so it is safe to boost as an ad."
+      : "SOUND: ambient only. Let the product make the noise."
+  );
+
+  return lines;
+}

@@ -10,16 +10,17 @@ import Savings from "@/components/landing/Savings";
 import PlatformStrip from "@/components/landing/PlatformStrip";
 import { PricingCards } from "@/components/landing/Pricing";
 import CalendarDemo, { type DemoPost } from "@/components/landing/CalendarDemo";
-import Showcase, { type ShowcaseCard } from "@/components/landing/Showcase";
+import MediaRail from "@/components/landing/MediaRail";
+import VideoOptions from "@/components/landing/VideoOptions";
+import Models from "@/components/landing/Models";
 import ContentTypes from "@/components/landing/ContentTypes";
 import Languages from "@/components/landing/Languages";
 import Koala from "@/components/Koala";
 import { Icon, type IconName } from "@/components/icons/Ui";
-import { demoPlan, showcaseSamples } from "@/lib/demoSample";
+import { demoPlan } from "@/lib/demoSample";
 import { renderPosterSVG } from "@/lib/render/poster";
 import { dict } from "@/lib/i18n";
 import { getLang } from "@/lib/i18n/server";
-import { CATEGORIES } from "@/lib/strategy/categories";
 
 const IN_EVERY_POST: { icon: IconName; title: string; body: string }[] = [
   { icon: "image", title: "A finished image", body: "Sized for the platform, built from your palette. Download and post." },
@@ -50,18 +51,6 @@ export default async function Home() {
     visualDirection: p.visualDirection,
     productName: p.productName,
   }));
-
-  const showcase: ShowcaseCard[] = showcaseSamples().flatMap(({ project: brand, posts: brandPosts }) =>
-    brandPosts.map((post) => ({
-      id: post.id,
-      brand: brand.name,
-      tagline: brand.tagline,
-      category: CATEGORIES[brand.category]?.label ?? brand.category,
-      contentType: post.contentTypeName,
-      accent: brand.colors.primary,
-      svg: renderPosterSVG(post, brand, null),
-    }))
-  );
 
   const previews: Record<string, string> = {};
   for (const p of posts) previews[p.id] = renderPosterSVG(p, project, null);
@@ -179,17 +168,15 @@ export default async function Home() {
           <HowItWorks />
         </section>
 
-        {/* ================= SHOWCASE ================= */}
+        {/* ================= MEDIA RAIL ================= */}
         <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <div className="mb-10 max-w-2xl">
-              <p className="eyebrow">{t.showcase.eyebrow}</p>
-              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.showcase.h1}</h2>
-              <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
-                {t.showcase.sub}
-              </p>
+              <p className="eyebrow">{t.wall.eyebrow}</p>
+              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.wall.h1}</h2>
+              <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">{t.wall.sub}</p>
             </div>
-            <Showcase cards={showcase} />
+            <MediaRail />
           </div>
         </section>
 
@@ -220,6 +207,11 @@ export default async function Home() {
           </div>
         </section>
 
+        {/* ================= VIDEO ================= */}
+        <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+          <VideoOptions />
+        </section>
+
         {/* ================= CONTENT STRATEGIES ================= */}
         <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
           <ContentTypes />
@@ -230,11 +222,11 @@ export default async function Home() {
           <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
             <div className="max-w-xl">
               <p className="eyebrow">{t.demo.eyebrow}</p>
-              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">Click any day.</h2>
-              <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
-                This is a genuine plan for a sample coffee brand, built by the same engine that runs
-                your account.
-              </p>
+              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">
+                {t.demo.h1}
+                <span className="grad-text-soft"> {t.demo.h2}</span>
+              </h2>
+              <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">{t.demo.sub}</p>
             </div>
             <div className="flex items-center gap-3 rounded-2xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3">
               <span className="h-9 w-9 rounded-xl bg-gradient-to-br from-[#E4732B] to-[#F2C14E]" />
@@ -265,6 +257,13 @@ export default async function Home() {
         <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <Languages />
+          </div>
+        </section>
+
+        {/* ================= MODELS ================= */}
+        <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <Models />
           </div>
         </section>
 

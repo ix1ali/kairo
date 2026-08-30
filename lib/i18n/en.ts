@@ -21,13 +21,13 @@ export const en = {
     line2: "Done in a minute.",
     sub: "Paste your store link. Kai learns your brand, writes a real marketing plan, and hands you 30 days of posts — designed, written and ready to publish.",
     placeholder: "yourstore.com",
-    cta: "Get my 30 days",
+    cta: "Build my content plan",
     hint: "Paste any store or product link — Kairo reads your brand and products automatically.",
     chipPosted: "Day 12 posted",
     chipPostedSub: "18 of 30 done",
     chipReady: "30 days ready",
     chipReadySub: "Strategy included",
-    ticker: "Every platform. Every kind of business.",
+    ticker: "Wherever you post. Whatever you sell.",
   },
 
   difference: {
@@ -149,6 +149,34 @@ export const en = {
     dialects: "dialects.",
     sub: "Pick a country, not just a language. Kuwaiti Arabic does not sell like Egyptian, and British English does not sell like American — so the copy is written the way people actually speak where you are.",
     more: "more, including Levantine, Darija, Rioplatense and Québécois.",
+  },
+
+models: {
+    eyebrow: "Model agnostic",
+    h1: "Bring the model you already pay for.",
+    sub: "Kairo is not tied to one provider. Plug in your own key and the engine routes to it — or run it with no key at all and the built-in strategy and design engines do the work.",
+    connected: "Connects directly today",
+    legend: "Connects directly today. The video models are reached through Higgsfield, which brokers them behind one key.",
+  },
+
+  wall: {
+    eyebrow: "The output",
+    h1: "Made without a camera.",
+    sub: "Product ads, campaign stills and UGC clips — every one of them generated. No studio booked, no shoot day, no agency retainer, no waiting two weeks for a first draft.",
+    footer: "Stills and video, in English and Arabic, across a dozen industries.",
+  },
+
+  video: {
+    eyebrow: "Video",
+    h1: "Your video, your way.",
+    sub: "Before a single frame is made, Kairo asks how you want it. Captions or clean? A voice or just music? A person on camera or the product alone? Nothing is assumed.",
+    asked: "Asked before anything is generated",
+    options: [
+      { label: "Captions", note: "Burned in, styled to your brand, in your language — or none at all." },
+      { label: "Voiceover", note: "A generated voice, your own recording, or music only." },
+      { label: "On camera", note: "A presenter holding the product, or product-only cinematic." },
+      { label: "Sound and pace", note: "Trending audio or a licensed track, cut to the beat you pick." },
+    ],
   },
 
   savings: {

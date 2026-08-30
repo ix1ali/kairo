@@ -3,7 +3,7 @@ import type { PackageDef } from "../plans";
 import { CATEGORIES, categoryNoun, resolveCategory } from "./categories";
 import { THEME_LAYOUTS } from "../projects";
 import { typesFor } from "./contentTypes";
-import { DEFAULT_GOAL, DEFAULT_MIX, getGoal, mixToFormats } from "./goals";
+import { DEFAULT_GOAL, DEFAULT_MIX, getGoal, mixToFormats, videoStyleNotes, type VideoStyle } from "./goals";
 import {
   DAY_RHYTHM,
   PILLARS,
@@ -405,7 +405,14 @@ function buildCaption(
   return frameworks[pillar]().replace(/\n{3,}/g, "\n\n").trim();
 }
 
-function buildVideoScript(rng: Rng, pillar: PillarKey, t: TokenBag, playbook: (typeof CATEGORIES)[string], hook: string) {
+function buildVideoScript(
+  rng: Rng,
+  pillar: PillarKey,
+  t: TokenBag,
+  playbook: (typeof CATEGORIES)[string],
+  hook: string,
+  style?: VideoStyle
+) {
   const idea = pick(rng, playbook.videoIdeas);
   return [
     `CONCEPT: ${idea}`,
@@ -417,8 +424,7 @@ function buildVideoScript(rng: Rng, pillar: PillarKey, t: TokenBag, playbook: (t
     `20–26s    PAYOFF: the result, clean and well lit.`,
     `26–30s    CTA: "${fill(pick(rng, playbook.ctas), t)}" — text on screen, hold 2s.`,
     "",
-    `SOUND: trending audio at low volume under a clean voiceover. Cut on the beat at 4s and 12s.`,
-    `CAPTIONS: burned in, high contrast, max 4 words per line.`,
+    ...videoStyleNotes(style),
     `LOOP: final frame should visually match the first frame so it loops seamlessly.`,
   ].join("\n");
 }
@@ -569,7 +575,7 @@ export function buildCalendar(
 
         const visualDirection = isVideo
           ? [
-              buildVideoScript(rng, pillar, t, playbook, hook),
+              buildVideoScript(rng, pillar, t, playbook, hook, project.videoStyle as VideoStyle),
               "",
               `FORMAT: ${contentType.name}`,
               contentType.production,
@@ -614,6 +620,7 @@ export function buildCalendar(
           metrics: null,
           revisions: [],
           assetUrl: null,
+          styleRef: null,
         });
       }
     }

@@ -129,6 +129,7 @@ export const CREDIT_COSTS = {
   regenerateDay: 6,
   regenerateVideo: 20,
   regenerateWeek: 25,
+  recreateReference: 8,
 } as const;
 
 export const CREDIT_ACTIONS: { key: keyof typeof CREDIT_COSTS; label: string; description: string }[] = [
@@ -138,4 +139,5 @@ export const CREDIT_ACTIONS: { key: keyof typeof CREDIT_COSTS; label: string; de
   { key: "regenerateDay", label: "Regenerate whole day", description: "Fresh visual and copy end to end." },
   { key: "regenerateVideo", label: "Regenerate video", description: "New script, storyboard and render." },
   { key: "regenerateWeek", label: "Regenerate a week", description: "Rebuild seven days around a new theme." },
+  { key: "recreateReference", label: "Recreate a reference", description: "Match the look of an image you like, in your brand." },
 ];

@@ -4,7 +4,7 @@ import { getPackage } from "@/lib/plans";
 import { DEFAULT_COLORS, VOICE_OPTIONS } from "@/lib/projects";
 import { buildCalendar, buildStrategy } from "@/lib/strategy/engine";
 import { localisePosts } from "@/lib/strategy/localise";
-import { DEFAULT_GOAL, DEFAULT_MIX } from "@/lib/strategy/goals";
+import { DEFAULT_GOAL, DEFAULT_MIX, DEFAULT_VIDEO_STYLE } from "@/lib/strategy/goals";
 import { DEFAULT_LOCALE, localeLabel } from "@/lib/languages";
 import { renderPosterSVG } from "@/lib/render/poster";
 import type { Post, Product, Project } from "@/lib/types";
@@ -60,6 +60,7 @@ export async function POST(req: Request) {
     goals: body.goals || [],
     goal: body.goal || DEFAULT_GOAL,
     contentMix: body.contentMix || { ...DEFAULT_MIX },
+    videoStyle: body.videoStyle || { ...DEFAULT_VIDEO_STYLE },
     competitorsInput: body.competitorsInput || "",
     competitorProfiles: body.competitorProfiles || [],
     strategy: null,

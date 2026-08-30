@@ -15,6 +15,7 @@ const MODE_FOR: Record<Action, "caption" | "angle" | "visual" | "full"> = {
   regenerateDay: "full",
   regenerateVideo: "full",
   regenerateWeek: "full",
+  recreateReference: "visual",
 };
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -40,6 +41,17 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   }
 
   const prompt = String(body.prompt || "");
+
+  // A reference palette comes from the browser, which samples the image the
+  // user picked. We never receive or store the image itself.
+  const palette = Array.isArray(body.palette)
+    ? (body.palette as unknown[])
+        .filter((c): c is string => typeof c === "string" && /^#[0-9a-f]{6}$/i.test(c))
+        .slice(0, 5)
+    : [];
+  if (action === "recreateReference" && palette.length < 2) {
+    return fail("Pick a reference image first.");
+  }
   const patch = regenerateSinglePost(
     project,
     project.strategy,
@@ -52,7 +64,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   // If an image provider is configured, render real artwork; otherwise the
   // built-in SVG engine keeps serving the visual.
   let assetUrl: string | null = post.assetUrl;
-  if (action === "redesignVisual" || action === "regenerateDay") {
+  if (action === "redesignVisual" || action === "regenerateDay" || action === "recreateReference") {
     const vertical = post.format === "reel" || post.format === "video" || post.format === "story";
     const image = await generateImage({
       prompt: String(patch.visualPrompt || post.visualPrompt),
@@ -77,6 +89,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     const target = d.posts.find((p) => p.id === id)!;
     Object.assign(target, patch);
     target.assetUrl = assetUrl;
+    if (action === "recreateReference") {
+      target.styleRef = { colors: palette, note: prompt || "Matched to a reference image" };
+    }
     target.revisions = [
       ...target.revisions,
       { at: new Date().toISOString(), prompt: prompt || `(${action})`, creditsSpent: cost },

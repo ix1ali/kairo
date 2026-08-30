@@ -1,10 +1,61 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Post } from "@/lib/types";
 import { PILLAR_COLOR, PILLAR_LABEL, STATUS_STYLE } from "@/components/PillarStyles";
 import { Icon } from "@/components/icons/Ui";
 import { PlatformIcon } from "@/components/icons/Social";
+
+/**
+ * Samples a reference image in the browser and returns its dominant colours.
+ * The image never leaves the device — only the palette is sent.
+ */
+async function samplePalette(file: File): Promise<string[]> {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const el = new Image();
+      el.onload = () => resolve(el);
+      el.onerror = reject;
+      el.src = url;
+    });
+    const size = 64;
+    const canvas = document.createElement("canvas");
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return [];
+    ctx.drawImage(img, 0, 0, size, size);
+    const { data } = ctx.getImageData(0, 0, size, size);
+
+    const buckets = new Map<string, { n: number; r: number; g: number; b: number }>();
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i + 3] < 200) continue;
+      const r = data[i], g = data[i + 1], b = data[i + 2];
+      const key = [r >> 5, g >> 5, b >> 5].join(",");
+      const cur = buckets.get(key) || { n: 0, r: 0, g: 0, b: 0 };
+      buckets.set(key, { n: cur.n + 1, r: cur.r + r, g: cur.g + g, b: cur.b + b });
+    }
+
+    const hex = (n: number) => n.toString(16).padStart(2, "0");
+    const sorted = [...buckets.values()]
+      .map((v) => ({ n: v.n, r: Math.round(v.r / v.n), g: Math.round(v.g / v.n), b: Math.round(v.b / v.n) }))
+      .sort((a, b) => b.n - a.n);
+
+    const vivid = sorted.filter((c) => {
+      const max = Math.max(c.r, c.g, c.b), min = Math.min(c.r, c.g, c.b);
+      return max > 40 && max - min > 18;
+    });
+    const dark = [...sorted].sort((a, b) => a.r + a.g + a.b - (b.r + b.g + b.b))[0];
+
+    const out = [...vivid.slice(0, 2), dark].filter(Boolean);
+    return out.map((c) => `#${hex(c.r)}${hex(c.g)}${hex(c.b)}`);
+  } catch {
+    return [];
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
 
 const ACTIONS = [
   { key: "rewriteCaption", label: "Just the caption", cost: 1 },
@@ -43,6 +94,9 @@ export default function PostDrawer({
   const [rating, setRating] = useState(post.feedback?.rating || 0);
   const [note, setNote] = useState(post.feedback?.note || "");
   const [showDetail, setShowDetail] = useState(false);
+  const [refPalette, setRefPalette] = useState<string[]>([]);
+  const [refName, setRefName] = useState("");
+  const refInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setHook(post.hook);
@@ -70,6 +124,29 @@ export default function PostDrawer({
     const data = await res.json().catch(() => ({}));
     setSaving(false);
     if (res.ok && data.post) onUpdated(data.post);
+  }
+
+  async function applyReference() {
+    if (refPalette.length < 2) return;
+    setRegenBusy(true);
+    setRegenError("");
+    const res = await fetch(`/api/posts/${post.id}/regenerate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "recreateReference", prompt, palette: refPalette }),
+    });
+    const data = await res.json().catch(() => ({}));
+    setRegenBusy(false);
+    if (!res.ok) {
+      setRegenError(data.error || "Could not apply the reference.");
+      return;
+    }
+    onUpdated(data.post);
+    onCredits(data.credits);
+    setRefPalette([]);
+    setRefName("");
+    setPrompt("");
+    setBust(Date.now());
   }
 
   async function regenerate() {
@@ -321,6 +398,59 @@ export default function PostDrawer({
                   onChange={(e) => setPrompt(e.target.value)}
                   placeholder="Tell Kai what is wrong. e.g. too salesy, make the product bigger, warmer colours."
                 />
+
+                <div className="rounded-xl border border-[#22D3EE]/25 bg-[#22D3EE]/[0.05] p-3">
+                  <p className="mb-1.5 flex items-center gap-1.5 text-[12.5px] font-semibold text-[#7DE7F7]">
+                    <Icon name="palette" size={13} />
+                    Match a reference you like
+                  </p>
+                  <input
+                    ref={refInput}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const f = e.target.files?.[0];
+                      if (!f) return;
+                      setRefName(f.name);
+                      setRefPalette(await samplePalette(f));
+                    }}
+                  />
+                  <div className="flex items-center gap-2">
+                    <button className="btn btn-ghost btn-sm" onClick={() => refInput.current?.click()}>
+                      <Icon name="upload" size={13} />
+                      {refPalette.length ? "Change image" : "Pick an image"}
+                    </button>
+                    {refPalette.length > 0 && (
+                      <span className="flex gap-1">
+                        {refPalette.map((c) => (
+                          <span
+                            key={c}
+                            className="h-6 w-6 rounded-md border border-white/15"
+                            style={{ background: c }}
+                            title={c}
+                          />
+                        ))}
+                      </span>
+                    )}
+                  </div>
+                  {refName && (
+                    <p className="mt-1.5 truncate text-[11px] text-[#5B5B70]">{refName}</p>
+                  )}
+                  <p className="mt-2 text-[11px] leading-relaxed text-[#5B5B70]">
+                    The image stays on your device — Kairo reads its palette and rebuilds this post
+                    in those colours, with your brand and product.
+                  </p>
+                  {refPalette.length >= 2 && (
+                    <button
+                      className="btn btn-ghost btn-sm mt-2.5 w-full"
+                      disabled={regenBusy || credits < 8}
+                      onClick={applyReference}
+                    >
+                      {regenBusy ? "Rebuilding…" : credits < 8 ? "Needs 8 credits" : "Recreate in this style · 8 credits"}
+                    </button>
+                  )}
+                </div>
 
                 {regenError && <p className="text-[12px] text-[#FFA7BB]">{regenError}</p>}
 

@@ -7,7 +7,17 @@ import Koala from "@/components/Koala";
 import { PlatformIcon } from "@/components/icons/Social";
 import LocalePicker from "./LocalePicker";
 import { DEFAULT_LOCALE, getLocale } from "@/lib/languages";
-import { CONTENT_KINDS, DEFAULT_GOAL, DEFAULT_MIX, GOALS, getGoal, type ContentMix } from "@/lib/strategy/goals";
+import {
+  CONTENT_KINDS,
+  DEFAULT_GOAL,
+  DEFAULT_MIX,
+  DEFAULT_VIDEO_STYLE,
+  GOALS,
+  VIDEO_PREFS,
+  getGoal,
+  type ContentMix,
+  type VideoStyle,
+} from "@/lib/strategy/goals";
 
 export interface WizardOptions {
   categories: { key: string; label: string }[];
@@ -91,6 +101,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
   const [competitorsInput, setCompetitorsInput] = useState("");
   const [goal, setGoal] = useState(DEFAULT_GOAL);
   const [contentMix, setContentMix] = useState<ContentMix>({ ...DEFAULT_MIX });
+  const [videoStyle, setVideoStyle] = useState<VideoStyle>({ ...DEFAULT_VIDEO_STYLE });
   const [rivals, setRivals] = useState<{ name: string; website: string; instagram: string; tiktok: string; note?: string }[]>([]);
   const [rivalUrl, setRivalUrl] = useState("");
   const [rivalBusy, setRivalBusy] = useState(false);
@@ -263,7 +274,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
       name, tagline, category, description, website, logoUrl, images,
       brandTheme, colors, voice, locale, audience, market, platforms,
       socials: socials.filter((s) => s.url.trim()),
-      goals, goal, contentMix, competitorsInput,
+      goals, goal, contentMix, videoStyle, competitorsInput,
       competitorProfiles: rivals.filter((r) => r.name.trim()),
       products: products.filter((p) => p.name.trim()),
     };
@@ -785,6 +796,53 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
               </p>
             )}
 
+            {contentMix.video && (
+              <div className="rounded-2xl border border-[#FF6B8A]/25 bg-[#FF6B8A]/[0.05] p-4">
+                <p className="mb-1 flex items-center gap-2 text-[14px] font-semibold text-white">
+                  <Icon name="video" size={15} className="text-[#FF6B8A]" />
+                  How should the videos be made?
+                </p>
+                <p className="mb-4 text-[12.5px] text-[#7C7C90]">
+                  Asked now so no script is written the wrong way round.
+                </p>
+
+                <div className="space-y-3.5">
+                  {VIDEO_PREFS.map((pref) => (
+                    <div key={pref.key}>
+                      <p className="mb-1.5 flex items-center gap-1.5 text-[12px] font-semibold text-[#9B9BAE]">
+                        <span style={{ color: pref.accent }}>
+                          <Icon name={pref.icon} size={12} />
+                        </span>
+                        {pref.label}
+                      </p>
+                      <div className="grid gap-1.5 sm:grid-cols-3">
+                        {pref.choices.map((c) => {
+                          const on = videoStyle[pref.key] === c.value;
+                          return (
+                            <button
+                              key={c.value}
+                              onClick={() => setVideoStyle((v) => ({ ...v, [pref.key]: c.value }))}
+                              className={`rounded-xl border px-3 py-2 text-left transition-colors ${
+                                on ? "" : "border-[#1E1E28] bg-white/[0.02] hover:border-[#33333F]"
+                              }`}
+                              style={
+                                on
+                                  ? { borderColor: `${pref.accent}66`, background: `${pref.accent}16` }
+                                  : undefined
+                              }
+                            >
+                              <span className="block text-[12.5px] font-medium text-white">{c.label}</span>
+                              <span className="block text-[10.5px] leading-snug text-[#6C6C80]">{c.note}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div>
               <label className="label">Where are you most active?</label>
               <p className="mb-2.5 text-[12px] text-[#5B5B70]">
@@ -1235,6 +1293,9 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                 ["Goal", getGoal(goal).label],
                 ["Content", CONTENT_KINDS.filter((k) => contentMix[k.key]).map((k) => k.short).join(", ") || "none"],
                 ["Competitors", rivals.length ? `${rivals.length} analysed` : "none added"],
+                ...(contentMix.video
+                  ? [["Video style", `${videoStyle.talent}, ${videoStyle.voice} voice, ${videoStyle.captions} captions`] as [string, string]]
+                  : []),
                 ["Brand", name || "—"],
                 ["Category", options.categories.find((c) => c.key === category)?.label || category],
                 ["Voice", voice],

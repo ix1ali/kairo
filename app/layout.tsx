@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Sora } from "next/font/google";
+import { Inter, Sora, IBM_Plex_Sans_Arabic } from "next/font/google";
 import "./globals.css";
 import { dict } from "@/lib/i18n";
 import { getLang } from "@/lib/i18n/server";
@@ -8,6 +8,13 @@ import { LangProvider } from "@/components/LangProvider";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const plexArabic = IBM_Plex_Sans_Arabic({
+  subsets: ["arabic"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-arabic",
   display: "swap",
 });
 
@@ -52,7 +59,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const d = dict(lang);
 
   return (
-    <html lang={lang} dir={d.dir} className={`${inter.variable} ${sora.variable}`}>
+    <html lang={lang} dir={d.dir} className={`${inter.variable} ${sora.variable} ${plexArabic.variable}`}>
       <body className="antialiased">
         <LangProvider lang={lang}>{children}</LangProvider>
       </body>
