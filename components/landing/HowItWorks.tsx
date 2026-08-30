@@ -151,7 +151,7 @@ export default async function HowItWorks() {
       {/* start-* follows the writing direction, so the line stays with the icons in RTL */}
       <div className="absolute start-[27px] top-4 bottom-16 hidden w-px bg-gradient-to-b from-[#6D4DF6] via-[#6D4DF6]/40 to-[#0284C7]/50 md:block" />
 
-      <div className="space-y-12 md:space-y-16">
+      <div className="space-y-9 md:space-y-11">
         {STEPS.map((s) => (
           <div key={s.n} className="grid items-center gap-6 md:grid-cols-[56px_1fr_1fr] md:gap-10">
             <div className="hidden md:block">

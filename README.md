@@ -153,6 +153,40 @@ and nothing else needs to change.
 
 ---
 
+## Deploying to Vercel
+
+The site builds and renders on Vercel as-is, but **accounts will not work there
+yet**, and it is worth being precise about why rather than discovering it after
+the first signup.
+
+Two things in this app write to disk:
+
+- `lib/db.ts` keeps everything — users, projects, posts, transactions — in
+  `data/db.json`.
+- `lib/storage.ts` writes uploaded logos and generated artwork into
+  `public/uploads`.
+
+Vercel's filesystem is read-only apart from `/tmp`, and `/tmp` is not shared
+between invocations. A logo written while a brand is being imported would be
+gone by the next request, and the first signup would fail outright.
+
+Every file write already goes through `putPublicFile` in `lib/storage.ts`, and
+every read and write of application data goes through `read`/`write`/`mutate`
+in `lib/db.ts`. Those are the only two seams that need a driver, so the move is
+contained.
+
+**What to provision** (run `/marketplace` in Claude Code, which handles the
+account, the environment variables and the local `.env` pull):
+
+1. **A database** for the four collections in `DBShape`. Any Postgres on the
+   Vercel marketplace is fine; the data is small and relational.
+2. **A blob store** for uploads, then set `BLOB_READ_WRITE_TOKEN`.
+   `storageDriver()` switches on that variable being present.
+
+Until both exist, `putPublicFile` throws `StorageUnavailableError` and the
+upload routes answer `503` with a message saying what is missing, rather than
+failing silently or writing somewhere that will vanish.
+
 ## Optional AI providers
 
 Copy `.env.example` to `.env.local` and add any of:

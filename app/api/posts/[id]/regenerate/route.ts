@@ -1,10 +1,9 @@
-import fs from "fs";
-import path from "path";
 import { fail, json, requireUser } from "@/lib/api";
 import { mutate, read, uid } from "@/lib/db";
 import { CREDIT_COSTS, getPackage } from "@/lib/plans";
 import { regenerateSinglePost } from "@/lib/strategy/engine";
 import { generateImage } from "@/lib/ai";
+import { putPublicFile, StorageUnavailableError } from "@/lib/storage";
 
 type Action = keyof typeof CREDIT_COSTS;
 
@@ -74,11 +73,12 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       const [, meta, b64] = image.match(/^data:([^;]+);base64,(.*)$/) || [];
       if (b64) {
         const ext = meta?.includes("jpeg") ? "jpg" : "png";
-        const file = `gen_${uid()}.${ext}`;
-        const dir = path.join(process.cwd(), "public", "uploads");
-        fs.mkdirSync(dir, { recursive: true });
-        fs.writeFileSync(path.join(dir, file), Buffer.from(b64, "base64"));
-        assetUrl = `/uploads/${file}`;
+        try {
+          assetUrl = await putPublicFile(`gen_${uid()}.${ext}`, Buffer.from(b64, "base64"));
+        } catch (err) {
+          if (err instanceof StorageUnavailableError) return fail(err.message, 503);
+          throw err;
+        }
       }
     } else if (image) {
       assetUrl = image;

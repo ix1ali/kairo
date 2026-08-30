@@ -1,7 +1,6 @@
-import fs from "fs";
-import path from "path";
 import { fail, json, requireUser } from "@/lib/api";
 import { uid } from "@/lib/db";
+import { putPublicFile } from "@/lib/storage";
 import { resolveCategory } from "@/lib/strategy/categories";
 
 /**
@@ -158,11 +157,7 @@ async function saveRemoteLogo(url: string): Promise<string | null> {
     if (!ext) return null;
     const buf = Buffer.from(await res.arrayBuffer());
     if (!buf.length || buf.length > 3 * 1024 * 1024) return null;
-    const name = `logo_${uid()}.${ext}`;
-    const dir = path.join(process.cwd(), "public", "uploads");
-    fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, name), buf);
-    return `/uploads/${name}`;
+    return await putPublicFile(`logo_${uid()}.${ext}`, buf);
   } catch {
     return null;
   }

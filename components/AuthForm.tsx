@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Logo } from "@/components/Logo";
+import type { User } from "@/lib/types";
 
 export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
   const router = useRouter();
@@ -29,13 +30,36 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(isSignup ? { name, email, password } : { email, password }),
       });
-      const data = await res.json();
+
+      // Read as text first. A server that fell over answers with an HTML error
+      // page, and calling res.json() on that throws — which used to surface as
+      // "Network error" and sent people hunting for a connection problem that
+      // was not there.
+      const raw = await res.text();
+      let data: { error?: string; user?: User } = {};
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        setError(
+          res.ok
+            ? "The server sent something unexpected. Reload the page and try again."
+            : `The server returned an error (${res.status}). Try again in a moment.`
+        );
+        setBusy(false);
+        return;
+      }
+
       if (!res.ok) {
-        setError(data.error || "Something went wrong.");
+        setError(data.error || `Something went wrong (${res.status}).`);
         setBusy(false);
         return;
       }
       const user = data.user;
+      if (!user) {
+        setError("The server did not return an account. Try again.");
+        setBusy(false);
+        return;
+      }
       const qs = new URLSearchParams();
       if (plan) qs.set("plan", plan);
       if (seedUrl) qs.set("url", seedUrl);
@@ -47,7 +71,8 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
       }
       router.refresh();
     } catch {
-      setError("Network error. Try again.");
+      // Only a genuine transport failure reaches here now.
+      setError("Could not reach the server. Check your connection and try again.");
       setBusy(false);
     }
   }
@@ -67,7 +92,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
           <p className="mt-1.5 text-sm text-[#6B6678]">
             {isSignup
               ? "Set up your brand and get thirty days of content."
-              : "Sign in to your calendar and projects."}
+              : "Log in to your calendar and projects."}
           </p>
 
           <form onSubmit={submit} className="mt-6 space-y-4">
@@ -128,7 +153,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
             )}
 
             <button type="submit" className="btn btn-primary w-full py-3" disabled={busy}>
-              {busy ? "One moment…" : isSignup ? "Create account" : "Sign in"}
+              {busy ? "One moment…" : isSignup ? "Create account" : "Log in"}
             </button>
           </form>
 
@@ -138,7 +163,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
               href={isSignup ? "/login" : `/signup${plan ? `?plan=${plan}` : ""}`}
               className="font-semibold text-[#6D4DF6] hover:text-[#5B3FE0]"
             >
-              {isSignup ? "Sign in" : "Create an account"}
+              {isSignup ? "Log in" : "Create an account"}
             </Link>
           </p>
         </div>

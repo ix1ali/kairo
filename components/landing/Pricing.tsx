@@ -21,79 +21,108 @@ function Check({ dim = false }: { dim?: boolean }) {
 export async function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: string }) {
   const t = dict(await getLang()).pricing;
   return (
-    <div className="grid gap-4 sm:gap-5 lg:grid-cols-3">
-      {PACKAGES.map((pkg) => {
-        const featured = pkg.highlight;
-        return (
-          <div
-            key={pkg.id}
-            className={`relative flex flex-col rounded-3xl p-5 transition-transform duration-300 sm:p-7 ${
-              featured
-                ? "border border-[#6D4DF6]/45 bg-gradient-to-b from-[#F1EDFC] to-[#FFFFFF] shadow-[0_30px_90px_-30px_rgba(124,92,255,0.55)] lg:-translate-y-3"
-                : "border border-[#E6E2DC] bg-white"
-            }`}
-          >
-            {featured && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#6D4DF6] to-[#0284C7] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
-                {t.popular}
-              </span>
-            )}
-
-            <h3 className="display text-2xl">{pkg.name}</h3>
-            <p className="mt-1.5 min-h-[42px] text-sm leading-relaxed text-[#615D70]">{pkg.tagline}</p>
-
-            <div className="mt-5 flex items-baseline gap-1 sm:mt-6">
-              <span className="display text-[2.75rem] sm:text-5xl">${pkg.price}</span>
-              <span className="text-sm text-[#6E697E]">{t.month}</span>
-            </div>
-
-            <div className="mt-5 grid grid-cols-3 gap-2 rounded-xl border border-[#E6E2DC] bg-[#F3F1EE] p-3 text-center">
-              <div>
-                <p className="display text-lg">{pkg.totalPosts}</p>
-                <p className="text-[10px] uppercase tracking-wider text-[#6E697E]">{t.posts}</p>
-              </div>
-              <div className="border-x border-[#EDEAE4]">
-                <p className="display text-lg text-[#0369A1]">{pkg.videosPerMonth}</p>
-                <p className="text-[10px] uppercase tracking-wider text-[#6E697E]">{t.videos}</p>
-              </div>
-              <div>
-                <p className="display text-lg">{pkg.credits}</p>
-                <p className="text-[10px] uppercase tracking-wider text-[#6E697E]">{t.credits}</p>
-              </div>
-            </div>
-
-            <p className="mt-2.5 flex items-center justify-center gap-1.5 text-[11.5px] text-[#6E697E]">
-              <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" className="text-[#0369A1]">
-                <path d="M3 1.6 10 6l-7 4.4V1.6Z" />
-              </svg>
-              {t.videoNote.replace("{n}", String(pkg.videoEveryNDays))}
-            </p>
-
-            <Link
-              href={`${ctaPrefix}?plan=${pkg.id}`}
-              className={`btn mt-5 w-full ${featured ? "btn-primary" : "btn-ghost"}`}
+    <div>
+      {/* Three across at every width. On a phone that means the cards have to
+          earn their space: the tagline, the feature list and the "best for"
+          line are desktop-only, and the numbers stack instead of sitting in a
+          row. Comparing plans side by side beats scrolling past three tall
+          cards, which is what stacking produced. */}
+      <div className="grid grid-cols-3 gap-2 sm:gap-4 lg:gap-5">
+        {PACKAGES.map((pkg) => {
+          const featured = pkg.highlight;
+          return (
+            <div
+              key={pkg.id}
+              className={`relative flex flex-col rounded-2xl p-2.5 transition-transform duration-300 sm:rounded-3xl sm:p-5 lg:p-7 ${
+                featured
+                  ? "border border-[#6D4DF6]/45 bg-gradient-to-b from-[#F1EDFC] to-[#FFFFFF] shadow-[0_30px_90px_-30px_rgba(124,92,255,0.45)] lg:-translate-y-3"
+                  : "border border-[#E6E2DC] bg-white"
+              }`}
             >
-              {t.startWith} {pkg.name}
-            </Link>
-            <p className="mt-2 text-center text-[11px] text-[#6E697E]">
-              {t.billed}
-            </p>
+              {featured && (
+                <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-[#6D4DF6] to-[#0284C7] px-2 py-0.5 text-[8.5px] font-bold uppercase tracking-wider text-white sm:-top-3 sm:px-3 sm:py-1 sm:text-[10px] sm:tracking-widest">
+                  {t.popular}
+                </span>
+              )}
 
-            <ul className="mt-6 space-y-2.5 border-t border-[#EDEAE4] pt-6">
-              {pkg.features.map((f) => (
-                <li key={f} className="flex gap-2.5 text-[13px] leading-relaxed text-[#615D70]">
-                  <Check dim={f.endsWith("plus:")} />
-                  <span className={f.endsWith("plus:") ? "font-semibold text-[#6E697E]" : ""}>{f}</span>
-                </li>
-              ))}
-            </ul>
+              <h3 className="display mt-1.5 text-[15px] sm:mt-0 sm:text-2xl">{pkg.name}</h3>
+              <p className="mt-1.5 hidden text-sm leading-relaxed text-[#615D70] sm:block sm:min-h-[42px]">
+                {pkg.tagline}
+              </p>
 
-            <p className="mt-6 text-[11px] leading-relaxed text-[#6E697E]">
-              <span className="font-semibold text-[#6E697E]">{t.bestFor}</span> {pkg.bestFor}
-            </p>
-          </div>
-        );
-      })}
+              <div className="mt-2 flex items-baseline gap-0.5 sm:mt-5 sm:gap-1 lg:mt-6">
+                <span className="display text-[1.4rem] sm:text-[2.75rem] lg:text-5xl">${pkg.price}</span>
+                <span className="text-[9.5px] text-[#6E697E] sm:hidden">{t.monthShort}</span>
+                <span className="hidden text-sm text-[#6E697E] sm:inline">{t.month}</span>
+              </div>
+
+              {/* stacked on a phone, a row from sm up */}
+              <div className="mt-2.5 space-y-1 rounded-lg border border-[#E6E2DC] bg-[#F3F1EE] p-2 sm:mt-5 sm:grid sm:grid-cols-3 sm:gap-2 sm:space-y-0 sm:rounded-xl sm:p-3 sm:text-center">
+                <div className="flex items-baseline justify-between gap-1 sm:block">
+                  <p className="display shrink-0 text-[13px] sm:text-lg">{pkg.totalPosts}</p>
+                  <p className="min-w-0 truncate text-[7.5px] uppercase tracking-normal text-[#6E697E] sm:text-[10px] sm:tracking-wider">
+                    {t.posts}
+                  </p>
+                </div>
+                <div className="flex items-baseline justify-between gap-1 sm:block sm:border-x sm:border-[#EDEAE4]">
+                  <p className="display shrink-0 text-[13px] text-[#0369A1] sm:text-lg">
+                    {pkg.videosPerMonth}
+                  </p>
+                  <p className="min-w-0 truncate text-[7.5px] uppercase tracking-normal text-[#6E697E] sm:text-[10px] sm:tracking-wider">
+                    {t.videos}
+                  </p>
+                </div>
+                <div className="flex items-baseline justify-between gap-1 sm:block">
+                  <p className="display shrink-0 text-[13px] sm:text-lg">{pkg.credits}</p>
+                  <p className="min-w-0 truncate text-[7.5px] uppercase tracking-normal text-[#6E697E] sm:text-[10px] sm:tracking-wider">
+                    {t.credits}
+                  </p>
+                </div>
+              </div>
+
+              <p className="mt-2 hidden items-center justify-center gap-1.5 text-[11.5px] text-[#6E697E] sm:flex">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" className="text-[#0369A1]">
+                  <path d="M3 1.6 10 6l-7 4.4V1.6Z" />
+                </svg>
+                {t.videoNote.replace("{n}", String(pkg.videoEveryNDays))}
+              </p>
+
+              <Link
+                href={`${ctaPrefix}?plan=${pkg.id}`}
+                className={`btn mt-2.5 w-full px-1 py-2 text-[11.5px] sm:mt-5 sm:px-4 sm:py-2.5 sm:text-[15px] ${
+                  featured ? "btn-primary" : "btn-ghost"
+                }`}
+              >
+                <span className="sm:hidden">{t.choose}</span>
+                <span className="hidden sm:inline">
+                  {t.startWith} {pkg.name}
+                </span>
+              </Link>
+              <p className="mt-2 hidden text-center text-[11px] text-[#6E697E] sm:block">{t.billed}</p>
+
+              <ul className="mt-6 hidden space-y-2.5 border-t border-[#EDEAE4] pt-6 sm:block">
+                {pkg.features.map((f) => (
+                  <li key={f} className="flex gap-2.5 text-[13px] leading-relaxed text-[#615D70]">
+                    <Check dim={f.endsWith("plus:")} />
+                    <span className={f.endsWith("plus:") ? "font-semibold text-[#6E697E]" : ""}>{f}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="mt-6 hidden text-[11px] leading-relaxed text-[#6E697E] sm:block">
+                <span className="font-semibold text-[#6E697E]">{t.bestFor}</span> {pkg.bestFor}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* the detail the phone layout drops, one tap away */}
+      <p className="mt-4 text-center sm:hidden">
+        <Link href="/pricing" className="text-[12.5px] font-semibold text-[#6D4DF6]">
+          {t.compare} →
+        </Link>
+      </p>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import { Icon, type IconName } from "@/components/icons/Ui";
 import { SectionHead } from "./Section";
 import { dict } from "@/lib/i18n";
 import { getLang } from "@/lib/i18n/server";
@@ -177,12 +176,6 @@ const JOB_COLOR: Record<Mark["job"], string> = {
 
 export default async function Models() {
   const t = dict(await getLang()).models;
-  const assurances: { icon: IconName; title: string; body: string }[] = [
-    { icon: "lock", title: t.a1, body: t.a1sub },
-    { icon: "shuffle", title: t.a2, body: t.a2sub },
-    { icon: "checkCircle", title: t.a3, body: t.a3sub },
-  ];
-
   return (
     <div>
       <SectionHead eyebrow={t.eyebrow} title={t.h1} sub={t.sub} />
@@ -217,20 +210,6 @@ export default async function Models() {
         ))}
       </div>
 
-      <div className="mt-10 grid gap-3 sm:grid-cols-3">
-        {assurances.map((a) => (
-          <div
-            key={a.title}
-            className="rounded-2xl border border-[#E6E2DC] bg-white p-5 text-center sm:p-6"
-          >
-            <span className="mx-auto mb-3.5 grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-[#6D4DF6]/25 to-[#0284C7]/12 text-[#6D4DF6]">
-              <Icon name={a.icon} size={18} />
-            </span>
-            <p className="text-[14.5px] font-semibold text-[#141220]">{a.title}</p>
-            <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#6B6678]">{a.body}</p>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

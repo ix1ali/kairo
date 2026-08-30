@@ -21,9 +21,9 @@ const still = (n: number) => `/assets/creatives/c${String(n).padStart(2, "0")}.w
  */
 export const VIDEO_ROWS = [
   // UGC and beauty — a face or a pair of hands in almost every frame
-  [3, 13, 12, 14, 22, 6, 2, 5, 11].map(clip),
+  [3, 13, 12, 14, 22, 6, 2, 5].map(clip),
   // product and food — cinematic still life, nobody in shot
-  [8, 7, 15, 9, 20, 21, 18, 19, 17, 4, 10, 16, 1].map(clip),
+  [8, 7, 15, 9, 20, 21, 18, 17, 4, 10, 16, 1].map(clip),
 ];
 
 /**

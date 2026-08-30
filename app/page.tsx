@@ -19,13 +19,11 @@ import ContentTypes from "@/components/landing/ContentTypes";
 import Languages from "@/components/landing/Languages";
 import Koala from "@/components/Koala";
 import { Section, SectionHead, GUTTER } from "@/components/landing/Section";
-import { Icon, type IconName } from "@/components/icons/Ui";
+import { Icon } from "@/components/icons/Ui";
 import { demoPlan } from "@/lib/demoSample";
 import { renderPosterSVG } from "@/lib/render/poster";
 import { dict } from "@/lib/i18n";
 import { getLang } from "@/lib/i18n/server";
-
-const POST_ICONS: IconName[] = ["image", "text", "hash", "clock", "target", "video"];
 
 export default async function Home() {
   const t = dict(await getLang());
@@ -49,12 +47,6 @@ export default async function Home() {
 
   const previews: Record<string, string> = {};
   for (const p of posts) previews[p.id] = renderPosterSVG(p, project, null);
-  // Keep the strip to one aspect ratio so the row reads as a single set.
-  const gallery = posts
-    .filter((p) => p.format !== "reel" && p.format !== "video" && p.format !== "story")
-    .filter((_, i) => i % 2 === 0)
-    .slice(0, 5);
-
   return (
     <>
       <Nav />
@@ -188,39 +180,18 @@ export default async function Home() {
           <ImageWall />
         </Section>
 
-        {/* ============ 7. IN EVERY POST ============ */}
+        {/* ============ 7. VIDEO, YOUR WAY ============ */}
         <Section>
-          <SectionHead eyebrow={t.everyPost.eyebrow} title={t.everyPost.h1} />
-          <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
-            {t.everyPost.items.map((item, i) => (
-              <div
-                key={item.title}
-                className="group rounded-2xl border border-[#E6E2DC] bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#C6B8F5] hover:bg-[#F3F1EE] sm:p-6"
-              >
-                <span className="mb-3.5 grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-[#6D4DF6]/25 to-[#0284C7]/12 text-[#6D4DF6] transition-transform duration-300 group-hover:scale-110 sm:mb-4 sm:h-11 sm:w-11">
-                  <Icon name={POST_ICONS[i]} size={19} />
-                </span>
-                <p className="display text-[17px] sm:text-lg">{item.title}</p>
-                <p className="mt-2 text-[13px] leading-relaxed text-[#6B6678] sm:text-[13.5px]">
-                  {item.body}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        {/* ============ 8. VIDEO, YOUR WAY ============ */}
-        <Section tone="raised">
           <VideoOptions />
         </Section>
 
-        {/* ============ 9. CONTENT STRATEGIES ============ */}
-        <Section>
+        {/* ============ 8. CONTENT STRATEGIES ============ */}
+        <Section tone="raised">
           <ContentTypes />
         </Section>
 
-        {/* ============ 10. LIVE DEMO ============ */}
-        <Section id="plan" tone="raised">
+        {/* ============ 9. LIVE DEMO ============ */}
+        <Section id="plan">
           <div className="mb-9 flex flex-wrap items-end justify-between gap-5 sm:mb-12">
             <SectionHead
               align="start"
@@ -245,38 +216,26 @@ export default async function Home() {
 
           <CalendarDemo posts={demoPosts} previews={previews} />
 
-          <div className="mt-9 sm:mt-10">
-            <p className="eyebrow mb-4">{t.demo.oneLook}</p>
-            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
-              {gallery.map((p) => (
-                <div
-                  key={p.id}
-                  className="overflow-hidden rounded-xl border border-[#E6E2DC] bg-[#F3F1EE] transition-transform duration-300 hover:-translate-y-1 hover:border-[#C6B8F5] [&>svg]:h-auto [&>svg]:w-full"
-                  dangerouslySetInnerHTML={{ __html: previews[p.id] }}
-                />
-              ))}
-            </div>
-          </div>
         </Section>
 
-        {/* ============ 11. LANGUAGES ============ */}
-        <Section>
+        {/* ============ 10. LANGUAGES ============ */}
+        <Section tone="raised">
           <Languages />
         </Section>
 
-        {/* ============ 12. THE MODELS ============ */}
-        <Section tone="raised">
+        {/* ============ 11. THE MODELS ============ */}
+        <Section>
           <Models />
         </Section>
 
-        {/* ============ 13. WHAT THIS REPLACES ============ */}
-        <Section>
+        {/* ============ 12. WHAT THIS REPLACES ============ */}
+        <Section tone="raised">
           <SectionHead eyebrow={t.savings.eyebrow} title={t.savings.h1} sub={t.savings.sub} />
           <Savings />
         </Section>
 
-        {/* ============ 14. PRICING ============ */}
-        <Section id="pricing" tone="raised">
+        {/* ============ 13. PRICING ============ */}
+        <Section id="pricing">
           <SectionHead eyebrow={t.pricing.eyebrow} title={t.pricing.h1} sub={t.pricing.sub} />
           <PricingCards />
           <p className="mt-8 text-center text-[13px] text-[#6E697E]">
@@ -287,14 +246,14 @@ export default async function Home() {
           </p>
         </Section>
 
-        {/* ============ 15. FAQ ============ */}
-        <Section id="faq">
+        {/* ============ 14. FAQ ============ */}
+        <Section id="faq" tone="raised">
           <SectionHead eyebrow={t.faq.eyebrow} title={t.faq.h1} />
           <FAQ />
         </Section>
 
-        {/* ============ 16. CTA ============ */}
-        <section className="relative overflow-hidden border-t border-[#E6E2DC] bg-[#F3F1EE] py-16 sm:py-24">
+        {/* ============ 15. CTA ============ */}
+        <section className="relative overflow-hidden py-16 sm:py-24">
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[24rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6D4DF6]/16 blur-[130px]" />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 text-center sm:px-6 lg:px-8">
             <Koala sizeClass="h-[120px] w-[120px] sm:h-[150px] sm:w-[150px]" mood="wow" />

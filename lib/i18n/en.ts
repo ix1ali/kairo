@@ -9,7 +9,7 @@ export const en = {
     dashboard: "Dashboard",
     pricing: "Pricing",
     faq: "FAQ",
-    signIn: "Sign in",
+    signIn: "Log in",
     getStarted: "Get started",
     menu: "Toggle menu",
     language: "Language",
@@ -229,6 +229,9 @@ models: {
   },
 
   pricing: {
+    monthShort: "/mo",
+    choose: "Choose",
+    compare: "Compare everything in each plan",
     videoNote: "A finished video every {n} days",
     eyebrow: "Pricing",
     h1: "Pick your posting volume.",
@@ -270,20 +273,8 @@ models: {
         a: "Yes. Edit any post directly, or rebuild it with a prompt using credits — rewrite the caption, ask for a different angle, redesign the visual, or regenerate the whole day.",
       },
       {
-        q: "What about slow-moving products?",
-        a: "You tag each product as a hero, a core line or a slow mover. Heroes anchor every recommendation; slow movers get deliberate rescue campaigns, usually in week three, aimed at the actual reason they are not selling.",
-      },
-      {
-        q: "Does it write in my language?",
-        a: "You pick a country, not just a language, so the copy lands in the dialect people actually speak there. Kuwaiti Arabic reads differently from Egyptian, and the calendar is written in whichever one you chose.",
-      },
-      {
         q: "Do I have to post it manually?",
         a: "Yes, for now. You download the asset and the caption and post it. The dashboard tracks what has gone out, what is due today and what is overdue.",
-      },
-      {
-        q: "Can I run more than one brand?",
-        a: "That is the point of projects. Each brand gets its own logo, colours, voice, products and calendar. Starter includes one, Growth three, Studio eight.",
       },
     ],
   },
@@ -307,7 +298,7 @@ models: {
     beauty: "Beauty & skincare",
     ecom: "Ecommerce brands",
     create: "Create account",
-    signIn: "Sign in",
+    signIn: "Log in",
     billing: "Billing",
     credits: "Credits",
     rights: "Built for brands that post with intent.",

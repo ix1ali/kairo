@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { VIDEO_ROWS } from "@/lib/media";
 import { useT } from "@/components/LangProvider";
 
@@ -92,14 +92,9 @@ function Row({
 
 export default function VideoWall() {
   const t = useT();
-  const [ready, setReady] = useState(false);
-
-  // The tracks are duplicated, so hold the animation until after hydration to
-  // avoid a visible jump as the second copy lays out.
-  useEffect(() => setReady(true), []);
 
   return (
-    <div className={ready ? "" : "opacity-0"}>
+    <div>
       <div className="flex flex-col gap-3 sm:gap-4">
         <Row items={VIDEO_ROWS[0]} label={t.wall.videoTag} seconds={64} />
         <Row items={VIDEO_ROWS[1]} label={t.wall.videoTag} seconds={86} reverse />

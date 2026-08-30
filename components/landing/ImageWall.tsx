@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { STILL_COLUMNS } from "@/lib/media";
 import { useT } from "@/components/LangProvider";
 
@@ -17,12 +16,9 @@ import { useT } from "@/components/LangProvider";
 
 export default function ImageWall() {
   const t = useT();
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => setReady(true), []);
 
   return (
-    <div className={ready ? "" : "opacity-0"}>
+    <div>
       <div className="marquee-mask marquee-hover overflow-hidden">
         <div
           className="marquee-track flex w-max gap-2.5 sm:gap-3"
