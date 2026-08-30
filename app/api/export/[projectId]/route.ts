@@ -86,7 +86,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ projectI
   // Calendar CSV
   const header = [
     "Day", "Date", "Time", "Platform", "Format", "Pillar", "Funnel", "Theme",
-    "Hook", "Caption", "Hashtags", "CTA", "Product", "Status",
+    "Content type", "Hook", "Caption", "Hashtags", "CTA", "Product", "Status",
   ];
   const rows = selected.map((p) =>
     [
@@ -98,6 +98,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ projectI
       p.pillar,
       p.funnel,
       p.theme,
+      p.contentTypeName || "",
       p.hook,
       p.caption,
       p.hashtags.map((h) => `#${h}`).join(" "),
@@ -120,6 +121,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ projectI
         data: [
           `${project.name} — Day ${post.day}, ${post.timeOfDay} (${post.platform}, ${post.format})`,
           `Theme: ${post.theme}  |  Pillar: ${post.pillar}  |  Funnel stage: ${post.funnel}`,
+          post.contentTypeName ? `Content type: ${post.contentTypeName} — ${post.contentWhy}` : "",
           post.productName ? `Product: ${post.productName}` : "",
           "",
           "--- CAPTION ---",

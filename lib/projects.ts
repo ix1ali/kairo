@@ -1,7 +1,11 @@
 import { mutate, read, uid } from "./db";
 import { getPackage } from "./plans";
 import { buildCalendar, buildStrategy } from "./strategy/engine";
+import { localisePosts } from "./strategy/localise";
 import type { Post, Product, Project, User } from "./types";
+import { DEFAULT_LOCALE, localeLabel } from "./languages";
+import { DEFAULT_GOAL, DEFAULT_MIX } from "./strategy/goals";
+import type { CompetitorProfile } from "./types";
 
 /**
  * Each theme is a constrained family of layouts. Restricting the pool is what
@@ -82,11 +86,15 @@ export interface ProjectInput {
   audience?: string;
   market?: string;
   language?: string;
+  locale?: string;
   socials?: { platform: string; url: string }[];
   platforms?: string[];
   products?: Partial<Product>[];
   goals?: string[];
+  goal?: string;
+  contentMix?: { static: boolean; carousel: boolean; video: boolean; story: boolean };
   competitorsInput?: string;
+  competitorProfiles?: CompetitorProfile[];
   startDate?: string;
 }
 
@@ -130,12 +138,16 @@ export function createProjectWithPlan(user: User, input: ProjectInput): Project 
     voice: input.voice || VOICE_OPTIONS[0],
     audience: (input.audience || "").trim(),
     market: (input.market || "").trim(),
-    language: input.language || "English",
+    locale: input.locale || DEFAULT_LOCALE,
+    language: localeLabel(input.locale || DEFAULT_LOCALE),
     socials: (input.socials || []).filter((s) => (s.url || "").trim()),
     platforms: input.platforms?.length ? input.platforms : ["instagram"],
     products: normaliseProducts(input.products),
     goals: input.goals || [],
+    goal: input.goal || DEFAULT_GOAL,
+    contentMix: input.contentMix || { ...DEFAULT_MIX },
     competitorsInput: (input.competitorsInput || "").trim(),
+    competitorProfiles: (input.competitorProfiles || []).filter((c) => (c.name || "").trim()),
     strategy: null,
     planStartDate: start.toISOString(),
     packageId: pkg.id,
@@ -210,4 +222,35 @@ export function projectStats(posts: Post[]) {
     0
   );
   return { total, posted, approved, drafts, videos, avgRating, reach, engagement };
+}
+
+
+/**
+ * Rewrites a freshly generated project into its target language and dialect.
+ * A no-op when the locale is English or no text provider is configured.
+ */
+export async function localiseProject(projectId: string): Promise<boolean> {
+  const db = read();
+  const project = db.projects.find((p) => p.id === projectId);
+  if (!project) return false;
+
+  const posts = db.posts.filter((p) => p.projectId === projectId);
+  if (!posts.length) return false;
+
+  const { posts: rewritten, localised } = await localisePosts(
+    posts.map((p) => ({ hook: p.hook, caption: p.caption, cta: p.cta })),
+    project.locale
+  );
+  if (!localised) return false;
+
+  mutate((d) => {
+    posts.forEach((p, i) => {
+      const target = d.posts.find((x) => x.id === p.id);
+      if (!target) return;
+      target.hook = rewritten[i].hook;
+      target.caption = rewritten[i].caption;
+      target.cta = rewritten[i].cta;
+    });
+  });
+  return true;
 }

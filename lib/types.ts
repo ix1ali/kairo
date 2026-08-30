@@ -42,6 +42,15 @@ export interface BrandColors {
   text: string;
 }
 
+export interface CompetitorProfile {
+  name: string;
+  website?: string;
+  instagram?: string;
+  tiktok?: string;
+  /** What Kairo could actually read from their public pages. */
+  note?: string;
+}
+
 export interface Competitor {
   name: string;
   archetype: string;
@@ -78,6 +87,8 @@ export interface Strategy {
   engine: string;
   positioning: string;
   oneLiner: string;
+  goal: string;
+  goalKpi: string;
   differentiators: string[];
   audienceSegments: AudienceSegment[];
   competitors: Competitor[];
@@ -114,6 +125,9 @@ export interface Post {
   cta: string;
   visualDirection: string;
   visualPrompt: string;
+  contentType: string;
+  contentTypeName: string;
+  contentWhy: string;
   productId: string | null;
   productName: string | null;
   layout: string;
@@ -143,9 +157,13 @@ export interface Project {
   language: string;
   socials: SocialLink[];
   platforms: string[];
+  locale: string;
   products: Product[];
   goals: string[];
+  goal: string;
+  contentMix: { static: boolean; carousel: boolean; video: boolean; story: boolean };
   competitorsInput: string;
+  competitorProfiles: CompetitorProfile[];
   strategy: Strategy | null;
   planStartDate: string | null;
   packageId: PackageId;

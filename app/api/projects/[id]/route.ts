@@ -1,6 +1,7 @@
 import { fail, json, requireUser } from "@/lib/api";
 import { mutate, read } from "@/lib/db";
 import { getProjectFor, projectStats, regeneratePlan } from "@/lib/projects";
+import { localeLabel } from "@/lib/languages";
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const auth = await requireUser();
@@ -23,8 +24,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
   const editable = [
     "name", "tagline", "category", "description", "website", "logoUrl", "images",
-    "brandTheme", "colors", "voice", "audience", "market", "language", "socials",
-    "platforms", "products", "goals", "competitorsInput",
+    "brandTheme", "colors", "voice", "audience", "market", "language", "locale", "socials",
+    "platforms", "products", "goals", "goal", "contentMix", "competitorsInput", "competitorProfiles",
   ];
 
   mutate((d) => {
@@ -32,6 +33,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     for (const key of editable) {
       if (key in body) (target as unknown as Record<string, unknown>)[key] = body[key];
     }
+    if (typeof body.locale === "string") target.language = localeLabel(body.locale);
     target.updatedAt = new Date().toISOString();
   });
 

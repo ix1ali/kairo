@@ -1,6 +1,7 @@
 import { fail, json, requireUser } from "@/lib/api";
 import { read } from "@/lib/db";
-import { createProjectWithPlan, projectLimitFor } from "@/lib/projects";
+import { createProjectWithPlan, localiseProject, projectLimitFor } from "@/lib/projects";
+import { read as readDb } from "@/lib/db";
 
 export async function GET() {
   const auth = await requireUser();
@@ -30,5 +31,7 @@ export async function POST(req: Request) {
   if (!String(body.name || "").trim()) return fail("Project name is required.");
 
   const project = createProjectWithPlan(user, body);
-  return json({ project }, 201);
+  const localised = await localiseProject(project.id);
+  const fresh = readDb().projects.find((p) => p.id === project.id) || project;
+  return json({ project: fresh, localised }, 201);
 }

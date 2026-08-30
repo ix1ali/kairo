@@ -4,6 +4,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/icons/Ui";
 import Koala from "@/components/Koala";
+import { PlatformIcon } from "@/components/icons/Social";
+import LocalePicker from "./LocalePicker";
+import { DEFAULT_LOCALE, getLocale } from "@/lib/languages";
+import { CONTENT_KINDS, DEFAULT_GOAL, DEFAULT_MIX, GOALS, getGoal, type ContentMix } from "@/lib/strategy/goals";
 
 export interface WizardOptions {
   categories: { key: string; label: string }[];
@@ -15,6 +19,7 @@ export interface WizardOptions {
   packageName: string;
   totalPosts: number;
   videos: number;
+  hasTextProvider: boolean;
 }
 
 interface ProductDraft {
@@ -27,12 +32,24 @@ interface ProductDraft {
   images: string[];
 }
 
-const LANGUAGES = [
-  "English", "Arabic", "Spanish", "French", "German", "Portuguese", "Italian",
-  "Dutch", "Turkish", "Polish", "Hindi", "Japanese", "Korean", "Chinese (Simplified)",
-];
+const STEPS = ["Brand", "Look & voice", "Goal", "Content", "Audience", "Rivals", "Products", "Review"];
 
-const STEPS = ["Brand", "Look & voice", "Audience", "Products", "Review"];
+interface Adjustment {
+  label: string;
+  icon: "bolt" | "heart" | "star" | "grid" | "brain" | "tag";
+  voice?: string;
+  theme?: string;
+  goal?: string;
+}
+
+const ADJUSTMENTS: Adjustment[] = [
+  { label: "Bolder", icon: "bolt", voice: "Bold and provocative", theme: "bold-loud" },
+  { label: "Softer", icon: "heart", voice: "Warm and friendly", theme: "warm-organic" },
+  { label: "More premium", icon: "star", voice: "Understated and premium", theme: "luxury-refined" },
+  { label: "Simpler design", icon: "grid", theme: "minimal-editorial" },
+  { label: "Teach more", icon: "brain", goal: "authority" },
+  { label: "Sell harder", icon: "tag", goal: "sales" },
+];
 
 function emptyProduct(): ProductDraft {
   return { name: "", tier: "core", price: "", description: "", benefits: "", objection: "", images: [] };
@@ -62,7 +79,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
   const [palette, setPalette] = useState<string[]>([]);
   const [brandTheme, setBrandTheme] = useState(options.themes[3]?.key || options.themes[0].key);
   const [voice, setVoice] = useState(options.voices[0]);
-  const [language, setLanguage] = useState("English");
+  const [locale, setLocale] = useState(DEFAULT_LOCALE);
   const [images, setImages] = useState<string[]>([]);
 
   // step 3
@@ -72,12 +89,31 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
   const [socials, setSocials] = useState<{ platform: string; url: string }[]>([]);
   const [goals, setGoals] = useState<string[]>([]);
   const [competitorsInput, setCompetitorsInput] = useState("");
+  const [goal, setGoal] = useState(DEFAULT_GOAL);
+  const [contentMix, setContentMix] = useState<ContentMix>({ ...DEFAULT_MIX });
+  const [rivals, setRivals] = useState<{ name: string; website: string; instagram: string; tiktok: string; note?: string }[]>([]);
+  const [rivalUrl, setRivalUrl] = useState("");
+  const [rivalBusy, setRivalBusy] = useState(false);
+  const [rivalError, setRivalError] = useState("");
+  const [samples, setSamples] = useState<{ id: string; day: number; contentTypeName: string; svg: string }[]>([]);
+  const [sampleBusy, setSampleBusy] = useState(false);
+  const [sampleError, setSampleError] = useState("");
+  const [sampleVotes, setSampleVotes] = useState<Record<string, number>>({});
+  const [seed, setSeed] = useState("a");
 
   // step 4
   const [products, setProducts] = useState<ProductDraft[]>([emptyProduct()]);
   const [productUrl, setProductUrl] = useState("");
   const [productBusy, setProductBusy] = useState(false);
   const [productNote, setProductNote] = useState("");
+
+  const sampled = useRef(false);
+  useEffect(() => {
+    if (step !== 7 || sampled.current) return;
+    sampled.current = true;
+    void loadSamples();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
 
   const started = useRef(false);
   useEffect(() => {
@@ -181,6 +217,36 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
     setProductUrl("");
   }
 
+  async function analyseRival(link: string) {
+    const target = link.trim();
+    if (!target) return;
+    setRivalBusy(true);
+    setRivalError("");
+    const res = await fetch("/api/analyse-competitor", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: target }),
+    });
+    const data = await res.json().catch(() => ({}));
+    setRivalBusy(false);
+    if (!res.ok) {
+      setRivalError(data.error || "Could not read that link.");
+      return;
+    }
+    const isSocial = /instagram|tiktok|facebook|linkedin|x.com|youtube/i.test(target);
+    setRivals((prev) => [
+      ...prev,
+      {
+        name: data.name || target,
+        website: isSocial ? "" : target,
+        instagram: /instagram/i.test(target) ? target : "",
+        tiktok: /tiktok/i.test(target) ? target : "",
+        note: data.note,
+      },
+    ]);
+    setRivalUrl("");
+  }
+
   function toggle(list: string[], value: string, setter: (v: string[]) => void) {
     setter(list.includes(value) ? list.filter((x) => x !== value) : [...list, value]);
   }
@@ -190,7 +256,45 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
   }
 
   const canNext =
-    step === 0 ? name.trim().length > 1 : step === 3 ? products.some((p) => p.name.trim()) : true;
+    step === 0 ? name.trim().length > 1 : step === 6 ? products.some((p) => p.name.trim()) : true;
+
+  function payload() {
+    return {
+      name, tagline, category, description, website, logoUrl, images,
+      brandTheme, colors, voice, locale, audience, market, platforms,
+      socials: socials.filter((s) => s.url.trim()),
+      goals, goal, contentMix, competitorsInput,
+      competitorProfiles: rivals.filter((r) => r.name.trim()),
+      products: products.filter((p) => p.name.trim()),
+    };
+  }
+
+  async function loadSamples(nextSeed?: string) {
+    setSampleBusy(true);
+    setSampleError("");
+    const s = nextSeed ?? Math.random().toString(36).slice(2, 6);
+    setSeed(s);
+    const res = await fetch("/api/projects/preview", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...payload(), seed: s }),
+    });
+    const data = await res.json().catch(() => ({}));
+    setSampleBusy(false);
+    if (!res.ok) {
+      setSampleError(data.error || "Could not build samples.");
+      return;
+    }
+    setSamples(data.samples || []);
+    setSampleVotes({});
+  }
+
+  function applyAdjustment(a: Adjustment) {
+    if (a.voice) setVoice(a.voice);
+    if (a.theme) setBrandTheme(a.theme);
+    if (a.goal) setGoal(a.goal);
+    setTimeout(() => void loadSamples(seed), 0);
+  }
 
   async function submit() {
     setBusy(true);
@@ -198,13 +302,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
     const res = await fetch("/api/projects", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name, tagline, category, description, website, logoUrl, images,
-        brandTheme, colors, voice, language, audience, market, platforms,
-        socials: socials.filter((s) => s.url.trim()),
-        goals, competitorsInput,
-        products: products.filter((p) => p.name.trim()),
-      }),
+      body: JSON.stringify(payload()),
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) {
@@ -509,12 +607,19 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                 </select>
               </div>
               <div>
-                <label className="label">Caption language</label>
-                <select className="input" value={language} onChange={(e) => setLanguage(e.target.value)}>
-                  {LANGUAGES.map((l) => (
-                    <option key={l}>{l}</option>
-                  ))}
-                </select>
+                <label className="label">Caption language and dialect</label>
+                <LocalePicker value={locale} onChange={setLocale} />
+                {getLocale(locale).language !== "English" && !options.hasTextProvider ? (
+                  <p className="mt-1.5 flex gap-1.5 text-[11px] leading-relaxed text-[#E0B77A]">
+                    <Icon name="lock" size={12} className="mt-0.5 shrink-0" />
+                    Writing in {getLocale(locale).language} needs an AI provider key. Without one the
+                    copy is generated in English — add a key in Settings.
+                  </p>
+                ) : (
+                  <p className="mt-1.5 text-[11px] text-[#4E4E60]">
+                    Copy is written the way people actually speak there.
+                  </p>
+                )}
               </div>
             </div>
 
@@ -564,7 +669,143 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
         )}
 
         {/* ---------- STEP 2 : AUDIENCE ---------- */}
+        {/* ---------- STEP 2 : GOAL ---------- */}
         {step === 2 && (
+          <div className="space-y-5">
+            <div>
+              <h2 className="display text-2xl">What is this month for?</h2>
+              <p className="mt-1.5 text-[14px] text-[#7C7C90]">
+                This changes the whole calendar. Chasing sales and chasing reach are different
+                months.
+              </p>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              {GOALS.map((g) => {
+                const on = goal === g.key;
+                return (
+                  <button
+                    key={g.key}
+                    onClick={() => setGoal(g.key)}
+                    className={`rounded-2xl border p-5 text-left transition-all ${
+                      on ? "" : "border-[#1E1E28] bg-white/[0.02] hover:border-[#33333F]"
+                    }`}
+                    style={
+                      on
+                        ? {
+                            borderColor: `${g.accent}66`,
+                            background: `linear-gradient(160deg, ${g.accent}1F, ${g.accent}08)`,
+                            boxShadow: `0 0 26px -12px ${g.accent}`,
+                          }
+                        : undefined
+                    }
+                  >
+                    <span className="mb-3 flex items-center justify-between">
+                      <span
+                        className="grid h-11 w-11 place-items-center rounded-xl"
+                        style={{ background: `${g.accent}1F`, color: g.accent }}
+                      >
+                        <Icon name={g.icon} size={20} />
+                      </span>
+                      {on && (
+                        <span style={{ color: g.accent }}>
+                          <Icon name="checkCircle" size={18} />
+                        </span>
+                      )}
+                    </span>
+                    <p className="text-[15px] font-semibold text-white">{g.label}</p>
+                    <p className="mt-1 text-[12.5px] leading-relaxed text-[#7C7C90]">{g.description}</p>
+                    <p className="mt-3 border-t border-white/[0.06] pt-2.5 text-[11px] text-[#5B5B70]">
+                      Measured by {g.kpi.toLowerCase()}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* ---------- STEP 3 : CONTENT MIX ---------- */}
+        {step === 3 && (
+          <div className="space-y-6">
+            <div>
+              <h2 className="display text-2xl">What can you actually make?</h2>
+              <p className="mt-1.5 text-[14px] text-[#7C7C90]">
+                Pick the formats you are willing to produce. Kairo only plans what you will
+                actually publish.
+              </p>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              {CONTENT_KINDS.map((k) => {
+                const on = contentMix[k.key];
+                return (
+                  <button
+                    key={k.key}
+                    onClick={() => setContentMix((m) => ({ ...m, [k.key]: !m[k.key] }))}
+                    className={`flex items-start gap-3.5 rounded-2xl border p-4 text-left transition-all ${
+                      on ? "" : "border-[#1E1E28] bg-white/[0.02] hover:border-[#33333F]"
+                    }`}
+                    style={
+                      on
+                        ? {
+                            borderColor: `${k.accent}66`,
+                            background: `linear-gradient(160deg, ${k.accent}1A, ${k.accent}06)`,
+                          }
+                        : undefined
+                    }
+                  >
+                    <span
+                      className="grid h-10 w-10 shrink-0 place-items-center rounded-xl"
+                      style={{ background: `${k.accent}1F`, color: k.accent }}
+                    >
+                      <Icon name={k.icon} size={18} />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="flex items-center gap-2">
+                        <span className="text-[14.5px] font-semibold text-white">{k.label}</span>
+                        {on && (
+                          <span style={{ color: k.accent }}>
+                            <Icon name="check" size={13} strokeWidth={3} />
+                          </span>
+                        )}
+                      </span>
+                      <span className="mt-0.5 block text-[12px] leading-relaxed text-[#7C7C90]">
+                        {k.description}
+                      </span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {!Object.values(contentMix).some(Boolean) && (
+              <p className="rounded-xl border border-[#FFB443]/25 bg-[#FFB443]/[0.07] px-4 py-3 text-[12.5px] text-[#E0B77A]">
+                Pick at least one format, otherwise there is nothing to plan.
+              </p>
+            )}
+
+            <div>
+              <label className="label">Where are you most active?</label>
+              <p className="mb-2.5 text-[12px] text-[#5B5B70]">
+                Only used to size the artwork and set caption length.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {options.platforms.map((p) => (
+                  <button
+                    key={p.key}
+                    onClick={() => toggle(platforms, p.key, setPlatforms)}
+                    className={`chip ${platforms.includes(p.key) ? "chip-on" : ""}`}
+                  >
+                    <PlatformIcon platform={p.key} size={13} />
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+        {step === 4 && (
           <div className="space-y-5">
             <div>
               <h2 className="display text-2xl">Who are we talking to?</h2>
@@ -593,46 +834,8 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                   placeholder="United Kingdom"
                 />
               </div>
-              <div>
-                <label className="label">Competitors (optional)</label>
-                <input
-                  className="input"
-                  value={competitorsInput}
-                  onChange={(e) => setCompetitorsInput(e.target.value)}
-                  placeholder="Comma separated"
-                />
-              </div>
             </div>
 
-            <div>
-              <label className="label">Where do you post?</label>
-              <div className="flex flex-wrap gap-2">
-                {options.platforms.map((p) => (
-                  <button
-                    key={p.key}
-                    onClick={() => toggle(platforms, p.key, setPlatforms)}
-                    className={`chip ${platforms.includes(p.key) ? "chip-on" : ""}`}
-                  >
-                    {p.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="label">Goals for this month</label>
-              <div className="flex flex-wrap gap-2">
-                {options.goals.map((g) => (
-                  <button
-                    key={g}
-                    onClick={() => toggle(goals, g, setGoals)}
-                    className={`chip ${goals.includes(g) ? "chip-on" : ""}`}
-                  >
-                    {g}
-                  </button>
-                ))}
-              </div>
-            </div>
 
             <div>
               <label className="label">Social links</label>
@@ -675,7 +878,119 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
         )}
 
         {/* ---------- STEP 3 : PRODUCTS ---------- */}
-        {step === 3 && (
+        {/* ---------- STEP 5 : RIVALS ---------- */}
+        {step === 5 && (
+          <div className="space-y-5">
+            <div>
+              <h2 className="display text-2xl">Who are you up against?</h2>
+              <p className="mt-1.5 text-[14px] leading-relaxed text-[#7C7C90]">
+                Kairo reads their public pages, works out where they are weak, and points your
+                month at that gap. Add their site or their social profiles.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-[#7C5CFF]/25 bg-[#7C5CFF]/[0.06] p-4">
+              <label className="label flex items-center gap-1.5">
+                <Icon name="target" size={14} className="text-[#A78BFA]" />
+                Add a competitor
+              </label>
+              <div className="flex gap-2">
+                <input
+                  className="input"
+                  placeholder="rival.com  or  instagram.com/theirhandle"
+                  value={rivalUrl}
+                  onChange={(e) => setRivalUrl(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      void analyseRival(rivalUrl);
+                    }
+                  }}
+                />
+                <button
+                  onClick={() => void analyseRival(rivalUrl)}
+                  className="btn btn-primary shrink-0"
+                  disabled={rivalBusy || !rivalUrl.trim()}
+                >
+                  {rivalBusy ? "Reading…" : "Analyse"}
+                </button>
+              </div>
+              {rivalError && <p className="mt-2 text-[12px] text-[#FFA7BB]">{rivalError}</p>}
+              <p className="mt-2 text-[11px] leading-relaxed text-[#5B5B70]">
+                Websites are read for positioning, catalogue size and where they post. Social
+                platforms block server-side reading, so handles are stored for reference.
+              </p>
+            </div>
+
+            {rivals.length > 0 && (
+              <div className="space-y-2.5">
+                {rivals.map((r, i) => (
+                  <div key={i} className="rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        <input
+                          className="w-full bg-transparent text-[14.5px] font-semibold text-white outline-none"
+                          value={r.name}
+                          onChange={(e) =>
+                            setRivals((v) =>
+                              v.map((x, idx) => (idx === i ? { ...x, name: e.target.value } : x))
+                            )
+                          }
+                        />
+                        <p className="truncate text-[11.5px] text-[#5B5B70]">
+                          {r.website || r.instagram || r.tiktok}
+                        </p>
+                      </div>
+                      <button
+                        className="btn btn-quiet btn-sm shrink-0"
+                        onClick={() => setRivals((v) => v.filter((_, idx) => idx !== i))}
+                        aria-label="Remove competitor"
+                      >
+                        <Icon name="close" size={14} />
+                      </button>
+                    </div>
+                    {r.note && (
+                      <p className="mt-2.5 flex gap-2 border-t border-[#16161F] pt-2.5 text-[12.5px] leading-relaxed text-[#8A8A9E]">
+                        <Icon name="eye" size={13} className="mt-0.5 shrink-0 text-[#22D3EE]" />
+                        {r.note}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-4">
+              <p className="mb-2 flex items-center gap-1.5 text-[13px] font-semibold text-white">
+                <Icon name="shield" size={14} className="text-[#C8F751]" />
+                What Kairo does with this
+              </p>
+              <ul className="space-y-1.5">
+                {[
+                  "Maps each rival onto the archetype they actually behave like",
+                  "Names the gap in how they sell — price, service, trust, or silence",
+                  "Turns that gap into the angle your posts attack all month",
+                ].map((t) => (
+                  <li key={t} className="flex gap-2 text-[12.5px] leading-relaxed text-[#7C7C90]">
+                    <Icon name="check" size={12} className="mt-0.5 shrink-0 text-[#C8F751]" strokeWidth={2.6} />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <label className="label">Anyone else? Names only.</label>
+              <input
+                className="input"
+                value={competitorsInput}
+                onChange={(e) => setCompetitorsInput(e.target.value)}
+                placeholder="Comma separated"
+              />
+            </div>
+          </div>
+        )}
+        {step === 6 && (
           <div className="space-y-5">
             <div>
               <h2 className="display text-2xl">What are you selling?</h2>
@@ -812,12 +1127,103 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
         )}
 
         {/* ---------- STEP 4 : REVIEW ---------- */}
-        {step === 4 && (
+        {step === 7 && (
           <div className="space-y-5">
             <div>
-              <h2 className="display text-2xl">Ready to build</h2>
-              <p className="mt-1.5 text-[14px] text-[#7C7C90]">
-                Kairo will write the strategy, map your competitors and produce{" "}
+              <h2 className="display text-2xl">Check three days first</h2>
+              <p className="mt-1.5 text-[14px] leading-relaxed text-[#7C7C90]">
+                Before Kairo builds all {options.totalPosts}, here is what your month will look and
+                sound like. Adjust until it feels right.
+              </p>
+            </div>
+
+            {sampleBusy && (
+              <div className="flex flex-col items-center gap-3 py-10">
+                <Koala size={110} mood="thinking" />
+                <p className="text-[13px] text-[#7C7C90]">Making three samples…</p>
+              </div>
+            )}
+
+            {sampleError && (
+              <p className="rounded-xl border border-[#FF6B8A]/30 bg-[#FF6B8A]/10 px-4 py-3 text-[13px] text-[#FFA7BB]">
+                {sampleError}
+              </p>
+            )}
+
+            {!sampleBusy && samples.length > 0 && (
+              <>
+                <div className="grid grid-cols-3 gap-3">
+                  {samples.map((s) => {
+                    const vote = sampleVotes[s.id];
+                    return (
+                      <div key={s.id} className="min-w-0">
+                        <div
+                          className="overflow-hidden rounded-xl border border-[#1E1E28] bg-black [&>svg]:h-auto [&>svg]:w-full"
+                          dangerouslySetInnerHTML={{ __html: s.svg }}
+                        />
+                        <p className="mt-2 truncate text-[11px] text-[#5B5B70]">
+                          Day {s.day} · {s.contentTypeName}
+                        </p>
+                        <div className="mt-1.5 flex gap-1.5">
+                          <button
+                            onClick={() => setSampleVotes((v) => ({ ...v, [s.id]: v[s.id] === 1 ? 0 : 1 }))}
+                            className={`flex flex-1 items-center justify-center rounded-lg border py-1.5 transition-colors ${
+                              vote === 1
+                                ? "border-[#C8F751]/60 bg-[#C8F751]/15 text-[#C8F751]"
+                                : "border-[#1E1E28] bg-white/[0.02] text-[#5B5B70] hover:text-[#9B9BAE]"
+                            }`}
+                            aria-label="Like this sample"
+                          >
+                            <Icon name="heart" size={13} filled={vote === 1} />
+                          </button>
+                          <button
+                            onClick={() => setSampleVotes((v) => ({ ...v, [s.id]: v[s.id] === -1 ? 0 : -1 }))}
+                            className={`flex flex-1 items-center justify-center rounded-lg border py-1.5 transition-colors ${
+                              vote === -1
+                                ? "border-[#FF6B8A]/60 bg-[#FF6B8A]/15 text-[#FF6B8A]"
+                                : "border-[#1E1E28] bg-white/[0.02] text-[#5B5B70] hover:text-[#9B9BAE]"
+                            }`}
+                            aria-label="Dislike this sample"
+                          >
+                            <Icon name="close" size={13} />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-4">
+                  <p className="mb-1 text-[13px] font-semibold text-white">Not quite right?</p>
+                  <p className="mb-3 text-[12px] text-[#5B5B70]">
+                    Tap an adjustment and the samples rebuild.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {ADJUSTMENTS.map((a) => (
+                      <button
+                        key={a.label}
+                        onClick={() => applyAdjustment(a)}
+                        className="chip transition-transform active:scale-95"
+                      >
+                        <Icon name={a.icon} size={12} />
+                        {a.label}
+                      </button>
+                    ))}
+                  </div>
+                  <button
+                    onClick={() => void loadSamples()}
+                    className="btn btn-ghost btn-sm mt-3 w-full"
+                  >
+                    <Icon name="shuffle" size={13} />
+                    Show me three different days
+                  </button>
+                </div>
+              </>
+            )}
+            <div>
+              <h2 className="display mt-2 text-lg">Everything Kairo will use</h2>
+              <p className="mt-1.5 text-[13px] text-[#7C7C90]">
+                Then it writes the strategy and produces{" "}
                 {options.totalPosts} posts
                 {options.videos > 0 ? ` and ${options.videos} video scripts` : ""} across the next 30
                 days.
@@ -826,10 +1232,13 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
 
             <div className="grid gap-3 sm:grid-cols-2">
               {[
+                ["Goal", getGoal(goal).label],
+                ["Content", CONTENT_KINDS.filter((k) => contentMix[k.key]).map((k) => k.short).join(", ") || "none"],
+                ["Competitors", rivals.length ? `${rivals.length} analysed` : "none added"],
                 ["Brand", name || "—"],
                 ["Category", options.categories.find((c) => c.key === category)?.label || category],
                 ["Voice", voice],
-                ["Language", language],
+                ["Language", `${getLocale(locale).language} — ${getLocale(locale).dialect}`],
                 ["Platforms", platforms.join(", ") || "—"],
                 ["Products", `${products.filter((p) => p.name.trim()).length} added`],
                 ["Heroes", products.filter((p) => p.tier === "hero" && p.name.trim()).length || "none tagged"],
@@ -889,7 +1298,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
             </button>
           ) : (
             <button className="btn btn-primary px-6" onClick={submit} disabled={busy}>
-              {busy ? "Building your 30 days…" : "Generate my campaign"}
+              {busy ? "Building your 30 days…" : `Generate all ${options.totalPosts} posts`}
             </button>
           )}
         </div>

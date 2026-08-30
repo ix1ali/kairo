@@ -2,6 +2,8 @@ import type { Post, PostFormat, Product, Project, Strategy } from "../types";
 import type { PackageDef } from "../plans";
 import { CATEGORIES, categoryNoun, resolveCategory } from "./categories";
 import { THEME_LAYOUTS } from "../projects";
+import { typesFor } from "./contentTypes";
+import { DEFAULT_GOAL, DEFAULT_MIX, getGoal, mixToFormats } from "./goals";
 import {
   DAY_RHYTHM,
   PILLARS,
@@ -133,6 +135,46 @@ function allocate(weights: Record<string, number>, total: number): Record<string
 }
 
 /* ------------------------------------------------------------------ */
+/* competitor archetype matching                                       */
+/* ------------------------------------------------------------------ */
+
+const ARCHETYPE_SIGNALS: { test: RegExp; wants: RegExp }[] = [
+  { test: /premium|luxury|luxur|craft|artisan|handmade|heritage|bespoke/i, wants: /prestige|premium|luxur|heritage|house|specialist/i },
+  { test: /cheap|affordable|budget|value|discount|save money|lowest price/i, wants: /price|budget|cheap|volume|floor/i },
+  { test: /broad catalogue|100+ products|compete on choice/i, wants: /volume|incumbent|leader|default|big/i },
+  { test: /focused range|about d{1,2} products/i, wants: /specialist|niche|expert|boutique|narrow/i },
+  { test: /subscription|convenience|next day|fast delivery|app/i, wants: /convenience|scalable|speed|startup/i },
+  { test: /no public catalogue|little away/i, wants: /status quo|nothing|invisible|doing without/i },
+];
+
+/**
+ * Pairs each supplied competitor with the archetype their own signals suggest,
+ * rather than assigning archetypes in list order.
+ */
+function assignArchetypes<T extends { archetype: string; name: string }>(
+  archetypes: T[],
+  profiles: { name: string; note?: string }[]
+): (T & { supplied?: string })[] {
+  const remaining = [...archetypes];
+  const paired: (T & { supplied?: string })[] = [];
+
+  for (const profile of profiles) {
+    const blob = `${profile.name} ${profile.note || ""}`;
+    let idx = -1;
+    for (const sig of ARCHETYPE_SIGNALS) {
+      if (!sig.test.test(blob)) continue;
+      idx = remaining.findIndex((a) => sig.wants.test(a.archetype) || sig.wants.test(a.name));
+      if (idx !== -1) break;
+    }
+    if (idx === -1) idx = 0;
+    const [match] = remaining.splice(idx, 1);
+    if (match) paired.push({ ...match, supplied: profile.name });
+  }
+
+  return [...paired, ...remaining];
+}
+
+/* ------------------------------------------------------------------ */
 /* strategy                                                            */
 /* ------------------------------------------------------------------ */
 
@@ -168,15 +210,24 @@ export function buildStrategy(project: Project, pkg: PackageDef): Strategy {
     .filter(Boolean)
     .slice(0, 4);
 
-  const competitors = playbook.competitors.map((c, i) => ({
-    ...c,
-    name: named[i] ? `${named[i]} — ${c.archetype}` : c.name,
-  }));
+  const profiles = (project.competitorProfiles || []).filter((p) => (p.name || "").trim());
+  const asProfiles = profiles.length ? profiles : named.map((n) => ({ name: n, note: undefined }));
+  const competitors = assignArchetypes(playbook.competitors, asProfiles).map(({ supplied, ...c }) => {
+    if (!supplied) return c;
+    const profile = asProfiles.find((p) => p.name === supplied);
+    return {
+      ...c,
+      name: `${supplied} — ${c.archetype}`,
+      gap: profile?.note ? `${c.gap} Observed: ${profile.note}` : c.gap,
+    };
+  });
 
   // Pillar shares blend the category tilt with the global defaults.
+  const goal = getGoal(project.goal || DEFAULT_GOAL);
   const weights: Record<string, number> = {};
   for (const p of PILLARS) {
-    weights[p.key] = playbook.pillarWeights?.[p.key] ?? p.defaultShare;
+    const base = playbook.pillarWeights?.[p.key] ?? p.defaultShare;
+    weights[p.key] = base * (goal.weights[p.key] ?? 1);
   }
   const wSum = Object.values(weights).reduce((a, b) => a + b, 0);
   const pillars = PILLARS.map((p) => ({
@@ -213,6 +264,8 @@ export function buildStrategy(project: Project, pkg: PackageDef): Strategy {
     engine: "kairo-strategy-v1",
     positioning,
     oneLiner,
+    goal: goal.label,
+    goalKpi: goal.kpi,
     differentiators: [
       ...(project.description
         ? [`Stated advantage: ${sentence(project.description.split(/[.!?]/)[0] || project.description).slice(0, 140)}`]
@@ -250,7 +303,8 @@ function formatFor(
   platform: string,
   rng: Rng,
   isVideo: boolean,
-  avoid: PostFormat[] = []
+  avoid: PostFormat[] = [],
+  allowed: string[] = []
 ): PostFormat {
   if (isVideo) return "video";
   const profile = PLATFORM_PROFILES[platform] || PLATFORM_PROFILES.instagram;
@@ -265,14 +319,15 @@ function formatFor(
   };
   // "video" is reserved for scheduled video days so it always carries a script.
   // Everything else falls back to the platform's best non-video format.
-  const allowed = profile.formats.filter((f) => f !== "video") as PostFormat[];
-  const candidates = prefs[pillar].filter((f) => allowed.includes(f));
+  const byMix = allowed.length ? profile.formats.filter((f) => allowed.includes(f)) : profile.formats;
+  const usable = (byMix.length ? byMix : profile.formats).filter((f) => f !== "video") as PostFormat[];
+  const candidates = prefs[pillar].filter((f) => usable.includes(f));
   // Keep a single day visually varied: prefer a format not already used today.
   const fresh = candidates.filter((f) => !avoid.includes(f));
   if (fresh.length) return pick(rng, fresh) as PostFormat;
   if (candidates.length) return pick(rng, candidates) as PostFormat;
-  const freshAllowed = allowed.filter((f) => !avoid.includes(f));
-  return ((freshAllowed[0] || allowed[0] || "static") as PostFormat);
+  const freshAllowed = usable.filter((f) => !avoid.includes(f));
+  return ((freshAllowed[0] || usable[0] || "static") as PostFormat);
 }
 
 function productForPillar(
@@ -384,6 +439,9 @@ export function buildCalendar(
 
   const usedHooks = new Set<string>();
   const usedVisuals: string[] = [];
+  const usedTypes: string[] = [];
+  const goal = getGoal(project.goal || DEFAULT_GOAL);
+  const allowedFormats = mixToFormats(project.contentMix || DEFAULT_MIX);
 
   // Keep every post inside the brand theme family so the month reads as one look.
   const themeLayouts = THEME_LAYOUTS[project.brandTheme] || [];
@@ -404,7 +462,11 @@ export function buildCalendar(
 
     const arc = WEEK_ARCS[week - 1];
     const slotsInWeek = days.length * pkg.postsPerDay;
-    const counts = allocate(arc.weights as unknown as Record<string, number>, slotsInWeek);
+    const weekWeights: Record<string, number> = {};
+    for (const [k, v] of Object.entries(arc.weights)) {
+      weekWeights[k] = v * (goal.weights[k as PillarKey] ?? 1);
+    }
+    const counts = allocate(weekWeights, slotsInWeek);
 
     // Build the pool of pillars for this week, then place them on the days
     // whose natural rhythm suits them best.
@@ -473,8 +535,14 @@ export function buildCalendar(
         const visual = VISUAL_SYSTEMS.find((v) => v.key === visualKey) || VISUAL_SYSTEMS[0];
 
         const profile = PLATFORM_PROFILES[platform] || PLATFORM_PROFILES.instagram;
-        const format = formatFor(pillar, platform, rng, isVideo, formatsToday);
+        const format = formatFor(pillar, platform, rng, isVideo, formatsToday, allowedFormats);
         formatsToday.push(format);
+
+        // The tactic: what this post actually is (UGC clip, unboxing, myth-buster…).
+        const typePool = typesFor(pillar, format);
+        const freshTypes = typePool.filter((c) => !usedTypes.slice(-8).includes(c.key));
+        const contentType = pick(rng, freshTypes.length ? freshTypes : typePool);
+        usedTypes.push(contentType.key);
 
         const tags = [
           ...shuffle(rng, strategy.hashtagSets.reach).slice(0, Math.ceil(profile.hashtagCount * 0.35)),
@@ -500,7 +568,12 @@ export function buildCalendar(
         ].join(" ");
 
         const visualDirection = isVideo
-          ? buildVideoScript(rng, pillar, t, playbook, hook)
+          ? [
+              buildVideoScript(rng, pillar, t, playbook, hook),
+              "",
+              `FORMAT: ${contentType.name}`,
+              contentType.production,
+            ].join("\n")
           : [
               `${visual.name} — ${visual.note}`,
               ``,
@@ -508,6 +581,9 @@ export function buildCalendar(
               `Copy on artwork: "${hook}"`,
               `Colour: ${project.colors.primary} as the accent, ${project.colors.background} as the field.`,
               `Do not: crowd the frame, use more than two type weights, or centre everything.`,
+              ``,
+              `FORMAT: ${contentType.name}`,
+              contentType.production,
             ].join("\n");
 
         posts.push({
@@ -526,6 +602,9 @@ export function buildCalendar(
           cta,
           visualDirection,
           visualPrompt,
+          contentType: contentType.key,
+          contentTypeName: contentType.name,
+          contentWhy: contentType.why,
           productId: product?.id || null,
           productName: product?.name || null,
           layout: visualKey,
@@ -588,8 +667,14 @@ export function regenerateSinglePost(
   }
 
   const hook = newHook;
+  // A new angle means a new tactic too, otherwise it is the same post reworded.
+  const pool = typesFor(pillar, base.format).filter((c) => c.key !== base.contentType);
+  const ct = pick(rng, pool.length ? pool : typesFor(pillar, base.format));
   return {
     hook,
+    contentType: ct.key,
+    contentTypeName: ct.name,
+    contentWhy: ct.why,
     caption: buildCaption(rng, pillar, t, playbook, project, product, hook),
     cta: fill(pick(rng, [...playbook.ctas, ...UNIVERSAL_CTAS]), t),
     visualPrompt: `${base.layout} composition for ${project.name}. ${steer || ""} Headline: "${hook}". Brand colours ${project.colors.primary} on ${project.colors.background}.`.trim(),

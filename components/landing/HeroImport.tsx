@@ -30,7 +30,7 @@ export default function HeroImport({ compact = false }: { compact?: boolean }) {
           />
         </div>
         <button type="submit" className="btn btn-primary shrink-0 px-6 py-3.5 text-base">
-          Build my month
+          Get my 30 days
           <Icon name="arrowRight" size={16} strokeWidth={2} />
         </button>
       </div>

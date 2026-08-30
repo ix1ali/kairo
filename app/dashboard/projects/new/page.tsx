@@ -6,6 +6,7 @@ import { read } from "@/lib/db";
 import { getPackage } from "@/lib/plans";
 import { BRAND_THEMES, DEFAULT_COLORS, GOAL_OPTIONS, PLATFORM_OPTIONS, VOICE_OPTIONS } from "@/lib/projects";
 import { CATEGORY_OPTIONS } from "@/lib/strategy/categories";
+import { activeTextProvider } from "@/lib/ai";
 
 export const metadata = { title: "New project" };
 
@@ -27,6 +28,7 @@ export default async function NewProjectPage() {
     packageName: pkg.name,
     totalPosts: pkg.totalPosts,
     videos: pkg.videosPerMonth,
+    hasTextProvider: activeTextProvider() !== "local",
   };
 
   return (

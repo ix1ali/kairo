@@ -6,6 +6,7 @@ import { getPackage } from "@/lib/plans";
 import { getProjectFor } from "@/lib/projects";
 import { BRAND_THEMES, DEFAULT_COLORS, GOAL_OPTIONS, PLATFORM_OPTIONS, VOICE_OPTIONS } from "@/lib/projects";
 import { CATEGORY_OPTIONS } from "@/lib/strategy/categories";
+import { activeTextProvider } from "@/lib/ai";
 
 export const metadata = { title: "Edit project" };
 
@@ -26,6 +27,7 @@ export default async function EditProjectPage({ params }: { params: Promise<{ id
     packageName: pkg.name,
     totalPosts: pkg.totalPosts,
     videos: pkg.videosPerMonth,
+    hasTextProvider: activeTextProvider() !== "local",
   };
 
   return <ProjectEditor project={found.project} options={options} postCount={found.posts.length} />;

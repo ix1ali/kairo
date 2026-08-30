@@ -68,6 +68,18 @@ export default function ProjectWorkspace({
     return [...map.entries()].sort((a, b) => a[0] - b[0]);
   }, [filtered]);
 
+  const todayKey = new Date().toDateString();
+
+  /** The next thing to actually do: earliest unposted day, today or later. */
+  const upNext = useMemo(() => {
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    const pending = posts
+      .filter((p) => p.status !== "posted" && p.status !== "skipped")
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    return pending.find((p) => new Date(p.date).getTime() >= start.getTime()) || pending[0] || null;
+  }, [posts]);
+
   const open = posts.find((p) => p.id === openId) || null;
 
   function updatePost(p: Post) {
@@ -230,6 +242,33 @@ export default function ProjectWorkspace({
       {/* ---------------- CALENDAR ---------------- */}
       {tab === "calendar" && (
         <>
+          {upNext && (
+            <button
+              onClick={() => setOpenId(upNext.id)}
+              className="mb-5 flex w-full items-center gap-4 rounded-2xl border border-[#7C5CFF]/35 bg-gradient-to-r from-[#7C5CFF]/12 to-transparent p-3.5 text-left transition-colors hover:border-[#7C5CFF]/60 hover:from-[#7C5CFF]/18"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={upNext.assetUrl || `/api/render/${upNext.id}`}
+                alt=""
+                className="h-[62px] w-[50px] shrink-0 rounded-lg border border-[#22222E] object-cover"
+              />
+              <div className="min-w-0 flex-1">
+                <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#A78BFA]">
+                  <Icon name="play" size={11} filled />
+                  Post this next
+                </p>
+                <p className="mt-1 truncate text-[15px] font-semibold text-white">{upNext.hook}</p>
+                <p className="mt-0.5 flex items-center gap-1.5 text-[12px] text-[#7C7C90]">
+                  Day {upNext.day} · {upNext.timeOfDay}
+                  <PlatformIcon platform={upNext.platform} size={12} />
+                  {upNext.contentTypeName || upNext.format}
+                </p>
+              </div>
+              <span className="btn btn-primary btn-sm shrink-0">Open</span>
+            </button>
+          )}
+
           <div className="mb-5 flex flex-wrap items-center gap-2">
             <input
               className="input max-w-[220px]"
@@ -319,11 +358,19 @@ export default function ProjectWorkspace({
                 const date = new Date(dayPosts[0].date);
                 const week = Math.ceil(day / 7);
                 const allDone = dayPosts.every((p) => p.status === "posted");
+                const isToday = date.toDateString() === todayKey;
+                const isPast = date.getTime() < new Date(todayKey).getTime();
                 return (
                   <div
                     key={day}
                     className={`panel overflow-hidden transition-colors ${
-                      allDone ? "border-[#C8F751]/30 bg-[#C8F751]/[0.03]" : ""
+                      isToday
+                        ? "border-[#7C5CFF]/60 shadow-[0_0_0_1px_rgba(124,92,255,0.35)]"
+                        : allDone
+                        ? "border-[#C8F751]/30 bg-[#C8F751]/[0.03]"
+                        : isPast && !allDone
+                        ? "border-[#FFB443]/25"
+                        : ""
                     }`}
                   >
                     <div className="flex items-center justify-between border-b border-[#16161F] px-4 py-2.5">
@@ -342,7 +389,17 @@ export default function ProjectWorkspace({
                           </p>
                         </div>
                       </div>
-                      <span className="chip">W{week}</span>
+                      {isToday ? (
+                        <span className="chip" style={{ color: "#C9BEFF", borderColor: "#7C5CFF88", background: "#7C5CFF22" }}>
+                          Today
+                        </span>
+                      ) : isPast && !allDone ? (
+                        <span className="chip" style={{ color: "#FFB443", borderColor: "#FFB44344", background: "#FFB4431A" }}>
+                          Overdue
+                        </span>
+                      ) : (
+                        <span className="chip">W{week}</span>
+                      )}
                     </div>
 
                     <div className="divide-y divide-[#14141C]">
@@ -383,7 +440,7 @@ export default function ProjectWorkspace({
                                 <span className="text-[#6C6C80]">
                                   <PlatformIcon platform={p.platform} size={11} />
                                 </span>
-                                <span className="text-[10px] text-[#4E4E60]">{p.format}</span>
+                                <span className="truncate text-[10px] text-[#4E4E60]">{p.contentTypeName || p.format}</span>
                               </span>
                               <span
                                 className={`mt-1 block clamp-2 text-[12.5px] leading-snug ${
@@ -456,6 +513,15 @@ export default function ProjectWorkspace({
             <p className="eyebrow">Positioning</p>
             <p className="display mt-3 text-2xl leading-snug">{s.positioning}</p>
             <p className="mt-3 text-[14px] leading-relaxed text-[#9B9BAE]">{s.oneLiner}</p>
+            {s.goal && (
+              <div className="mt-4 flex flex-wrap gap-2 border-t border-[#16161F] pt-4">
+                <span className="chip" style={{ color: "#C8F751", borderColor: "#C8F75144", background: "#C8F7511A" }}>
+                  <Icon name="target" size={11} />
+                  Goal: {s.goal}
+                </span>
+                <span className="chip">Measured by {s.goalKpi}</span>
+              </div>
+            )}
           </div>
 
           <div className="grid gap-5 lg:grid-cols-2">

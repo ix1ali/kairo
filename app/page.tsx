@@ -5,13 +5,19 @@ import FAQ from "@/components/landing/FAQ";
 import ChaosVsPlan from "@/components/landing/ChaosVsPlan";
 import HowItWorks from "@/components/landing/HowItWorks";
 import HeroImport from "@/components/landing/HeroImport";
+import RevealHeadline from "@/components/landing/RevealHeadline";
+import Savings from "@/components/landing/Savings";
 import PlatformStrip from "@/components/landing/PlatformStrip";
 import { PricingCards } from "@/components/landing/Pricing";
 import CalendarDemo, { type DemoPost } from "@/components/landing/CalendarDemo";
+import Showcase, { type ShowcaseCard } from "@/components/landing/Showcase";
+import ContentTypes from "@/components/landing/ContentTypes";
+import Languages from "@/components/landing/Languages";
 import Koala from "@/components/Koala";
 import { Icon, type IconName } from "@/components/icons/Ui";
-import { demoPlan } from "@/lib/demoSample";
+import { demoPlan, showcaseSamples } from "@/lib/demoSample";
 import { renderPosterSVG } from "@/lib/render/poster";
+import { CATEGORIES } from "@/lib/strategy/categories";
 
 const IN_EVERY_POST: { icon: IconName; title: string; body: string }[] = [
   { icon: "image", title: "A finished image", body: "Sized for the platform, built from your palette. Download and post." },
@@ -22,17 +28,6 @@ const IN_EVERY_POST: { icon: IconName; title: string; body: string }[] = [
   { icon: "video", title: "Video scripts", body: "On Studio: timed shot lists, sound direction and a loop cue." },
 ];
 
-const BUSINESSES: { label: string; icon: IconName }[] = [
-  { label: "Coffee & food", icon: "store" },
-  { label: "Gyms & studios", icon: "bolt" },
-  { label: "Skincare & beauty", icon: "sparkle" },
-  { label: "Restaurants", icon: "heart" },
-  { label: "Fashion", icon: "tag" },
-  { label: "Ecommerce", icon: "grid" },
-  { label: "SaaS", icon: "layers" },
-  { label: "Agencies", icon: "megaphone" },
-  { label: "Clinics", icon: "shield" },
-];
 
 export default function Home() {
   const { project, posts } = demoPlan();
@@ -52,6 +47,18 @@ export default function Home() {
     visualDirection: p.visualDirection,
     productName: p.productName,
   }));
+
+  const showcase: ShowcaseCard[] = showcaseSamples().flatMap(({ project: brand, posts: brandPosts }) =>
+    brandPosts.map((post) => ({
+      id: post.id,
+      brand: brand.name,
+      tagline: brand.tagline,
+      category: CATEGORIES[brand.category]?.label ?? brand.category,
+      contentType: post.contentTypeName,
+      accent: brand.colors.primary,
+      svg: renderPosterSVG(post, brand, null),
+    }))
+  );
 
   const previews: Record<string, string> = {};
   for (const p of posts) previews[p.id] = renderPosterSVG(p, project, null);
@@ -79,8 +86,10 @@ export default function Home() {
                 </span>
 
                 <h1 className="display mt-6 text-[2.5rem] leading-[1.02] text-balance sm:text-[3rem] lg:text-[3.5rem]">
-                  A whole month of content.
-                  <span className="grad-text-soft mt-1 block">Done in a minute.</span>
+                  <RevealHeadline text="A whole month of content." delay={80} />
+                  <span className="grad-text-soft mt-1 block">
+                    <RevealHeadline text="Done in a minute." delay={340} />
+                  </span>
                 </h1>
 
                 <p className="mt-5 max-w-md text-[16px] leading-relaxed text-[#9B9BAE]">
@@ -92,18 +101,10 @@ export default function Home() {
                   <HeroImport />
                 </div>
 
-                <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12.5px] text-[#5B5B70]">
-                  {["From $49/month", "No free trial", "Cancel anytime"].map((t) => (
-                    <span key={t} className="flex items-center gap-1.5">
-                      <Icon name="check" size={13} className="text-[#C8F751]" strokeWidth={2.6} />
-                      {t}
-                    </span>
-                  ))}
-                </div>
               </div>
 
               {/* koala + floating cards */}
-              <div className="relative mx-auto w-full max-w-[420px]">
+              <div className="relative mx-auto w-full max-w-[420px] py-6">
                 <div className="pointer-events-none absolute inset-0 grid place-items-center">
                   <div className="h-72 w-72 rounded-full bg-[#7C5CFF]/18 blur-[80px]" />
                 </div>
@@ -113,7 +114,7 @@ export default function Home() {
                 </div>
 
                 {/* floating proof chips */}
-                <div className="absolute -left-2 top-6 z-20 hidden animate-floaty rounded-2xl border border-[#22222E] bg-[#0C0C13]/90 px-3.5 py-2.5 backdrop-blur sm:block">
+                <div className="absolute -left-6 top-0 z-20 hidden animate-floaty rounded-2xl border border-[#22222E] bg-[#0C0C13]/90 px-3.5 py-2.5 backdrop-blur sm:block">
                   <div className="flex items-center gap-2">
                     <span className="grid h-7 w-7 place-items-center rounded-lg bg-[#C8F751]/15 text-[#C8F751]">
                       <Icon name="check" size={13} strokeWidth={3} />
@@ -126,7 +127,7 @@ export default function Home() {
                 </div>
 
                 <div
-                  className="absolute -right-2 bottom-8 z-20 hidden animate-floaty rounded-2xl border border-[#22222E] bg-[#0C0C13]/90 px-3.5 py-2.5 backdrop-blur sm:block"
+                  className="absolute -right-6 bottom-0 z-20 hidden animate-floaty rounded-2xl border border-[#22222E] bg-[#0C0C13]/90 px-3.5 py-2.5 backdrop-blur sm:block"
                   style={{ animationDelay: "1.4s" }}
                 >
                   <div className="flex items-center gap-2">
@@ -142,9 +143,11 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-16">
-              <PlatformStrip />
-            </div>
+          </div>
+
+          {/* full-bleed ticker so the rows run edge to edge */}
+          <div className="relative pb-16 pt-4">
+            <PlatformStrip />
           </div>
         </section>
 
@@ -174,6 +177,22 @@ export default function Home() {
           <HowItWorks />
         </section>
 
+        {/* ================= SHOWCASE ================= */}
+        <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <div className="mb-10 max-w-2xl">
+              <p className="eyebrow">Made by Kairo</p>
+              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">Six brands. One engine.</h2>
+              <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
+                Every card below was generated from a brand brief — palette, voice, products — with
+                nothing edited afterwards. Different industry, different look, same thirty-day logic
+                underneath.
+              </p>
+            </div>
+            <Showcase cards={showcase} />
+          </div>
+        </section>
+
         {/* ================= IN EVERY POST ================= */}
         <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -197,6 +216,11 @@ export default function Home() {
               ))}
             </div>
           </div>
+        </section>
+
+        {/* ================= CONTENT STRATEGIES ================= */}
+        <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+          <ContentTypes />
         </section>
 
         {/* ================= LIVE DEMO ================= */}
@@ -235,27 +259,26 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ================= ANY BUSINESS ================= */}
-        <section className="border-y border-[#14141C] bg-[#09090F] py-20">
-          <div className="mx-auto max-w-4xl px-5 text-center sm:px-8">
-            <h2 className="display text-3xl sm:text-[2.5rem]">Works for any business</h2>
-            <p className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-[#8A8A9E]">
-              Each industry gets its own playbook — different buyers, different objections,
-              different hooks.
-            </p>
-            <div className="mt-10 flex flex-wrap justify-center gap-2.5">
-              {BUSINESSES.map((b, i) => (
-                <span
-                  key={b.label}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#1E1E28] bg-white/[0.03] px-4 py-2.5 text-[13.5px] text-[#9B9BAE] transition-colors hover:border-[#3A3355] hover:text-white"
-                  style={{ transform: `rotate(${((i % 3) - 1) * 1.2}deg)` }}
-                >
-                  <Icon name={b.icon} size={15} className="text-[#A78BFA]" />
-                  {b.label}
-                </span>
-              ))}
-            </div>
+        {/* ================= LANGUAGES ================= */}
+        <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <Languages />
           </div>
+        </section>
+
+        {/* ================= SAVINGS ================= */}
+        <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+          <div className="mx-auto mb-12 max-w-2xl text-center">
+            <p className="eyebrow">The maths</p>
+            <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">
+              What this replaces.
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
+              A designer, a copywriter, an editor and a strategist — for one month of content.
+              Change the rates to match what you actually pay.
+            </p>
+          </div>
+          <Savings />
         </section>
 
         {/* ================= PRICING ================= */}

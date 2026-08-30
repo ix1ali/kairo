@@ -4,11 +4,10 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import type { Product, Project } from "@/lib/types";
 import type { WizardOptions } from "./ProjectWizard";
-
-const LANGUAGES = [
-  "English", "Arabic", "Spanish", "French", "German", "Portuguese", "Italian",
-  "Dutch", "Turkish", "Polish", "Hindi", "Japanese", "Korean", "Chinese (Simplified)",
-];
+import LocalePicker from "./LocalePicker";
+import { DEFAULT_LOCALE } from "@/lib/languages";
+import { CONTENT_KINDS, DEFAULT_GOAL, DEFAULT_MIX, GOALS, type ContentMix } from "@/lib/strategy/goals";
+import { Icon } from "@/components/icons/Ui";
 
 export default function ProjectEditor({
   project,
@@ -30,7 +29,9 @@ export default function ProjectEditor({
     brandTheme: project.brandTheme,
     colors: { ...project.colors },
     voice: project.voice,
-    language: project.language,
+    locale: project.locale || DEFAULT_LOCALE,
+    goal: project.goal || DEFAULT_GOAL,
+    contentMix: (project.contentMix || { ...DEFAULT_MIX }) as ContentMix,
     audience: project.audience,
     market: project.market,
     platforms: [...project.platforms],
@@ -222,12 +223,8 @@ export default function ProjectEditor({
               </select>
             </div>
             <div>
-              <label className="label">Language</label>
-              <select className="input" value={form.language} onChange={(e) => set("language", e.target.value)}>
-                {LANGUAGES.map((l) => (
-                  <option key={l}>{l}</option>
-                ))}
-              </select>
+              <label className="label">Language and dialect</label>
+              <LocalePicker value={form.locale} onChange={(v) => set("locale", v)} />
             </div>
           </div>
         </section>
@@ -285,6 +282,61 @@ export default function ProjectEditor({
                 ))}
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="panel p-6">
+          <h2 className="display mb-1 text-lg">Goal</h2>
+          <p className="mb-4 text-[13px] text-[#7C7C90]">What the next month is aimed at.</p>
+          <div className="grid gap-2.5 sm:grid-cols-3">
+            {GOALS.map((g) => {
+              const on = form.goal === g.key;
+              return (
+                <button
+                  key={g.key}
+                  onClick={() => set("goal", g.key)}
+                  className={`rounded-xl border p-3.5 text-left transition-all ${
+                    on ? "" : "border-[#1E1E28] bg-white/[0.02] hover:border-[#33333F]"
+                  }`}
+                  style={
+                    on
+                      ? { borderColor: `${g.accent}66`, background: `linear-gradient(160deg, ${g.accent}1A, ${g.accent}06)` }
+                      : undefined
+                  }
+                >
+                  <span className="mb-2 flex items-center gap-2">
+                    <span style={{ color: g.accent }}>
+                      <Icon name={g.icon} size={16} />
+                    </span>
+                    {on && (
+                      <span style={{ color: g.accent }}>
+                        <Icon name="check" size={12} strokeWidth={3} />
+                      </span>
+                    )}
+                  </span>
+                  <span className="block text-[13px] font-semibold text-white">{g.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <h2 className="display mb-1 mt-6 text-lg">Content you make</h2>
+          <p className="mb-4 text-[13px] text-[#7C7C90]">Kairo only plans formats you tick.</p>
+          <div className="flex flex-wrap gap-2">
+            {CONTENT_KINDS.map((k) => {
+              const on = form.contentMix[k.key];
+              return (
+                <button
+                  key={k.key}
+                  onClick={() => set("contentMix", { ...form.contentMix, [k.key]: !form.contentMix[k.key] })}
+                  className="chip"
+                  style={on ? { color: k.accent, borderColor: `${k.accent}66`, background: `${k.accent}18` } : undefined}
+                >
+                  <Icon name={k.icon} size={12} />
+                  {k.label}
+                </button>
+              );
+            })}
           </div>
         </section>
 

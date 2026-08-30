@@ -197,16 +197,16 @@ export default function Koala({
 
         {/* ---------- ears ---------- */}
         {[
-          { cx: 42, flip: -1 },
-          { cx: 218, flip: 1 },
+          { cx: 54, flip: -1 },
+          { cx: 206, flip: 1 },
         ].map((ear) => (
           <g key={ear.cx}>
-            <circle cx={ear.cx} cy="70" r="50" fill={`url(#${id("shellEar")})`} />
+            <circle cx={ear.cx} cy="74" r="46" fill={`url(#${id("shellEar")})`} />
             {/* bounce light on the outer edge */}
             <circle
               cx={ear.cx}
-              cy="70"
-              r="50"
+              cy="74"
+              r="46"
               fill="none"
               stroke="#22D3EE"
               strokeWidth="2.5"
@@ -214,19 +214,19 @@ export default function Koala({
               strokeDasharray="70 200"
               strokeDashoffset={ear.flip > 0 ? 20 : 150}
             />
-            <ellipse cx={ear.cx + ear.flip * 6} cy="74" rx="31" ry="29" fill={`url(#${id("inner")})`} />
+            <ellipse cx={ear.cx + ear.flip * 6} cy="78" rx="28" ry="27" fill={`url(#${id("inner")})`} />
             {/* inner-ear ambient occlusion */}
             <ellipse
               cx={ear.cx + ear.flip * 6}
-              cy="82"
-              rx="27"
-              ry="20"
+              cy="86"
+              rx="25"
+              ry="19"
               fill="#5B4A9E"
               opacity="0.35"
               filter={`url(#${id("blurS")})`}
             />
             {/* specular */}
-            <ellipse cx={ear.cx - 16} cy="48" rx="14" ry="10" fill="#FFFFFF" opacity="0.7" filter={`url(#${id("blurS")})`} />
+            <ellipse cx={ear.cx - 15} cy="54" rx="13" ry="9" fill="#FFFFFF" opacity="0.7" filter={`url(#${id("blurS")})`} />
           </g>
         ))}
 
