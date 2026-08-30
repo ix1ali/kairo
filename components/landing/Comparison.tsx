@@ -21,7 +21,7 @@ function Cell({ value, primary }: { value: string | boolean; primary: boolean })
         <circle cx="8.5" cy="8.5" r="8.5" fill={primary ? "rgba(124,92,255,0.22)" : "rgba(255,255,255,0.06)"} />
         <path
           d="M5 8.6l2.4 2.4L12 6.4"
-          stroke={primary ? "#6D4DF6" : "#6E697E"}
+          stroke={primary ? "#7C5CFF" : "#7E7E93"}
           strokeWidth="1.7"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -32,11 +32,11 @@ function Cell({ value, primary }: { value: string | boolean; primary: boolean })
     return (
       <svg width="17" height="17" viewBox="0 0 17 17" fill="none" className="mx-auto">
         <circle cx="8.5" cy="8.5" r="8.5" fill="rgba(255,255,255,0.035)" />
-        <path d="M5.8 5.8l5.4 5.4M11.2 5.8l-5.4 5.4" stroke="#B8B2A9" strokeWidth="1.7" strokeLinecap="round" />
+        <path d="M5.8 5.8l5.4 5.4M11.2 5.8l-5.4 5.4" stroke="#3E3E4E" strokeWidth="1.7" strokeLinecap="round" />
       </svg>
     );
   return (
-    <span className={`text-[12.5px] ${primary ? "font-semibold text-[#5B3FE0]" : "text-[#6E697E]"}`}>
+    <span className={`text-[12.5px] ${primary ? "font-semibold text-[#C9BEFF]" : "text-[#7E7E93]"}`}>
       {value}
     </span>
   );
@@ -44,11 +44,11 @@ function Cell({ value, primary }: { value: string | boolean; primary: boolean })
 
 export default function Comparison() {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-[#E6E2DC] bg-white">
+    <div className="overflow-x-auto rounded-2xl border border-[#1E1E28] bg-white/[0.02]">
       <table className="w-full min-w-[720px] border-collapse text-left">
         <thead>
-          <tr className="border-b border-[#E6E2DC]">
-            <th className="px-5 py-4 text-[11px] font-semibold uppercase tracking-widest text-[#6E697E]">
+          <tr className="border-b border-[#1E1E28]">
+            <th className="px-5 py-4 text-[11px] font-semibold uppercase tracking-widest text-[#7E7E93]">
               What you get
             </th>
             {COLUMNS.map((c, i) => (
@@ -56,8 +56,8 @@ export default function Comparison() {
                 key={c}
                 className={`px-4 py-4 text-center text-[13px] font-semibold ${
                   i === 0
-                    ? "border-x border-[#6D4DF6]/30 bg-[#6D4DF6]/[0.07] text-[#141220]"
-                    : "text-[#6B6678]"
+                    ? "border-x border-[#7C5CFF]/30 bg-[#7C5CFF]/[0.07] text-white"
+                    : "text-[#7C7C90]"
                 }`}
               >
                 {c}
@@ -67,15 +67,15 @@ export default function Comparison() {
         </thead>
         <tbody>
           {ROWS.map((row, ri) => (
-            <tr key={row.label} className={ri % 2 ? "bg-white" : ""}>
-              <td className="border-t border-[#EDEAE4] px-5 py-3.5 text-[13px] font-medium text-[#4A4560]">
+            <tr key={row.label} className={ri % 2 ? "bg-white/[0.02]" : ""}>
+              <td className="border-t border-[#16161F] px-5 py-3.5 text-[13px] font-medium text-[#B9B9CC]">
                 {row.label}
               </td>
               {row.values.map((v, i) => (
                 <td
                   key={i}
-                  className={`border-t border-[#EDEAE4] px-4 py-3.5 text-center ${
-                    i === 0 ? "border-x border-[#6D4DF6]/30 bg-[#6D4DF6]/[0.07]" : ""
+                  className={`border-t border-[#16161F] px-4 py-3.5 text-center ${
+                    i === 0 ? "border-x border-[#7C5CFF]/30 bg-[#7C5CFF]/[0.07]" : ""
                   }`}
                 >
                   <Cell value={v} primary={i === 0} />

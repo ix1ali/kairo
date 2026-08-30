@@ -191,12 +191,12 @@ export default function PostDrawer({
     <div className="fixed inset-0 z-50 flex">
       <div className="flex-1 bg-black/75 backdrop-blur-sm" onClick={onClose} />
 
-      <aside className="flex h-full w-full max-w-[30rem] flex-col border-l border-[#EDEAE4] bg-[#FAF9F7] shadow-2xl">
+      <aside className="flex h-full w-full max-w-[30rem] flex-col border-l border-[#16161F] bg-[#0A0A0F] shadow-2xl">
         {/* ---- header ---- */}
-        <div className="flex shrink-0 items-center justify-between gap-3 border-b border-[#EDEAE4] px-5 py-3.5">
+        <div className="flex shrink-0 items-center justify-between gap-3 border-b border-[#16161F] px-5 py-3.5">
           <div className="min-w-0">
-            <p className="text-[15px] font-semibold text-[#141220]">Day {post.day}</p>
-            <p className="flex items-center gap-1.5 text-[12px] text-[#6E697E]">
+            <p className="text-[15px] font-semibold text-white">Day {post.day}</p>
+            <p className="flex items-center gap-1.5 text-[12px] text-[#7E7E93]">
               {post.timeOfDay}
               <PlatformIcon platform={post.platform} size={12} />
               {post.contentTypeName || post.format}
@@ -209,7 +209,7 @@ export default function PostDrawer({
 
         <div className="flex-1 overflow-y-auto">
           {/* ---- the post itself, immediately ---- */}
-          <div className="bg-[#F3F1EE] p-4">
+          <div className="bg-white/[0.05] p-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={post.assetUrl || `/api/render/${post.id}?v=${bust}`}
@@ -217,7 +217,7 @@ export default function PostDrawer({
               className="mx-auto max-h-[420px] w-auto rounded-xl"
             />
             {isVideo && (
-              <p className="mt-3 flex items-center justify-center gap-1.5 text-[12px] text-[#6E697E]">
+              <p className="mt-3 flex items-center justify-center gap-1.5 text-[12px] text-[#7E7E93]">
                 <Icon name="video" size={13} />
                 Cover frame — the full script is at the bottom
               </p>
@@ -225,7 +225,7 @@ export default function PostDrawer({
           </div>
 
           {/* ---- copy / download / edit ---- */}
-          <div className="grid grid-cols-3 gap-2 border-b border-[#EDEAE4] p-4">
+          <div className="grid grid-cols-3 gap-2 border-b border-[#16161F] p-4">
             <button
               className="btn btn-ghost btn-sm flex-col gap-1 py-2.5"
               onClick={() => copy(fullCaption, "cap")}
@@ -251,7 +251,7 @@ export default function PostDrawer({
           </div>
 
           {/* ---- caption ---- */}
-          <div className="border-b border-[#EDEAE4] p-5">
+          <div className="border-b border-[#16161F] p-5">
             {editing ? (
               <div className="space-y-3">
                 <div>
@@ -291,14 +291,14 @@ export default function PostDrawer({
               </div>
             ) : (
               <>
-                <p className="whitespace-pre-line text-[14px] leading-relaxed text-[#3A3548]">{caption}</p>
-                <p className="mt-3 text-[12.5px] leading-relaxed text-[#6E697E]">{hashText}</p>
+                <p className="whitespace-pre-line text-[14px] leading-relaxed text-[#C4C4D4]">{caption}</p>
+                <p className="mt-3 text-[12.5px] leading-relaxed text-[#7E7E93]">{hashText}</p>
               </>
             )}
           </div>
 
           {/* ---- posted ---- */}
-          <div className="border-b border-[#EDEAE4] p-5">
+          <div className="border-b border-[#16161F] p-5">
             <button
               onClick={() => patch({ status: posted ? "approved" : "posted" })}
               className={`btn w-full py-3 ${posted ? "btn-ghost" : "btn-primary"}`}
@@ -326,8 +326,8 @@ export default function PostDrawer({
           </div>
 
           {/* ---- rate ---- */}
-          <div className="border-b border-[#EDEAE4] p-5">
-            <p className="mb-2.5 text-[13px] font-semibold text-[#141220]">How is this one?</p>
+          <div className="border-b border-[#16161F] p-5">
+            <p className="mb-2.5 text-[13px] font-semibold text-white">How is this one?</p>
             <div className="flex gap-1.5">
               {[1, 2, 3, 4, 5].map((n) => (
                 <button
@@ -338,8 +338,8 @@ export default function PostDrawer({
                   }}
                   className={`h-10 flex-1 rounded-xl border text-lg transition-colors ${
                     n <= rating
-                      ? "border-[#A65209]/50 bg-[#A65209]/15 text-[#A65209]"
-                      : "border-[#E6E2DC] bg-white text-[#B8B2A9] hover:text-[#6E697E]"
+                      ? "border-[#FFB443]/50 bg-[#FFB443]/15 text-[#FFB443]"
+                      : "border-[#1E1E28] bg-white/[0.02] text-[#3E3E4E] hover:text-[#7E7E93]"
                   }`}
                   aria-label={`${n} out of 5`}
                 >
@@ -357,19 +357,19 @@ export default function PostDrawer({
           </div>
 
           {/* ---- change it ---- */}
-          <div className="border-b border-[#EDEAE4] p-5">
+          <div className="border-b border-[#16161F] p-5">
             {!changing ? (
               <button className="btn btn-ghost w-full" onClick={() => setChanging(true)}>
                 <Icon name="wand" size={15} />
                 Change this post
-                <span className="ml-1 text-[11px] text-[#6E697E]">
+                <span className="ml-1 text-[11px] text-[#7E7E93]">
                   {credits.toLocaleString()} credits
                 </span>
               </button>
             ) : (
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <p className="text-[13px] font-semibold text-[#141220]">What should change?</p>
+                  <p className="text-[13px] font-semibold text-white">What should change?</p>
                   <button className="btn btn-quiet btn-sm" onClick={() => setChanging(false)}>
                     <Icon name="close" size={14} />
                   </button>
@@ -382,12 +382,12 @@ export default function PostDrawer({
                       onClick={() => setAction(a.key)}
                       className={`rounded-xl border px-3 py-2.5 text-left text-[12.5px] transition-colors ${
                         action === a.key
-                          ? "border-[#6D4DF6] bg-[#6D4DF6]/12 text-[#141220]"
-                          : "border-[#E6E2DC] bg-white text-[#615D70] hover:border-[#C9C4BC]"
+                          ? "border-[#7C5CFF] bg-[#7C5CFF]/12 text-white"
+                          : "border-[#1E1E28] bg-white/[0.02] text-[#9B9BAE] hover:border-[#33333F]"
                       }`}
                     >
                       {a.label}
-                      <span className="mt-0.5 block text-[10.5px] text-[#6E697E]">{a.cost} credits</span>
+                      <span className="mt-0.5 block text-[10.5px] text-[#7E7E93]">{a.cost} credits</span>
                     </button>
                   ))}
                 </div>
@@ -399,8 +399,8 @@ export default function PostDrawer({
                   placeholder="Tell Kai what is wrong. e.g. too salesy, make the product bigger, warmer colours."
                 />
 
-                <div className="rounded-xl border border-[#0284C7]/25 bg-[#0284C7]/[0.05] p-3">
-                  <p className="mb-1.5 flex items-center gap-1.5 text-[12.5px] font-semibold text-[#0E7490]">
+                <div className="rounded-xl border border-[#22D3EE]/25 bg-[#22D3EE]/[0.05] p-3">
+                  <p className="mb-1.5 flex items-center gap-1.5 text-[12.5px] font-semibold text-[#67E8F9]">
                     <Icon name="palette" size={13} />
                     Match a reference you like
                   </p>
@@ -426,7 +426,7 @@ export default function PostDrawer({
                         {refPalette.map((c) => (
                           <span
                             key={c}
-                            className="h-6 w-6 rounded-md border border-[#DCD7CF]"
+                            className="h-6 w-6 rounded-md border border-[#22222E]"
                             style={{ background: c }}
                             title={c}
                           />
@@ -435,9 +435,9 @@ export default function PostDrawer({
                     )}
                   </div>
                   {refName && (
-                    <p className="mt-1.5 truncate text-[11px] text-[#6E697E]">{refName}</p>
+                    <p className="mt-1.5 truncate text-[11px] text-[#7E7E93]">{refName}</p>
                   )}
-                  <p className="mt-2 text-[11px] leading-relaxed text-[#6E697E]">
+                  <p className="mt-2 text-[11px] leading-relaxed text-[#7E7E93]">
                     The image stays on your device — Koala reads its palette and rebuilds this post
                     in those colours, with your brand and product.
                   </p>
@@ -452,7 +452,7 @@ export default function PostDrawer({
                   )}
                 </div>
 
-                {regenError && <p className="text-[12px] text-[#DB2777]">{regenError}</p>}
+                {regenError && <p className="text-[12px] text-[#FF6B8A]">{regenError}</p>}
 
                 <button
                   className="btn btn-primary w-full"
@@ -473,7 +473,7 @@ export default function PostDrawer({
           <div className="p-5">
             <button
               onClick={() => setShowDetail((v) => !v)}
-              className="flex w-full items-center justify-between text-[13px] font-semibold text-[#6B6678] hover:text-[#141220]"
+              className="flex w-full items-center justify-between text-[13px] font-semibold text-[#7C7C90] hover:text-white"
             >
               {isVideo ? "Script and shot list" : "Why this post, and how to shoot it"}
               <Icon name="arrowDown" size={14} className={showDetail ? "rotate-180" : ""} />
@@ -497,10 +497,10 @@ export default function PostDrawer({
                 </div>
 
                 {post.contentWhy && (
-                  <p className="text-[13px] leading-relaxed text-[#615D70]">{post.contentWhy}</p>
+                  <p className="text-[13px] leading-relaxed text-[#9B9BAE]">{post.contentWhy}</p>
                 )}
 
-                <pre className="whitespace-pre-wrap rounded-xl border border-[#E6E2DC] bg-white px-4 py-3.5 font-sans text-[12.5px] leading-relaxed text-[#615D70]">
+                <pre className="whitespace-pre-wrap rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3.5 font-sans text-[12.5px] leading-relaxed text-[#9B9BAE]">
                   {post.visualDirection}
                 </pre>
 
@@ -509,7 +509,7 @@ export default function PostDrawer({
                     {post.revisions.map((r, i) => (
                       <div
                         key={i}
-                        className="flex items-start justify-between gap-3 text-[11.5px] text-[#6E697E]"
+                        className="flex items-start justify-between gap-3 text-[11.5px] text-[#7E7E93]"
                       >
                         <span className="truncate">{r.prompt}</span>
                         <span className="shrink-0">-{r.creditsSpent}</span>

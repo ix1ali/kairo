@@ -10,7 +10,7 @@ export const en = {
     pricing: "Pricing",
     faq: "FAQ",
     signIn: "Log in",
-    getStarted: "Get started",
+    getStarted: "Sign up",
     menu: "Toggle menu",
     language: "Language",
   },
@@ -126,10 +126,10 @@ export const en = {
   },
 
   demo: {
-    eyebrow: "A real month, generated live",
+    eyebrow: "The calendar",
     h1: "Open any day.",
     h2: "It is already finished.",
-    sub: "A real month for a sample coffee brand, built by the same engine that runs your account. Tap a date to read the caption, the art direction, and why that post sits on that day.",
+    sub: "A sample coffee brand, built by the same engine that runs your account. Tap a date to read the caption, the art direction, and why that post sits on that day.",
     oneLook: "One look, all thirty days",
     tabCaption: "Caption",
     tabArt: "Art direction",
@@ -171,7 +171,7 @@ models: {
     beforeTag: "Uploaded",
     beforeAlt: "The original product photograph, shot flat on a white background",
     beforeNote: "The only asset the brand owned.",
-    jobs: ["Product hero", "Flavour story", "Comment-bait UGC", "Lifestyle portrait"],
+    jobs: ["Product hero", "Flavour story", "Arabic + English", "Lifestyle portrait"],
     afterNote: "Four posts, one palette, one typographic voice — so they still read as one brand when they land in a feed days apart.",
   },
 
@@ -180,7 +180,7 @@ models: {
     videoH1: "Nobody was filmed. Nothing was shipped.",
     videoSub: "Every clip below started as one product photo. No model booked, no studio hired, no props bought, no reshoot because the light was wrong.",
     videoTag: "AI",
-    videoFooter: "Twenty-two clips. Skincare, jewellery, food, pets, drinkware — all generated.",
+    videoFooter: "Fourteen clips. Skincare, fragrance, food, pets and supplements — all generated.",
     stillsEyebrow: "The stills",
     stillsH1: "One look, held for thirty days.",
     stillsSub: "This is what consistency actually looks like. Same palette, same typographic weight, same treatment — across an entire month, in English and Arabic.",
@@ -229,6 +229,7 @@ models: {
   },
 
   pricing: {
+    swipe: "Swipe to compare plans",
     monthShort: "/mo",
     choose: "Choose",
     compare: "Compare everything in each plan",

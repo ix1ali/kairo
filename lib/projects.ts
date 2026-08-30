@@ -1,3 +1,4 @@
+import type { AudienceProfile } from "./strategy/audience";
 import { mutate, read, uid } from "./db";
 import { getPackage } from "./plans";
 import { buildCalendar, buildStrategy } from "./strategy/engine";
@@ -84,6 +85,7 @@ export interface ProjectInput {
   colors?: Partial<typeof DEFAULT_COLORS>;
   voice?: string;
   audience?: string;
+  audienceProfile?: AudienceProfile;
   market?: string;
   language?: string;
   locale?: string;
@@ -138,6 +140,7 @@ export function createProjectWithPlan(user: User, input: ProjectInput): Project 
     colors: { ...DEFAULT_COLORS, ...(input.colors || {}) },
     voice: input.voice || VOICE_OPTIONS[0],
     audience: (input.audience || "").trim(),
+    audienceProfile: input.audienceProfile,
     market: (input.market || "").trim(),
     locale: input.locale || DEFAULT_LOCALE,
     language: localeLabel(input.locale || DEFAULT_LOCALE),

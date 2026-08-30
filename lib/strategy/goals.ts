@@ -81,6 +81,36 @@ export const GOALS: Goal[] = [
     kpi: "Saves and profile visits",
     weights: { authority: 2.1, proof: 1.4, story: 1.2, objection: 1.1, offer: 0.5, product: 0.8 },
   },
+{
+    key: "retention",
+    label: "Keep customers coming back",
+    short: "Repeat",
+    description: "You already have buyers. Make the second and third order happen.",
+    icon: "heart",
+    accent: "#EC4899",
+    kpi: "Repeat purchase rate",
+    weights: { community: 1.8, proof: 1.5, product: 1.3, story: 1.2, offer: 0.8, objection: 0.6 },
+  },
+  {
+    key: "footfall",
+    label: "Get people through the door",
+    short: "Footfall",
+    description: "For a place people physically visit — a shop, a restaurant, a salon, a showroom.",
+    icon: "store",
+    accent: "#0EA5E9",
+    kpi: "Walk-ins, saves and directions taps",
+    weights: { community: 1.7, offer: 1.5, proof: 1.4, product: 1.1, authority: 0.7, story: 1.0 },
+  },
+  {
+    key: "educate",
+    label: "Explain what you do",
+    short: "Educate",
+    description: "Best when people do not yet understand the category, let alone your product.",
+    icon: "brain",
+    accent: "#14B8A6",
+    kpi: "Saves, watch time and replies",
+    weights: { authority: 1.9, objection: 1.7, proof: 1.2, story: 1.0, offer: 0.4, product: 0.9 },
+  },
 ];
 
 export const DEFAULT_GOAL = "sales";

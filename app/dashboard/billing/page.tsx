@@ -33,20 +33,20 @@ export default async function BillingPage() {
 
       {transactions.length > 0 && (
         <section className="mt-10">
-          <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#6E697E]">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#7E7E93]">
             History
           </h2>
-          <div className="panel divide-y divide-[#EDEAE4]">
+          <div className="panel divide-y divide-[#16161F]">
             {transactions.map((t) => (
               <div key={t.id} className="flex items-center justify-between gap-4 px-5 py-3.5">
                 <div>
-                  <p className="text-[14px] font-medium text-[#141220]">{t.label}</p>
-                  <p className="text-[12px] text-[#6E697E]">
+                  <p className="text-[14px] font-medium text-white">{t.label}</p>
+                  <p className="text-[12px] text-[#7E7E93]">
                     {new Date(t.createdAt).toLocaleString()}
                     {t.credits > 0 ? ` · +${t.credits} credits` : ""}
                   </p>
                 </div>
-                <span className="text-[14px] font-semibold text-[#141220]">${t.amount}</span>
+                <span className="text-[14px] font-semibold text-white">${t.amount}</span>
               </div>
             ))}
           </div>

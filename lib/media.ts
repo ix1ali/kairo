@@ -16,15 +16,15 @@ const clip = (n: number) => {
 const still = (n: number) => `/assets/creatives/c${String(n).padStart(2, "0")}.webp`;
 
 /**
- * Row one is people-led: creators to camera, hands holding product, beauty
- * portraits. Row two is everything shot without a person in frame.
+ * One row, fourteen clips, alternating a creator to camera with a cinematic
+ * product shot so the line never reads as all-talking-heads or all-still-life.
+ *
+ * Chosen by eye from the full library rather than taken in file order, and cut
+ * to six seconds at 360x640 — roughly 195KB each, so the whole row is lighter
+ * than a single unoptimised clip was. Nothing loads until it is near the
+ * viewport.
  */
-export const VIDEO_ROWS = [
-  // UGC and beauty — a face or a pair of hands in almost every frame
-  [3, 13, 12, 14, 22, 6, 2, 5].map(clip),
-  // product and food — cinematic still life, nobody in shot
-  [8, 7, 15, 9, 20, 21, 18, 17, 4, 10, 16, 1].map(clip),
-];
+export const VIDEO_ROW = Array.from({ length: 14 }, (_, i) => clip(i + 1));
 
 /**
  * Stills grouped into families, then ordered so the palette flows: pale

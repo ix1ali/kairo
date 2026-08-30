@@ -39,14 +39,14 @@ export default async function Languages() {
         {shown.map((l) => (
           <div
             key={l.code}
-            className="flex items-center gap-2.5 rounded-xl border border-[#E6E2DC] bg-white px-3 py-2.5 transition-colors hover:border-[#C9C4BC] hover:bg-[#F3F1EE]"
+            className="flex items-center gap-2.5 rounded-xl border border-[#1E1E28] bg-white/[0.02] px-3 py-2.5 transition-colors hover:border-[#33333F] hover:bg-white/[0.05]"
           >
             <Flag cc={l.cc} size={22} />
             <span className="min-w-0">
-              <span className="block truncate text-[12.5px] font-medium text-[#3A3548]">
+              <span className="block truncate text-[12.5px] font-medium text-[#C4C4D4]">
                 {l.country}
               </span>
-              <span className="block truncate text-[10.5px] text-[#6E697E]">
+              <span className="block truncate text-[10.5px] text-[#7E7E93]">
                 {l.dialect === "Standard" ? l.language : `${l.language} · ${l.dialect}`}
               </span>
             </span>
@@ -54,7 +54,7 @@ export default async function Languages() {
         ))}
       </div>
 
-      <p className="mt-6 text-center text-[13px] text-[#6E697E]">
+      <p className="mt-6 text-center text-[13px] text-[#7E7E93]">
         + {LOCALES.length - shown.length} {t.more}
       </p>
     </div>

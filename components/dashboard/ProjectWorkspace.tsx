@@ -121,7 +121,7 @@ export default function ProjectWorkspace({
       <div className="mb-7 flex flex-wrap items-start justify-between gap-5">
         <div className="flex min-w-0 items-start gap-4">
           <span
-            className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-2xl text-xl font-bold text-[#141220]"
+            className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-2xl text-xl font-bold text-white"
             style={{ background: `linear-gradient(135deg, ${project.colors.primary}, ${project.colors.secondary})` }}
           >
             {project.logoUrl ? (
@@ -133,7 +133,7 @@ export default function ProjectWorkspace({
           </span>
           <div className="min-w-0">
             <h1 className="display truncate text-2xl sm:text-3xl">{project.name}</h1>
-            <p className="mt-1 text-[13px] text-[#6B6678]">
+            <p className="mt-1 text-[13px] text-[#7C7C90]">
               {project.tagline || s?.oneLiner || project.category}
             </p>
             <div className="mt-2.5 flex flex-wrap gap-1.5">
@@ -163,14 +163,14 @@ export default function ProjectWorkspace({
       <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {[
           ["Total posts", stats.total, undefined],
-          ["Posted", stats.posted, "#357A38"],
-          ["Scheduled", stats.scheduled, "#0284C7"],
+          ["Posted", stats.posted, "#C8F751"],
+          ["Scheduled", stats.scheduled, "#22D3EE"],
           ["Drafts", stats.drafts, undefined],
-          ["Avg rating", stats.avg ? `${stats.avg}★` : "—", "#A65209"],
-          ["Logged reach", stats.reach ? stats.reach.toLocaleString() : "—", "#6D4DF6"],
+          ["Avg rating", stats.avg ? `${stats.avg}★` : "—", "#FFB443"],
+          ["Logged reach", stats.reach ? stats.reach.toLocaleString() : "—", "#7C5CFF"],
         ].map(([label, value, color]) => (
           <div key={String(label)} className="panel px-4 py-3.5">
-            <p className="text-[10.5px] uppercase tracking-wider text-[#6E697E]">{String(label)}</p>
+            <p className="text-[10.5px] uppercase tracking-wider text-[#7E7E93]">{String(label)}</p>
             <p className="display mt-1 text-xl" style={color ? { color: String(color) } : undefined}>
               {String(value)}
             </p>
@@ -181,14 +181,14 @@ export default function ProjectWorkspace({
       {/* progress */}
       <div className="panel mb-6 p-5">
         <div className="mb-2.5 flex items-center justify-between">
-          <p className="text-[13px] font-semibold text-[#141220]">Month progress</p>
-          <p className="text-[12px] text-[#6E697E]">
+          <p className="text-[13px] font-semibold text-white">Month progress</p>
+          <p className="text-[12px] text-[#7E7E93]">
             {stats.posted} of {stats.total} posted
           </p>
         </div>
-        <div className="h-2 overflow-hidden rounded-full bg-[#EDEAE4]">
+        <div className="h-2 overflow-hidden rounded-full bg-white/10">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-[#6D4DF6] to-[#0284C7] transition-all duration-500"
+            className="h-full rounded-full bg-gradient-to-r from-[#7C5CFF] to-[#22D3EE] transition-all duration-500"
             style={{ width: `${stats.total ? (stats.posted / stats.total) * 100 : 0}%` }}
           />
         </div>
@@ -217,7 +217,7 @@ export default function ProjectWorkspace({
       </div>
 
       {/* tabs */}
-      <div className="mb-5 flex gap-1 border-b border-[#EDEAE4]">
+      <div className="mb-5 flex gap-1 border-b border-[#16161F]">
         {(
           [
             ["calendar", "Calendar"],
@@ -230,8 +230,8 @@ export default function ProjectWorkspace({
             onClick={() => setTab(k)}
             className={`-mb-px border-b-2 px-4 py-2.5 text-[13.5px] font-semibold transition-colors ${
               tab === k
-                ? "border-[#6D4DF6] text-[#141220]"
-                : "border-transparent text-[#6E697E] hover:text-[#141220]"
+                ? "border-[#7C5CFF] text-white"
+                : "border-transparent text-[#7E7E93] hover:text-white"
             }`}
           >
             {label}
@@ -245,21 +245,21 @@ export default function ProjectWorkspace({
           {upNext && (
             <button
               onClick={() => setOpenId(upNext.id)}
-              className="mb-5 flex w-full items-center gap-4 rounded-2xl border border-[#6D4DF6]/35 bg-gradient-to-r from-[#6D4DF6]/12 to-transparent p-3.5 text-left transition-colors hover:border-[#6D4DF6]/60 hover:from-[#6D4DF6]/18"
+              className="mb-5 flex w-full items-center gap-4 rounded-2xl border border-[#7C5CFF]/35 bg-gradient-to-r from-[#7C5CFF]/12 to-transparent p-3.5 text-left transition-colors hover:border-[#7C5CFF]/60 hover:from-[#7C5CFF]/18"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={upNext.assetUrl || `/api/render/${upNext.id}`}
                 alt=""
-                className="h-[62px] w-[50px] shrink-0 rounded-lg border border-[#DCD7CF] object-cover"
+                className="h-[62px] w-[50px] shrink-0 rounded-lg border border-[#22222E] object-cover"
               />
               <div className="min-w-0 flex-1">
-                <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#6D4DF6]">
+                <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#7C5CFF]">
                   <Icon name="play" size={11} filled />
                   Post this next
                 </p>
-                <p className="mt-1 truncate text-[15px] font-semibold text-[#141220]">{upNext.hook}</p>
-                <p className="mt-0.5 flex items-center gap-1.5 text-[12px] text-[#6B6678]">
+                <p className="mt-1 truncate text-[15px] font-semibold text-white">{upNext.hook}</p>
+                <p className="mt-0.5 flex items-center gap-1.5 text-[12px] text-[#7C7C90]">
                   Day {upNext.day} · {upNext.timeOfDay}
                   <PlatformIcon platform={upNext.platform} size={12} />
                   {upNext.contentTypeName || upNext.format}
@@ -313,13 +313,13 @@ export default function ProjectWorkspace({
               ))}
             </select>
 
-            <div className="ml-auto flex gap-1 rounded-xl border border-[#E6E2DC] bg-white p-1">
+            <div className="ml-auto flex gap-1 rounded-xl border border-[#1E1E28] bg-white/[0.02] p-1">
               {(["calendar", "gallery"] as const).map((v) => (
                 <button
                   key={v}
                   onClick={() => setView(v)}
                   className={`rounded-lg px-3 py-1.5 text-[12px] font-semibold capitalize transition-colors ${
-                    view === v ? "bg-[#EDEAE4] text-[#141220]" : "text-[#6E697E]"
+                    view === v ? "bg-white/10 text-white" : "text-[#7E7E93]"
                   }`}
                 >
                   {v}
@@ -329,9 +329,9 @@ export default function ProjectWorkspace({
           </div>
 
           {filterWeek > 0 && (
-            <div className="mb-4 flex flex-wrap items-center gap-2 rounded-xl border border-[#E6E2DC] bg-white px-4 py-3">
-              <p className="text-[13px] text-[#615D70]">
-                Week {filterWeek}: <span className="font-semibold text-[#141220]">{WEEK_NAMES[filterWeek - 1]}</span>
+            <div className="mb-4 flex flex-wrap items-center gap-2 rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3">
+              <p className="text-[13px] text-[#9B9BAE]">
+                Week {filterWeek}: <span className="font-semibold text-white">{WEEK_NAMES[filterWeek - 1]}</span>
               </p>
               <div className="ml-auto flex gap-2">
                 <a className="btn btn-ghost btn-sm" href={`/api/export/${project.id}?week=${filterWeek}`}>
@@ -350,7 +350,7 @@ export default function ProjectWorkspace({
 
           {byDay.length === 0 ? (
             <div className="panel p-10 text-center">
-              <p className="text-[15px] text-[#6B6678]">No posts match those filters.</p>
+              <p className="text-[15px] text-[#7C7C90]">No posts match those filters.</p>
             </div>
           ) : view === "calendar" ? (
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -365,36 +365,36 @@ export default function ProjectWorkspace({
                     key={day}
                     className={`panel overflow-hidden transition-colors ${
                       isToday
-                        ? "border-[#6D4DF6]/60 shadow-[0_0_0_1px_rgba(124,92,255,0.35)]"
+                        ? "border-[#7C5CFF]/60 shadow-[0_0_0_1px_rgba(124,92,255,0.35)]"
                         : allDone
-                        ? "border-[#357A38]/30 bg-[#357A38]/[0.03]"
+                        ? "border-[#C8F751]/30 bg-[#C8F751]/[0.03]"
                         : isPast && !allDone
-                        ? "border-[#A65209]/25"
+                        ? "border-[#FFB443]/25"
                         : ""
                     }`}
                   >
-                    <div className="flex items-center justify-between border-b border-[#EDEAE4] px-4 py-2.5">
+                    <div className="flex items-center justify-between border-b border-[#16161F] px-4 py-2.5">
                       <div className="flex items-center gap-2">
                         <span
                           className={`grid h-7 w-7 place-items-center rounded-lg text-[12px] font-bold ${
-                            allDone ? "bg-[#357A38]/18 text-[#357A38]" : "bg-[#F3F1EE] text-[#615D70]"
+                            allDone ? "bg-[#C8F751]/18 text-[#C8F751]" : "bg-white/[0.05] text-[#9B9BAE]"
                           }`}
                         >
                           {allDone ? <Icon name="check" size={13} strokeWidth={3} /> : day}
                         </span>
                         <div>
-                          <p className="text-[12px] font-semibold text-[#141220]">Day {day}</p>
-                          <p className="text-[10.5px] text-[#6E697E]">
+                          <p className="text-[12px] font-semibold text-white">Day {day}</p>
+                          <p className="text-[10.5px] text-[#7E7E93]">
                             {date.toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short" })}
                           </p>
                         </div>
                       </div>
                       {isToday ? (
-                        <span className="chip" style={{ color: "#5B3FE0", borderColor: "#6D4DF688", background: "#6D4DF622" }}>
+                        <span className="chip" style={{ color: "#C9BEFF", borderColor: "#7C5CFF88", background: "#7C5CFF22" }}>
                           Today
                         </span>
                       ) : isPast && !allDone ? (
-                        <span className="chip" style={{ color: "#A65209", borderColor: "#A6520944", background: "#A652091A" }}>
+                        <span className="chip" style={{ color: "#FFB443", borderColor: "#FFB44344", background: "#FFB4431A" }}>
                           Overdue
                         </span>
                       ) : (
@@ -402,15 +402,15 @@ export default function ProjectWorkspace({
                       )}
                     </div>
 
-                    <div className="divide-y divide-[#E6E2DC]">
+                    <div className="divide-y divide-[#1E1E28]">
                       {dayPosts.map((p) => {
                         const st = STATUS_STYLE[p.status];
                         const done = p.status === "posted";
                         return (
-                          <div key={p.id} className="flex gap-2.5 px-3 py-2.5 transition-colors hover:bg-white">
+                          <div key={p.id} className="flex gap-2.5 px-3 py-2.5 transition-colors hover:bg-white/[0.02]">
                             <button
                               onClick={() => setOpenId(p.id)}
-                              className="relative h-[52px] w-[42px] shrink-0 overflow-hidden rounded-lg border border-[#DCD7CF] bg-[#F3F1EE]"
+                              className="relative h-[52px] w-[42px] shrink-0 overflow-hidden rounded-lg border border-[#22222E] bg-white/[0.05]"
                               aria-label={`Open day ${p.day}`}
                             >
                               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -421,8 +421,8 @@ export default function ProjectWorkspace({
                                 className="h-full w-full object-cover"
                               />
                               {done && (
-                                <span className="absolute inset-0 grid place-items-center bg-[#FAF9F7]/65">
-                                  <Icon name="check" size={16} className="text-[#357A38]" strokeWidth={3} />
+                                <span className="absolute inset-0 grid place-items-center bg-[#0A0A0F]/65">
+                                  <Icon name="check" size={16} className="text-[#C8F751]" strokeWidth={3} />
                                 </span>
                               )}
                             </button>
@@ -436,15 +436,15 @@ export default function ProjectWorkspace({
                                   className="h-1.5 w-1.5 shrink-0 rounded-full"
                                   style={{ background: PILLAR_COLOR[p.pillar] }}
                                 />
-                                <span className="text-[10.5px] font-semibold text-[#6B6678]">{p.timeOfDay}</span>
-                                <span className="text-[#6E697E]">
+                                <span className="text-[10.5px] font-semibold text-[#7C7C90]">{p.timeOfDay}</span>
+                                <span className="text-[#7E7E93]">
                                   <PlatformIcon platform={p.platform} size={11} />
                                 </span>
-                                <span className="truncate text-[10px] text-[#6E697E]">{p.contentTypeName || p.format}</span>
+                                <span className="truncate text-[10px] text-[#7E7E93]">{p.contentTypeName || p.format}</span>
                               </span>
                               <span
                                 className={`mt-1 block clamp-2 text-[12.5px] leading-snug ${
-                                  done ? "text-[#6E697E] line-through decoration-[#357A38]/40" : "text-[#3A3548]"
+                                  done ? "text-[#7E7E93] line-through decoration-[#C8F751]/40" : "text-[#C4C4D4]"
                                 }`}
                               >
                                 {p.hook}
@@ -457,8 +457,8 @@ export default function ProjectWorkspace({
                               aria-label={done ? "Mark as not posted" : "Mark as posted"}
                               className={`mt-0.5 grid h-7 w-7 shrink-0 place-items-center self-start rounded-full border transition-all duration-200 active:scale-90 ${
                                 done
-                                  ? "border-[#357A38] bg-[#357A38] text-[#FAF9F7] shadow-[0_0_14px_rgba(200,247,81,0.4)]"
-                                  : "border-[#C9C4BC] bg-white text-[#A8A29A] hover:border-[#357A38]/70 hover:bg-[#357A38]/10 hover:text-[#357A38]"
+                                  ? "border-[#C8F751] bg-[#C8F751] text-[#0A0A0F] shadow-[0_0_14px_rgba(200,247,81,0.4)]"
+                                  : "border-[#33333F] bg-white/[0.02] text-[#4A4A5A] hover:border-[#C8F751]/70 hover:bg-[#C8F751]/10 hover:text-[#C8F751]"
                               }`}
                             >
                               <Icon name="check" size={14} strokeWidth={3.2} />
@@ -479,7 +479,7 @@ export default function ProjectWorkspace({
                   <button
                     key={p.id}
                     onClick={() => setOpenId(p.id)}
-                    className="group overflow-hidden rounded-xl border border-[#E6E2DC] bg-[#F3F1EE] text-left transition-all hover:-translate-y-1 hover:border-[#C6B8F5]"
+                    className="group overflow-hidden rounded-xl border border-[#1E1E28] bg-white/[0.05] text-left transition-all hover:-translate-y-1 hover:border-[#3A3355]"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -488,15 +488,15 @@ export default function ProjectWorkspace({
                       loading="lazy"
                       className="w-full"
                     />
-                    <div className="border-t border-[#EDEAE4] bg-[#FAF9F7] px-3 py-2.5">
+                    <div className="border-t border-[#16161F] bg-[#0A0A0F] px-3 py-2.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-bold text-[#615D70]">Day {p.day}</span>
+                        <span className="text-[11px] font-bold text-[#9B9BAE]">Day {p.day}</span>
                         <span className="inline-flex items-center gap-1 text-[10px]" style={{ color: st.color }}>
                           <Icon name={st.icon} size={10} strokeWidth={2.6} />
                           {st.label}
                         </span>
                       </div>
-                      <p className="mt-1 clamp-2 text-[11.5px] leading-snug text-[#6E697E]">{p.hook}</p>
+                      <p className="mt-1 clamp-2 text-[11.5px] leading-snug text-[#7E7E93]">{p.hook}</p>
                     </div>
                   </button>
                 );
@@ -512,10 +512,10 @@ export default function ProjectWorkspace({
           <div className="panel p-6">
             <p className="eyebrow">Positioning</p>
             <p className="display mt-3 text-2xl leading-snug">{s.positioning}</p>
-            <p className="mt-3 text-[14px] leading-relaxed text-[#615D70]">{s.oneLiner}</p>
+            <p className="mt-3 text-[14px] leading-relaxed text-[#9B9BAE]">{s.oneLiner}</p>
             {s.goal && (
-              <div className="mt-4 flex flex-wrap gap-2 border-t border-[#EDEAE4] pt-4">
-                <span className="chip" style={{ color: "#357A38", borderColor: "#357A3844", background: "#357A381A" }}>
+              <div className="mt-4 flex flex-wrap gap-2 border-t border-[#16161F] pt-4">
+                <span className="chip" style={{ color: "#C8F751", borderColor: "#C8F75144", background: "#C8F7511A" }}>
                   <Icon name="target" size={11} />
                   Goal: {s.goal}
                 </span>
@@ -529,8 +529,8 @@ export default function ProjectWorkspace({
               <p className="eyebrow mb-4">What makes you different</p>
               <ul className="space-y-2.5">
                 {s.differentiators.map((d, i) => (
-                  <li key={i} className="flex gap-2.5 text-[13.5px] leading-relaxed text-[#615D70]">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#6D4DF6]" />
+                  <li key={i} className="flex gap-2.5 text-[13.5px] leading-relaxed text-[#9B9BAE]">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#7C5CFF]" />
                     {d}
                   </li>
                 ))}
@@ -543,10 +543,10 @@ export default function ProjectWorkspace({
                 {s.pillars.map((p) => (
                   <div key={p.key}>
                     <div className="mb-1 flex items-center justify-between text-[12.5px]">
-                      <span className="font-medium text-[#141220]">{p.name}</span>
-                      <span className="text-[#6E697E]">{Math.round(p.share * 100)}%</span>
+                      <span className="font-medium text-white">{p.name}</span>
+                      <span className="text-[#7E7E93]">{Math.round(p.share * 100)}%</span>
                     </div>
-                    <div className="h-1.5 overflow-hidden rounded-full bg-[#EDEAE4]">
+                    <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
                       <div
                         className="h-full rounded-full"
                         style={{
@@ -565,14 +565,14 @@ export default function ProjectWorkspace({
             <p className="eyebrow mb-4">Audience segments</p>
             <div className="grid gap-3 md:grid-cols-2">
               {s.audienceSegments.map((a, i) => (
-                <div key={i} className="rounded-xl border border-[#E6E2DC] bg-white p-4">
-                  <p className="text-[14px] font-semibold text-[#141220]">{a.name}</p>
-                  <p className="mt-1 text-[13px] leading-relaxed text-[#6B6678]">{a.description}</p>
-                  <p className="mt-2.5 text-[12px] text-[#6E697E]">
-                    <span className="font-semibold text-[#615D70]">Trigger:</span> {a.trigger}
+                <div key={i} className="rounded-xl border border-[#1E1E28] bg-white/[0.02] p-4">
+                  <p className="text-[14px] font-semibold text-white">{a.name}</p>
+                  <p className="mt-1 text-[13px] leading-relaxed text-[#7C7C90]">{a.description}</p>
+                  <p className="mt-2.5 text-[12px] text-[#7E7E93]">
+                    <span className="font-semibold text-[#9B9BAE]">Trigger:</span> {a.trigger}
                   </p>
-                  <p className="mt-1 text-[12px] text-[#6E697E]">
-                    <span className="font-semibold text-[#615D70]">Objection:</span> {a.objection}
+                  <p className="mt-1 text-[12px] text-[#7E7E93]">
+                    <span className="font-semibold text-[#9B9BAE]">Objection:</span> {a.objection}
                   </p>
                 </div>
               ))}
@@ -583,23 +583,23 @@ export default function ProjectWorkspace({
             <p className="eyebrow mb-4">Competitive landscape</p>
             <div className="space-y-3">
               {s.competitors.map((c, i) => (
-                <div key={i} className="rounded-xl border border-[#E6E2DC] bg-white p-4">
+                <div key={i} className="rounded-xl border border-[#1E1E28] bg-white/[0.02] p-4">
                   <div className="flex flex-wrap items-center gap-2">
-                    <p className="text-[14px] font-semibold text-[#141220]">{c.name}</p>
+                    <p className="text-[14px] font-semibold text-white">{c.name}</p>
                     <span className="chip">{c.archetype}</span>
                   </div>
                   <div className="mt-3 grid gap-2.5 sm:grid-cols-3">
                     <div>
-                      <p className="text-[11px] uppercase tracking-wider text-[#6E697E]">Strength</p>
-                      <p className="mt-0.5 text-[12.5px] leading-relaxed text-[#6B6678]">{c.strength}</p>
+                      <p className="text-[11px] uppercase tracking-wider text-[#7E7E93]">Strength</p>
+                      <p className="mt-0.5 text-[12.5px] leading-relaxed text-[#7C7C90]">{c.strength}</p>
                     </div>
                     <div>
-                      <p className="text-[11px] uppercase tracking-wider text-[#6E697E]">Their gap</p>
-                      <p className="mt-0.5 text-[12.5px] leading-relaxed text-[#6B6678]">{c.gap}</p>
+                      <p className="text-[11px] uppercase tracking-wider text-[#7E7E93]">Their gap</p>
+                      <p className="mt-0.5 text-[12.5px] leading-relaxed text-[#7C7C90]">{c.gap}</p>
                     </div>
                     <div>
-                      <p className="text-[11px] uppercase tracking-wider text-[#6D4DF6]">Counter move</p>
-                      <p className="mt-0.5 text-[12.5px] leading-relaxed text-[#4A4560]">{c.counterMove}</p>
+                      <p className="text-[11px] uppercase tracking-wider text-[#7C5CFF]">Counter move</p>
+                      <p className="mt-0.5 text-[12.5px] leading-relaxed text-[#B9B9CC]">{c.counterMove}</p>
                     </div>
                   </div>
                 </div>
@@ -612,8 +612,8 @@ export default function ProjectWorkspace({
               <p className="eyebrow mb-4">Hero product plan</p>
               <ul className="space-y-2.5">
                 {s.heroPlan.map((h, i) => (
-                  <li key={i} className="flex gap-2.5 text-[13px] leading-relaxed text-[#615D70]">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#357A38]" />
+                  <li key={i} className="flex gap-2.5 text-[13px] leading-relaxed text-[#9B9BAE]">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#C8F751]" />
                     {h}
                   </li>
                 ))}
@@ -623,8 +623,8 @@ export default function ProjectWorkspace({
               <p className="eyebrow mb-4">Slow mover rescue plan</p>
               <ul className="space-y-2.5">
                 {s.slowMoverPlan.map((h, i) => (
-                  <li key={i} className="flex gap-2.5 text-[13px] leading-relaxed text-[#615D70]">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#A65209]" />
+                  <li key={i} className="flex gap-2.5 text-[13px] leading-relaxed text-[#9B9BAE]">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#FFB443]" />
                     {h}
                   </li>
                 ))}
@@ -636,13 +636,13 @@ export default function ProjectWorkspace({
             <p className="eyebrow mb-4">The 30-day arc</p>
             <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
               {s.weeks.map((w) => (
-                <div key={w.week} className="rounded-xl border border-[#E6E2DC] bg-white p-4">
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#6D4DF6]">
+                <div key={w.week} className="rounded-xl border border-[#1E1E28] bg-white/[0.02] p-4">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#7C5CFF]">
                     Week {w.week}
                   </p>
-                  <p className="mt-1 text-[14px] font-semibold text-[#141220]">{w.name}</p>
-                  <p className="mt-1.5 text-[12px] leading-relaxed text-[#6B6678]">{w.objective}</p>
-                  <p className="mt-2.5 border-t border-[#EDEAE4] pt-2 text-[11px] text-[#6E697E]">
+                  <p className="mt-1 text-[14px] font-semibold text-white">{w.name}</p>
+                  <p className="mt-1.5 text-[12px] leading-relaxed text-[#7C7C90]">{w.objective}</p>
+                  <p className="mt-2.5 border-t border-[#16161F] pt-2 text-[11px] text-[#7E7E93]">
                     KPI · {w.kpi}
                   </p>
                 </div>
@@ -655,7 +655,7 @@ export default function ProjectWorkspace({
               <p className="eyebrow mb-4">Hashtag sets</p>
               {Object.entries(s.hashtagSets).map(([k, v]) => (
                 <div key={k} className="mb-3">
-                  <p className="mb-1.5 text-[11px] uppercase tracking-wider text-[#6E697E]">{k}</p>
+                  <p className="mb-1.5 text-[11px] uppercase tracking-wider text-[#7E7E93]">{k}</p>
                   <div className="flex flex-wrap gap-1.5">
                     {v.map((t) => (
                       <span key={t} className="chip">
@@ -672,17 +672,17 @@ export default function ProjectWorkspace({
                 {s.kpis.map((k, i) => (
                   <div
                     key={i}
-                    className="flex items-center justify-between rounded-xl border border-[#E6E2DC] bg-white px-4 py-3"
+                    className="flex items-center justify-between rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3"
                   >
-                    <span className="text-[13px] text-[#615D70]">{k.name}</span>
-                    <span className="text-[13px] font-semibold text-[#141220]">{k.target}</span>
+                    <span className="text-[13px] text-[#9B9BAE]">{k.name}</span>
+                    <span className="text-[13px] font-semibold text-white">{k.target}</span>
                   </div>
                 ))}
               </div>
               <p className="eyebrow mb-3 mt-6">Posting times</p>
               <ul className="space-y-1.5">
                 {s.postingTimes.map((t, i) => (
-                  <li key={i} className="text-[12.5px] leading-relaxed text-[#6B6678]">
+                  <li key={i} className="text-[12.5px] leading-relaxed text-[#7C7C90]">
                     {t}
                   </li>
                 ))}
@@ -708,9 +708,9 @@ export default function ProjectWorkspace({
                 ["Website", project.website || "—"],
                 ["Goals", project.goals.join(", ") || "—"],
               ].map(([k, v]) => (
-                <div key={k} className="rounded-xl border border-[#E6E2DC] bg-white px-4 py-3">
-                  <p className="text-[11px] uppercase tracking-wider text-[#6E697E]">{k}</p>
-                  <p className="mt-1 text-[13px] leading-snug text-[#141220]">{v}</p>
+                <div key={k} className="rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3">
+                  <p className="text-[11px] uppercase tracking-wider text-[#7E7E93]">{k}</p>
+                  <p className="mt-1 text-[13px] leading-snug text-white">{v}</p>
                 </div>
               ))}
             </div>
@@ -719,12 +719,12 @@ export default function ProjectWorkspace({
               {Object.entries(project.colors).map(([k, v]) => (
                 <div
                   key={k}
-                  className="flex items-center gap-2 rounded-xl border border-[#E6E2DC] bg-white px-3 py-2"
+                  className="flex items-center gap-2 rounded-xl border border-[#1E1E28] bg-white/[0.02] px-3 py-2"
                 >
-                  <span className="h-6 w-6 rounded-md border border-[#E6E2DC]" style={{ background: v }} />
+                  <span className="h-6 w-6 rounded-md border border-[#1E1E28]" style={{ background: v }} />
                   <div>
-                    <p className="text-[10px] uppercase tracking-wider text-[#6E697E]">{k}</p>
-                    <p className="text-[12px] font-medium text-[#141220]">{v}</p>
+                    <p className="text-[10px] uppercase tracking-wider text-[#7E7E93]">{k}</p>
+                    <p className="text-[12px] font-medium text-white">{v}</p>
                   </div>
                 </div>
               ))}
@@ -734,19 +734,19 @@ export default function ProjectWorkspace({
           <div className="panel p-6">
             <p className="eyebrow mb-4">Products</p>
             {project.products.length === 0 ? (
-              <p className="text-[14px] text-[#6B6678]">No products added to this project.</p>
+              <p className="text-[14px] text-[#7C7C90]">No products added to this project.</p>
             ) : (
               <div className="grid gap-3 md:grid-cols-2">
                 {project.products.map((p) => {
                   const tierColor =
-                    p.tier === "hero" ? "#357A38" : p.tier === "slow" ? "#A65209" : "#615D70";
+                    p.tier === "hero" ? "#C8F751" : p.tier === "slow" ? "#FFB443" : "#9B9BAE";
                   const mentions = posts.filter((x) => x.productId === p.id).length;
                   return (
-                    <div key={p.id} className="rounded-xl border border-[#E6E2DC] bg-white p-4">
+                    <div key={p.id} className="rounded-xl border border-[#1E1E28] bg-white/[0.02] p-4">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <p className="truncate text-[14px] font-semibold text-[#141220]">{p.name}</p>
-                          {p.price && <p className="text-[12px] text-[#6E697E]">{p.price}</p>}
+                          <p className="truncate text-[14px] font-semibold text-white">{p.name}</p>
+                          {p.price && <p className="text-[12px] text-[#7E7E93]">{p.price}</p>}
                         </div>
                         <span
                           className="chip shrink-0"
@@ -756,19 +756,19 @@ export default function ProjectWorkspace({
                         </span>
                       </div>
                       {p.description && (
-                        <p className="mt-2 text-[12.5px] leading-relaxed text-[#6B6678]">{p.description}</p>
+                        <p className="mt-2 text-[12.5px] leading-relaxed text-[#7C7C90]">{p.description}</p>
                       )}
                       {p.benefits && (
-                        <p className="mt-2 text-[12px] text-[#6E697E]">
-                          <span className="font-semibold text-[#615D70]">Benefit:</span> {p.benefits}
+                        <p className="mt-2 text-[12px] text-[#7E7E93]">
+                          <span className="font-semibold text-[#9B9BAE]">Benefit:</span> {p.benefits}
                         </p>
                       )}
                       {p.objection && (
-                        <p className="mt-1 text-[12px] text-[#6E697E]">
-                          <span className="font-semibold text-[#615D70]">Objection:</span> {p.objection}
+                        <p className="mt-1 text-[12px] text-[#7E7E93]">
+                          <span className="font-semibold text-[#9B9BAE]">Objection:</span> {p.objection}
                         </p>
                       )}
-                      <p className="mt-3 border-t border-[#EDEAE4] pt-2.5 text-[11.5px] text-[#6E697E]">
+                      <p className="mt-3 border-t border-[#16161F] pt-2.5 text-[11.5px] text-[#7E7E93]">
                         Featured in {mentions} post{mentions === 1 ? "" : "s"} this month
                       </p>
                     </div>
@@ -780,7 +780,7 @@ export default function ProjectWorkspace({
 
           <div className="panel p-6">
             <p className="eyebrow mb-3">Manage</p>
-            <p className="mb-4 text-[13px] leading-relaxed text-[#6B6678]">
+            <p className="mb-4 text-[13px] leading-relaxed text-[#7C7C90]">
               Editing brand details or products and regenerating rebuilds all {posts.length} posts
               from the updated inputs. Your posted history and ratings are cleared with them, so
               export first if you want to keep this month.

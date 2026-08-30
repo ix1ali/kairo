@@ -80,7 +80,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-16">
       <div className="pointer-events-none absolute inset-0 grid-bg opacity-60" />
-      <div className="pointer-events-none absolute left-1/2 top-[-10rem] h-[28rem] w-[52rem] -translate-x-1/2 rounded-full bg-[#6D4DF6]/16 blur-[120px]" />
+      <div className="pointer-events-none absolute left-1/2 top-[-10rem] h-[28rem] w-[52rem] -translate-x-1/2 rounded-full bg-[#7C5CFF]/16 blur-[120px]" />
 
       <div className="relative w-full max-w-[26rem]">
         <div className="mb-8 flex justify-center">
@@ -89,7 +89,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
 
         <div className="panel p-7">
           <h1 className="display text-2xl">{isSignup ? "Create your account" : "Welcome back"}</h1>
-          <p className="mt-1.5 text-sm text-[#6B6678]">
+          <p className="mt-1.5 text-sm text-[#7C7C90]">
             {isSignup
               ? "Set up your brand and get thirty days of content."
               : "Log in to your calendar and projects."}
@@ -147,7 +147,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
             </div>
 
             {error && (
-              <p className="rounded-lg border border-[#DB2777]/30 bg-[#DB2777]/10 px-3 py-2.5 text-[13px] text-[#DB2777]">
+              <p className="rounded-lg border border-[#FF6B8A]/30 bg-[#FF6B8A]/10 px-3 py-2.5 text-[13px] text-[#FF6B8A]">
                 {error}
               </p>
             )}
@@ -157,25 +157,25 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
             </button>
           </form>
 
-          <p className="mt-5 text-center text-[13px] text-[#6E697E]">
+          <p className="mt-5 text-center text-[13px] text-[#7E7E93]">
             {isSignup ? "Already have an account? " : "New to Koala? "}
             <Link
               href={isSignup ? "/login" : `/signup${plan ? `?plan=${plan}` : ""}`}
-              className="font-semibold text-[#6D4DF6] hover:text-[#5B3FE0]"
+              className="font-semibold text-[#7C5CFF] hover:text-[#C9BEFF]"
             >
               {isSignup ? "Log in" : "Create an account"}
             </Link>
           </p>
         </div>
 
-        <p className="mt-6 text-center text-[11px] leading-relaxed text-[#6E697E]">
+        <p className="mt-6 text-center text-[11px] leading-relaxed text-[#7E7E93]">
           {isSignup
             ? "You will choose a plan next. There is no free trial — every plan delivers a full 30-day campaign immediately."
             : "Trouble signing in? Check the email address you registered with."}
         </p>
 
         <p className="mt-4 text-center">
-          <Link href="/" className="text-[12px] text-[#6E697E] hover:text-[#615D70]">
+          <Link href="/" className="text-[12px] text-[#7E7E93] hover:text-[#9B9BAE]">
             ← Back to site
           </Link>
         </p>

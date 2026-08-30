@@ -31,7 +31,7 @@ export default function ImageWall() {
                   {col.map((src) => (
                     <figure
                       key={src}
-                      className="relative aspect-[4/5] w-[132px] overflow-hidden rounded-xl border border-[#E6E2DC] bg-[#EDEAE4] sm:w-[168px] sm:rounded-2xl lg:w-[190px]"
+                      className="relative aspect-[4/5] w-[132px] overflow-hidden rounded-xl border border-[#1E1E28] bg-white/10 sm:w-[168px] sm:rounded-2xl lg:w-[190px]"
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
@@ -51,7 +51,7 @@ export default function ImageWall() {
       </div>
 
       <div className="mx-auto mt-7 w-full max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        <p className="text-[12px] text-[#6E697E]">{t.wall.stillsFooter}</p>
+        <p className="text-[12px] text-[#7E7E93]">{t.wall.stillsFooter}</p>
       </div>
     </div>
   );

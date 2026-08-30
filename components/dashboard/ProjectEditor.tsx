@@ -136,14 +136,14 @@ export default function ProjectEditor({
 
           <div className="mb-5 flex items-center gap-4">
             <div
-              className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-2xl border border-[#DCD7CF]"
+              className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-2xl border border-[#22222E]"
               style={{ background: `linear-gradient(135deg, ${form.colors.primary}, ${form.colors.secondary})` }}
             >
               {form.logoUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={form.logoUrl} alt="" className="h-full w-full object-contain p-1.5" />
               ) : (
-                <span className="text-xl font-bold text-[#141220]">{form.name.charAt(0).toUpperCase()}</span>
+                <span className="text-xl font-bold text-white">{form.name.charAt(0).toUpperCase()}</span>
               )}
             </div>
             <div>
@@ -178,7 +178,7 @@ export default function ProjectEditor({
             {(["primary", "secondary", "background", "text"] as const).map((key) => (
               <div
                 key={key}
-                className="flex items-center gap-2.5 rounded-xl border border-[#E6E2DC] bg-white p-2.5"
+                className="flex items-center gap-2.5 rounded-xl border border-[#1E1E28] bg-white/[0.02] p-2.5"
               >
                 <input
                   type="color"
@@ -188,9 +188,9 @@ export default function ProjectEditor({
                   aria-label={key}
                 />
                 <div className="min-w-0 flex-1">
-                  <p className="text-[11px] capitalize text-[#6E697E]">{key}</p>
+                  <p className="text-[11px] capitalize text-[#7E7E93]">{key}</p>
                   <input
-                    className="w-full bg-transparent text-[13px] font-medium text-[#141220] outline-none"
+                    className="w-full bg-transparent text-[13px] font-medium text-white outline-none"
                     value={form.colors[key]}
                     onChange={(e) => set("colors", { ...form.colors, [key]: e.target.value })}
                   />
@@ -287,7 +287,7 @@ export default function ProjectEditor({
 
         <section className="panel p-6">
           <h2 className="display mb-1 text-lg">Goal</h2>
-          <p className="mb-4 text-[13px] text-[#6B6678]">What the next month is aimed at.</p>
+          <p className="mb-4 text-[13px] text-[#7C7C90]">What the next month is aimed at.</p>
           <div className="grid gap-2.5 sm:grid-cols-3">
             {GOALS.map((g) => {
               const on = form.goal === g.key;
@@ -296,7 +296,7 @@ export default function ProjectEditor({
                   key={g.key}
                   onClick={() => set("goal", g.key)}
                   className={`rounded-xl border p-3.5 text-left transition-all ${
-                    on ? "" : "border-[#E6E2DC] bg-white hover:border-[#C9C4BC]"
+                    on ? "" : "border-[#1E1E28] bg-white/[0.02] hover:border-[#33333F]"
                   }`}
                   style={
                     on
@@ -314,14 +314,14 @@ export default function ProjectEditor({
                       </span>
                     )}
                   </span>
-                  <span className="block text-[13px] font-semibold text-[#141220]">{g.label}</span>
+                  <span className="block text-[13px] font-semibold text-white">{g.label}</span>
                 </button>
               );
             })}
           </div>
 
           <h2 className="display mb-1 mt-6 text-lg">Content you make</h2>
-          <p className="mb-4 text-[13px] text-[#6B6678]">Koala only plans formats you tick.</p>
+          <p className="mb-4 text-[13px] text-[#7C7C90]">Koala only plans formats you tick.</p>
           <div className="flex flex-wrap gap-2">
             {CONTENT_KINDS.map((k) => {
               const on = form.contentMix[k.key];
@@ -344,7 +344,7 @@ export default function ProjectEditor({
           <h2 className="display mb-4 text-lg">Products</h2>
           <div className="space-y-3">
             {form.products.map((p, i) => (
-              <div key={p.id || i} className="rounded-2xl border border-[#E6E2DC] bg-white p-4">
+              <div key={p.id || i} className="rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-4">
                 <div className="mb-3 flex gap-2">
                   <input
                     className="input"
@@ -368,9 +368,9 @@ export default function ProjectEditor({
                 <div className="mb-3 flex gap-2">
                   {(
                     [
-                      ["hero", "#357A38"],
-                      ["core", "#615D70"],
-                      ["slow", "#A65209"],
+                      ["hero", "#C8F751"],
+                      ["core", "#9B9BAE"],
+                      ["slow", "#FFB443"],
                     ] as const
                   ).map(([tier, color]) => (
                     <button
@@ -429,13 +429,13 @@ export default function ProjectEditor({
               type="checkbox"
               checked={regenerate}
               onChange={(e) => setRegenerate(e.target.checked)}
-              className="mt-1 h-4 w-4 accent-[#6D4DF6]"
+              className="mt-1 h-4 w-4 accent-[#7C5CFF]"
             />
             <span>
-              <span className="block text-[14px] font-semibold text-[#141220]">
+              <span className="block text-[14px] font-semibold text-white">
                 Rebuild the 30-day campaign with these changes
               </span>
-              <span className="mt-1 block text-[12.5px] leading-relaxed text-[#6B6678]">
+              <span className="mt-1 block text-[12.5px] leading-relaxed text-[#7C7C90]">
                 Regenerates the strategy and all {postCount} posts. Statuses, ratings, logged metrics
                 and edits are replaced. Export first if you want to keep this month.
               </span>
@@ -444,7 +444,7 @@ export default function ProjectEditor({
         </section>
 
         {error && (
-          <p className="rounded-lg border border-[#DB2777]/30 bg-[#DB2777]/10 px-3 py-2.5 text-[13px] text-[#DB2777]">
+          <p className="rounded-lg border border-[#FF6B8A]/30 bg-[#FF6B8A]/10 px-3 py-2.5 text-[13px] text-[#FF6B8A]">
             {error}
           </p>
         )}
@@ -453,15 +453,15 @@ export default function ProjectEditor({
           <button className="btn btn-primary" onClick={save} disabled={busy}>
             {busy ? "Saving…" : regenerate ? "Save and rebuild" : "Save changes"}
           </button>
-          {saved && <span className="text-[13px] text-[#357A38]">Saved ✓</span>}
+          {saved && <span className="text-[13px] text-[#C8F751]">Saved ✓</span>}
           <a className="btn btn-ghost" href={`/api/export/${project.id}`}>
             Export first
           </a>
           <div className="ml-auto">
             {confirmDelete ? (
               <div className="flex items-center gap-2">
-                <span className="text-[12.5px] text-[#DB2777]">Delete permanently?</span>
-                <button className="btn btn-sm bg-[#DB2777] text-white" onClick={remove} disabled={busy}>
+                <span className="text-[12.5px] text-[#FF6B8A]">Delete permanently?</span>
+                <button className="btn btn-sm bg-[#FF6B8A] text-white" onClick={remove} disabled={busy}>
                   Yes, delete
                 </button>
                 <button className="btn btn-quiet btn-sm" onClick={() => setConfirmDelete(false)}>

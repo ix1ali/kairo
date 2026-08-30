@@ -54,12 +54,12 @@ export default async function Home() {
         {/* ============ 1. HERO ============ */}
         <section className="relative overflow-hidden">
           <div className="pointer-events-none absolute inset-0 grid-bg opacity-60" />
-          <div className="pointer-events-none absolute left-1/2 top-[-16rem] h-[36rem] w-[70rem] -translate-x-1/2 rounded-full bg-[#6D4DF6]/14 blur-[140px]" />
+          <div className="pointer-events-none absolute left-1/2 top-[-16rem] h-[36rem] w-[70rem] -translate-x-1/2 rounded-full bg-[#7C5CFF]/14 blur-[140px]" />
 
           <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-10 sm:px-6 sm:pt-16 lg:px-8 lg:pb-16 lg:pt-20">
             <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
               <div className="order-1">
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#DED6F2] bg-[#F3F1EE]/80 px-3 py-1.5 text-[11px] font-medium text-[#5B3FE0] backdrop-blur sm:px-3.5 sm:text-xs">
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#2A2438] bg-white/[0.05]/80 px-3 py-1.5 text-[11px] font-medium text-[#C9BEFF] backdrop-blur sm:px-3.5 sm:text-xs">
                   <Icon name="sparkle" size={13} filled />
                   {t.hero.badge}
                 </span>
@@ -71,7 +71,7 @@ export default async function Home() {
                   </span>
                 </h1>
 
-                <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[#615D70] sm:mt-5 sm:text-[16px]">
+                <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[#9B9BAE] sm:mt-5 sm:text-[16px]">
                   {t.hero.sub}
                 </p>
 
@@ -83,7 +83,7 @@ export default async function Home() {
               {/* koala + floating cards */}
               <div className="relative order-2 mx-auto w-full max-w-[420px] py-2 sm:py-6">
                 <div className="pointer-events-none absolute inset-0 grid place-items-center">
-                  <div className="h-48 w-48 rounded-full bg-[#6D4DF6]/18 blur-[80px] sm:h-72 sm:w-72" />
+                  <div className="h-48 w-48 rounded-full bg-[#7C5CFF]/18 blur-[80px] sm:h-72 sm:w-72" />
                 </div>
 
                 <div className="flex justify-center">
@@ -94,29 +94,29 @@ export default async function Home() {
                   />
                 </div>
 
-                <div className="absolute -left-2 top-0 z-20 hidden animate-floaty rounded-2xl border border-[#DCD7CF] bg-[#FFFFFF]/90 px-3.5 py-2.5 backdrop-blur sm:block lg:-left-6">
+                <div className="absolute -left-2 top-0 z-20 hidden animate-floaty rounded-2xl border border-[#22222E] bg-[#0C0C13]/90 px-3.5 py-2.5 backdrop-blur sm:block lg:-left-6">
                   <div className="flex items-center gap-2">
-                    <span className="grid h-7 w-7 place-items-center rounded-lg bg-[#357A38]/15 text-[#357A38]">
+                    <span className="grid h-7 w-7 place-items-center rounded-lg bg-[#C8F751]/15 text-[#C8F751]">
                       <Icon name="check" size={13} strokeWidth={3} />
                     </span>
                     <div>
-                      <p className="text-[11px] font-semibold text-[#141220]">{t.hero.chipPosted}</p>
-                      <p className="text-[10px] text-[#6E697E]">{t.hero.chipPostedSub}</p>
+                      <p className="text-[11px] font-semibold text-white">{t.hero.chipPosted}</p>
+                      <p className="text-[10px] text-[#7E7E93]">{t.hero.chipPostedSub}</p>
                     </div>
                   </div>
                 </div>
 
                 <div
-                  className="absolute -right-2 bottom-0 z-20 hidden animate-floaty rounded-2xl border border-[#DCD7CF] bg-[#FFFFFF]/90 px-3.5 py-2.5 backdrop-blur sm:block lg:-right-6"
+                  className="absolute -right-2 bottom-0 z-20 hidden animate-floaty rounded-2xl border border-[#22222E] bg-[#0C0C13]/90 px-3.5 py-2.5 backdrop-blur sm:block lg:-right-6"
                   style={{ animationDelay: "1.4s" }}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="grid h-7 w-7 place-items-center rounded-xl bg-[#6D4DF6]/18 text-[#6D4DF6]">
+                    <span className="grid h-7 w-7 place-items-center rounded-xl bg-[#7C5CFF]/18 text-[#7C5CFF]">
                       <Icon name="calendar" size={13} />
                     </span>
                     <div>
-                      <p className="text-[11px] font-semibold text-[#141220]">{t.hero.chipReady}</p>
-                      <p className="text-[10px] text-[#6E697E]">{t.hero.chipReadySub}</p>
+                      <p className="text-[11px] font-semibold text-white">{t.hero.chipReady}</p>
+                      <p className="text-[10px] text-[#7E7E93]">{t.hero.chipReadySub}</p>
                     </div>
                   </div>
                 </div>
@@ -136,7 +136,7 @@ export default async function Home() {
             eyebrow={t.difference.eyebrow}
             title={
               <>
-                {t.difference.h1} <span className="text-[#6E697E]">{t.difference.h2}</span>
+                {t.difference.h1} <span className="text-[#7E7E93]">{t.difference.h2}</span>
               </>
             }
             sub={t.difference.sub}
@@ -205,11 +205,11 @@ export default async function Home() {
               }
               sub={t.demo.sub}
             />
-            <div className="flex items-center gap-3 rounded-2xl border border-[#E6E2DC] bg-white px-4 py-3">
+            <div className="flex items-center gap-3 rounded-2xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3">
               <span className="h-9 w-9 shrink-0 rounded-xl bg-gradient-to-br from-[#E4732B] to-[#F2C14E]" />
               <div>
-                <p className="text-sm font-semibold text-[#141220]">{project.name}</p>
-                <p className="text-[11px] text-[#6E697E]">{project.tagline}</p>
+                <p className="text-sm font-semibold text-white">{project.name}</p>
+                <p className="text-[11px] text-[#7E7E93]">{project.tagline}</p>
               </div>
             </div>
           </div>
@@ -238,9 +238,9 @@ export default async function Home() {
         <Section id="pricing">
           <SectionHead eyebrow={t.pricing.eyebrow} title={t.pricing.h1} sub={t.pricing.sub} />
           <PricingCards />
-          <p className="mt-8 text-center text-[13px] text-[#6E697E]">
+          <p className="mt-8 text-center text-[13px] text-[#7E7E93]">
             {t.pricing.creditsLink}{" "}
-            <Link href="/pricing" className="text-[#6D4DF6] hover:text-[#5B3FE0]">
+            <Link href="/pricing" className="text-[#7C5CFF] hover:text-[#C9BEFF]">
               {t.pricing.creditsLinkCta}
             </Link>
           </p>
@@ -254,13 +254,13 @@ export default async function Home() {
 
         {/* ============ 15. CTA ============ */}
         <section className="relative overflow-hidden py-16 sm:py-24">
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[24rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6D4DF6]/16 blur-[130px]" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[24rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7C5CFF]/16 blur-[130px]" />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 text-center sm:px-6 lg:px-8">
             <Koala sizeClass="h-[120px] w-[120px] sm:h-[150px] sm:w-[150px]" mood="wow" />
             <h2 className="display mt-5 text-[1.875rem] leading-[1.1] text-balance sm:mt-6 sm:text-4xl lg:text-5xl">
               {t.finalCta.h1}
             </h2>
-            <p className="mx-auto mt-3.5 max-w-md text-[15px] leading-relaxed text-[#615D70] sm:mt-4 sm:text-[15.5px]">
+            <p className="mx-auto mt-3.5 max-w-md text-[15px] leading-relaxed text-[#9B9BAE] sm:mt-4 sm:text-[15.5px]">
               {t.finalCta.sub}
             </p>
             <div className="mt-7 w-full sm:mt-8">

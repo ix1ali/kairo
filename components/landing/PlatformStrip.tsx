@@ -15,23 +15,23 @@ const PLATFORMS: { key: string; label: string }[] = [
 ];
 
 const INDUSTRIES: { label: string; icon: IconName; color: string }[] = [
-  { label: "Restaurants", icon: "heart", color: "#EA580C" },
+  { label: "Restaurants", icon: "heart", color: "#FF8A5B" },
   { label: "Coffee & roastery", icon: "store", color: "#E4A05B" },
-  { label: "Products & ecommerce", icon: "grid", color: "#6D4DF6" },
-  { label: "Skincare & beauty", icon: "sparkle", color: "#DB2777" },
-  { label: "Gyms & studios", icon: "bolt", color: "#357A38" },
-  { label: "Fashion & apparel", icon: "tag", color: "#0284C7" },
-  { label: "Bakeries & cafés", icon: "flag", color: "#A65209" },
+  { label: "Products & ecommerce", icon: "grid", color: "#7C5CFF" },
+  { label: "Skincare & beauty", icon: "sparkle", color: "#FF6B8A" },
+  { label: "Gyms & studios", icon: "bolt", color: "#C8F751" },
+  { label: "Fashion & apparel", icon: "tag", color: "#22D3EE" },
+  { label: "Bakeries & cafés", icon: "flag", color: "#FFB443" },
   { label: "Jewellery", icon: "star", color: "#F2C14E" },
-  { label: "Salons & spas", icon: "palette", color: "#9333EA" },
-  { label: "Clinics & dental", icon: "shield", color: "#0F766E" },
-  { label: "SaaS & apps", icon: "layers", color: "#4F46E5" },
-  { label: "Agencies", icon: "megaphone", color: "#6D4DF6" },
-  { label: "Real estate", icon: "globe", color: "#0369A1" },
-  { label: "Home & interior", icon: "image", color: "#B45309" },
-  { label: "Pet brands", icon: "users", color: "#C2410C" },
-  { label: "Travel & hotels", icon: "send", color: "#0E7490" },
-  { label: "Courses & coaching", icon: "brain", color: "#5B3FE0" },
+  { label: "Salons & spas", icon: "palette", color: "#D9A7FF" },
+  { label: "Clinics & dental", icon: "shield", color: "#5EEAD4" },
+  { label: "SaaS & apps", icon: "layers", color: "#8B9DFF" },
+  { label: "Agencies", icon: "megaphone", color: "#7C5CFF" },
+  { label: "Real estate", icon: "globe", color: "#7DE7F7" },
+  { label: "Home & interior", icon: "image", color: "#E0B77A" },
+  { label: "Pet brands", icon: "users", color: "#FDBA74" },
+  { label: "Travel & hotels", icon: "send", color: "#67E8F9" },
+  { label: "Courses & coaching", icon: "brain", color: "#C9BEFF" },
   { label: "Automotive", icon: "target", color: "#94A3B8" },
 ];
 
@@ -44,7 +44,7 @@ function Pill({
 }) {
   return (
     <span
-      className="group inline-flex shrink-0 items-center gap-2.5 rounded-full border px-4 py-2.5 text-[13.5px] font-medium text-[#3A3548] transition-all duration-300 hover:-translate-y-0.5 hover:text-[#141220]"
+      className="group inline-flex shrink-0 items-center gap-2.5 rounded-full border px-4 py-2.5 text-[13.5px] font-medium text-[#C4C4D4] transition-all duration-300 hover:-translate-y-0.5 hover:text-white"
       style={{
         ["--pc" as string]: color,
         borderColor: `${color}38`,
@@ -101,7 +101,7 @@ export default async function PlatformStrip() {
 
   return (
     <div className="space-y-5">
-      <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6E697E]">
+      <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-[#7E7E93]">
         {t.ticker}
       </p>
       <div className="space-y-3">

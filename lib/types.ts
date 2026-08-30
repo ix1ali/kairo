@@ -1,3 +1,5 @@
+import type { UserPreferences } from "./preferences";
+import type { AudienceProfile } from "./strategy/audience";
 export type PackageId = "starter" | "growth" | "studio";
 
 export type PostStatus = "draft" | "approved" | "scheduled" | "posted" | "skipped";
@@ -16,6 +18,7 @@ export interface User {
   renewsAt: string | null;
   credits: number;
   onboarded: boolean;
+  preferences?: UserPreferences;
 }
 
 export interface SocialLink {
@@ -155,6 +158,7 @@ export interface Project {
   colors: BrandColors;
   voice: string;
   audience: string;
+  audienceProfile?: AudienceProfile;
   market: string;
   language: string;
   socials: SocialLink[];
@@ -174,6 +178,15 @@ export interface Project {
   updatedAt: string;
 }
 
+export interface SupportMessage {
+  id: string;
+  userId: string;
+  topic: string;
+  message: string;
+  at: string;
+  status: "open" | "answered";
+}
+
 export interface DBShape {
   users: User[];
   projects: Project[];
@@ -187,4 +200,5 @@ export interface DBShape {
     credits: number;
     createdAt: string;
   }[];
+  supportMessages?: SupportMessage[];
 }

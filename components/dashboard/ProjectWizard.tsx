@@ -5,6 +5,16 @@ import { useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/icons/Ui";
 import Koala from "@/components/Koala";
 import { PlatformIcon } from "@/components/icons/Social";
+import {
+  AGE_STOPS,
+  BUYING_FOR,
+  DEFAULT_AUDIENCE,
+  GENDERS,
+  PRIORITIES,
+  SPEND_LEVELS,
+  describeAudience,
+  type AudienceProfile,
+} from "@/lib/strategy/audience";
 import LocalePicker from "./LocalePicker";
 import { DEFAULT_LOCALE, getLocale } from "@/lib/languages";
 import {
@@ -80,6 +90,9 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
   const [name, setName] = useState("");
   const [tagline, setTagline] = useState("");
   const [category, setCategory] = useState("general");
+  // Free text when the list does not cover them. resolveCategory() matches it
+  // against every playbook's aka list before falling back to general.
+  const [customCategory, setCustomCategory] = useState("");
   const [description, setDescription] = useState("");
   const [website, setWebsite] = useState("");
 
@@ -93,7 +106,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
   const [images, setImages] = useState<string[]>([]);
 
   // step 3
-  const [audience, setAudience] = useState("");
+  const [aud, setAud] = useState<AudienceProfile>(DEFAULT_AUDIENCE);
   const [market, setMarket] = useState("");
   const [platforms, setPlatforms] = useState<string[]>(["instagram"]);
   const [socials, setSocials] = useState<{ platform: string; url: string }[]>([]);
@@ -271,8 +284,11 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
 
   function payload() {
     return {
-      name, tagline, category, description, website, logoUrl, images,
-      brandTheme, colors, voice, locale, audience, market, platforms,
+      name, tagline, description, website, logoUrl, images,
+      category: category === "other" ? customCategory.trim() || "general" : category,
+      brandTheme, colors, voice, locale, market, platforms,
+      audience: describeAudience(aud, market),
+      audienceProfile: aud,
       socials: socials.filter((s) => s.url.trim()),
       goals, goal, contentMix, videoStyle, competitorsInput,
       competitorProfiles: rivals.filter((r) => r.name.trim()),
@@ -330,7 +346,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
       <div className="mx-auto flex min-h-[70vh] max-w-lg flex-col items-center justify-center px-5 text-center">
         <Koala size={190} mood="thinking" />
         <h2 className="display mt-4 text-2xl">Kai is building your month</h2>
-        <p className="mt-2 text-[14px] leading-relaxed text-[#615D70]">
+        <p className="mt-2 text-[14px] leading-relaxed text-[#9B9BAE]">
           Reading your brand, mapping your competitors, then writing and designing all{" "}
           {options.totalPosts} posts.
         </p>
@@ -344,10 +360,10 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
           ].map((t, i) => (
             <div
               key={t}
-              className="animate-rise flex items-center gap-2.5 text-[13px] text-[#615D70]"
+              className="animate-rise flex items-center gap-2.5 text-[13px] text-[#9B9BAE]"
               style={{ animationDelay: `${i * 220}ms` }}
             >
-              <Icon name="check" size={13} className="text-[#357A38]" strokeWidth={2.8} />
+              <Icon name="check" size={13} className="text-[#C8F751]" strokeWidth={2.8} />
               {t}
             </div>
           ))}
@@ -362,7 +378,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
       <div className="mb-8">
         <div className="mb-3 flex items-center justify-between">
           <p className="eyebrow">New project</p>
-          <p className="text-[12px] text-[#6E697E]">
+          <p className="text-[12px] text-[#7E7E93]">
             Step {step + 1} of {STEPS.length}
           </p>
         </div>
@@ -376,12 +392,12 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
             >
               <div
                 className={`h-1 rounded-full transition-colors ${
-                  i <= step ? "bg-gradient-to-r from-[#6D4DF6] to-[#0284C7]" : "bg-[#EDEAE4]"
+                  i <= step ? "bg-gradient-to-r from-[#7C5CFF] to-[#22D3EE]" : "bg-white/10"
                 }`}
               />
               <span
                 className={`mt-2 block text-[11px] font-medium ${
-                  i === step ? "text-[#141220]" : i < step ? "text-[#6E697E]" : "text-[#B8B2A9]"
+                  i === step ? "text-white" : i < step ? "text-[#7E7E93]" : "text-[#3E3E4E]"
                 }`}
               >
                 {s}
@@ -397,12 +413,12 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
           <div className="space-y-5">
             <div>
               <h2 className="display text-2xl">Tell us about the brand</h2>
-              <p className="mt-1.5 text-[14px] text-[#6B6678]">
+              <p className="mt-1.5 text-[14px] text-[#7C7C90]">
                 Have a website? Paste it and Koala will read your brand for you.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-[#6D4DF6]/25 bg-[#6D4DF6]/[0.06] p-4">
+            <div className="rounded-2xl border border-[#7C5CFF]/25 bg-[#7C5CFF]/[0.06] p-4">
               <label className="label">Import from your website</label>
               <div className="flex gap-2">
                 <input
@@ -421,9 +437,9 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                 </button>
               </div>
               {importNote && (
-                <p className="mt-2 text-[12px] leading-relaxed text-[#5B3FE0]">{importNote}</p>
+                <p className="mt-2 text-[12px] leading-relaxed text-[#C9BEFF]">{importNote}</p>
               )}
-              <p className="mt-2 text-[11px] text-[#6E697E]">
+              <p className="mt-2 text-[11px] text-[#7E7E93]">
                 Pulls your name, description, colours, logo, socials and products. Optional — you can
                 fill everything in manually.
               </p>
@@ -452,16 +468,36 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label className="label">Category</label>
-                <select className="input" value={category} onChange={(e) => setCategory(e.target.value)}>
+                <select
+                  className="input"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
                   {options.categories.map((c) => (
                     <option key={c.key} value={c.key}>
                       {c.label}
                     </option>
                   ))}
+                  <option value="other">Other — I will describe it</option>
                 </select>
-                <p className="mt-1.5 text-[11px] text-[#6E697E]">
-                  Drives the competitor map, hooks and pillar weighting.
-                </p>
+                {category === "other" ? (
+                  <>
+                    <input
+                      className="input mt-2"
+                      value={customCategory}
+                      onChange={(e) => setCustomCategory(e.target.value)}
+                      placeholder="Pet grooming, dental clinic, print shop…"
+                    />
+                    <p className="mt-1.5 text-[11px] text-[#7E7E93]">
+                      We match what you type to the closest playbook we have, and fall back to the
+                      general one if nothing fits.
+                    </p>
+                  </>
+                ) : (
+                  <p className="mt-1.5 text-[11px] text-[#7E7E93]">
+                    Drives the competitor map, hooks and pillar weighting.
+                  </p>
+                )}
               </div>
               <div>
                 <label className="label">Website</label>
@@ -482,7 +518,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="A small-batch roastery. We print the roast date on every bag, name the farm, and include a dial-in guide so the first cup is never wasted."
               />
-              <p className="mt-1.5 text-[11px] text-[#6E697E]">
+              <p className="mt-1.5 text-[11px] text-[#7E7E93]">
                 Be specific about what makes you different — it becomes your positioning line.
               </p>
             </div>
@@ -494,7 +530,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
           <div className="space-y-6">
             <div>
               <h2 className="display text-2xl">Look and voice</h2>
-              <p className="mt-1.5 text-[14px] text-[#6B6678]">
+              <p className="mt-1.5 text-[14px] text-[#7C7C90]">
                 Every asset gets built inside this system.
               </p>
             </div>
@@ -503,14 +539,14 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
               <label className="label">Logo</label>
               <div className="flex items-center gap-4">
                 <div
-                  className="grid h-20 w-20 shrink-0 place-items-center overflow-hidden rounded-2xl border border-[#DCD7CF]"
+                  className="grid h-20 w-20 shrink-0 place-items-center overflow-hidden rounded-2xl border border-[#22222E]"
                   style={{ background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})` }}
                 >
                   {logoUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={logoUrl} alt="Logo" className="h-full w-full object-contain p-1.5" />
                   ) : (
-                    <span className="text-2xl font-bold text-[#141220]">
+                    <span className="text-2xl font-bold text-white">
                       {(name || "K").charAt(0).toUpperCase()}
                     </span>
                   )}
@@ -537,7 +573,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                       Remove
                     </button>
                   )}
-                  <p className="mt-2 text-[11px] text-[#6E697E]">PNG, SVG or JPG. Max 8MB.</p>
+                  <p className="mt-2 text-[11px] text-[#7E7E93]">PNG, SVG or JPG. Max 8MB.</p>
                 </div>
               </div>
             </div>
@@ -546,12 +582,12 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
               <label className="label">Brand colours</label>
               {palette.length > 0 && (
                 <div className="mb-3 flex flex-wrap items-center gap-2">
-                  <span className="text-[11px] text-[#6E697E]">From your site:</span>
+                  <span className="text-[11px] text-[#7E7E93]">From your site:</span>
                   {palette.map((c) => (
                     <button
                       key={c}
                       onClick={() => setColors((v) => ({ ...v, primary: c }))}
-                      className="h-6 w-6 rounded-md border border-[#DCD7CF] transition-transform hover:scale-110"
+                      className="h-6 w-6 rounded-md border border-[#22222E] transition-transform hover:scale-110"
                       style={{ background: c }}
                       title={c}
                     />
@@ -567,7 +603,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                     ["text", "Text"],
                   ] as const
                 ).map(([key, label]) => (
-                  <div key={key} className="flex items-center gap-2.5 rounded-xl border border-[#E6E2DC] bg-white p-2.5">
+                  <div key={key} className="flex items-center gap-2.5 rounded-xl border border-[#1E1E28] bg-white/[0.02] p-2.5">
                     <input
                       type="color"
                       value={colors[key]}
@@ -576,9 +612,9 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                       aria-label={label}
                     />
                     <div className="min-w-0 flex-1">
-                      <p className="text-[11px] text-[#6E697E]">{label}</p>
+                      <p className="text-[11px] text-[#7E7E93]">{label}</p>
                       <input
-                        className="w-full bg-transparent text-[13px] font-medium text-[#141220] outline-none"
+                        className="w-full bg-transparent text-[13px] font-medium text-white outline-none"
                         value={colors[key]}
                         onChange={(e) => setColors((v) => ({ ...v, [key]: e.target.value }))}
                       />
@@ -597,12 +633,12 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                     onClick={() => setBrandTheme(t.key)}
                     className={`rounded-xl border p-3 text-left transition-colors ${
                       brandTheme === t.key
-                        ? "border-[#6D4DF6] bg-[#6D4DF6]/10"
-                        : "border-[#E6E2DC] bg-white hover:border-[#C9C4BC]"
+                        ? "border-[#7C5CFF] bg-[#7C5CFF]/10"
+                        : "border-[#1E1E28] bg-white/[0.02] hover:border-[#33333F]"
                     }`}
                   >
-                    <p className="text-[13px] font-semibold text-[#141220]">{t.label}</p>
-                    <p className="mt-0.5 text-[11.5px] leading-snug text-[#6E697E]">{t.note}</p>
+                    <p className="text-[13px] font-semibold text-white">{t.label}</p>
+                    <p className="mt-0.5 text-[11.5px] leading-snug text-[#7E7E93]">{t.note}</p>
                   </button>
                 ))}
               </div>
@@ -621,13 +657,13 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                 <label className="label">Caption language and dialect</label>
                 <LocalePicker value={locale} onChange={setLocale} />
                 {getLocale(locale).language !== "English" && !options.hasTextProvider ? (
-                  <p className="mt-1.5 flex gap-1.5 text-[11px] leading-relaxed text-[#B45309]">
+                  <p className="mt-1.5 flex gap-1.5 text-[11px] leading-relaxed text-[#E0B77A]">
                     <Icon name="lock" size={12} className="mt-0.5 shrink-0" />
                     Writing in {getLocale(locale).language} is not switched on yet. Your copy will
                     arrive in English for now — nothing for you to set up, we are enabling it.
                   </p>
                 ) : (
-                  <p className="mt-1.5 text-[11px] text-[#6E697E]">
+                  <p className="mt-1.5 text-[11px] text-[#7E7E93]">
                     Copy is written the way people actually speak there.
                   </p>
                 )}
@@ -654,7 +690,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
               />
               <div className="flex flex-wrap gap-2">
                 {images.map((u) => (
-                  <div key={u} className="relative h-16 w-16 overflow-hidden rounded-lg border border-[#DCD7CF]">
+                  <div key={u} className="relative h-16 w-16 overflow-hidden rounded-lg border border-[#22222E]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={u} alt="" className="h-full w-full object-cover" />
                     <button
@@ -667,12 +703,12 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                 ))}
                 <button
                   onClick={() => imagesInput.current?.click()}
-                  className="grid h-16 w-16 place-items-center rounded-lg border border-dashed border-[#D8D2C9] text-[#6E697E] transition-colors hover:border-[#6D4DF6]/50"
+                  className="grid h-16 w-16 place-items-center rounded-lg border border-dashed border-[#2A2A38] text-[#7E7E93] transition-colors hover:border-[#7C5CFF]/50"
                 >
                   +
                 </button>
               </div>
-              <p className="mt-2 text-[11px] text-[#6E697E]">
+              <p className="mt-2 text-[11px] text-[#7E7E93]">
                 Product shots, lifestyle photos, textures — used as reference for art direction.
               </p>
             </div>
@@ -685,7 +721,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
           <div className="space-y-5">
             <div>
               <h2 className="display text-2xl">What is this month for?</h2>
-              <p className="mt-1.5 text-[14px] text-[#6B6678]">
+              <p className="mt-1.5 text-[14px] text-[#7C7C90]">
                 This changes the whole calendar. Chasing sales and chasing reach are different
                 months.
               </p>
@@ -699,7 +735,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                     key={g.key}
                     onClick={() => setGoal(g.key)}
                     className={`rounded-2xl border p-5 text-left transition-all ${
-                      on ? "" : "border-[#E6E2DC] bg-white hover:border-[#C9C4BC]"
+                      on ? "" : "border-[#1E1E28] bg-white/[0.02] hover:border-[#33333F]"
                     }`}
                     style={
                       on
@@ -724,9 +760,9 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                         </span>
                       )}
                     </span>
-                    <p className="text-[15px] font-semibold text-[#141220]">{g.label}</p>
-                    <p className="mt-1 text-[12.5px] leading-relaxed text-[#6B6678]">{g.description}</p>
-                    <p className="mt-3 border-t border-[#EDEAE4] pt-2.5 text-[11px] text-[#6E697E]">
+                    <p className="text-[15px] font-semibold text-white">{g.label}</p>
+                    <p className="mt-1 text-[12.5px] leading-relaxed text-[#7C7C90]">{g.description}</p>
+                    <p className="mt-3 border-t border-[#16161F] pt-2.5 text-[11px] text-[#7E7E93]">
                       Measured by {g.kpi.toLowerCase()}
                     </p>
                   </button>
@@ -741,7 +777,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
           <div className="space-y-6">
             <div>
               <h2 className="display text-2xl">What can you actually make?</h2>
-              <p className="mt-1.5 text-[14px] text-[#6B6678]">
+              <p className="mt-1.5 text-[14px] text-[#7C7C90]">
                 Pick the formats you are willing to produce. Koala only plans what you will
                 actually publish.
               </p>
@@ -755,7 +791,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                     key={k.key}
                     onClick={() => setContentMix((m) => ({ ...m, [k.key]: !m[k.key] }))}
                     className={`flex items-start gap-3.5 rounded-2xl border p-4 text-left transition-all ${
-                      on ? "" : "border-[#E6E2DC] bg-white hover:border-[#C9C4BC]"
+                      on ? "" : "border-[#1E1E28] bg-white/[0.02] hover:border-[#33333F]"
                     }`}
                     style={
                       on
@@ -774,14 +810,14 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center gap-2">
-                        <span className="text-[14.5px] font-semibold text-[#141220]">{k.label}</span>
+                        <span className="text-[14.5px] font-semibold text-white">{k.label}</span>
                         {on && (
                           <span style={{ color: k.accent }}>
                             <Icon name="check" size={13} strokeWidth={3} />
                           </span>
                         )}
                       </span>
-                      <span className="mt-0.5 block text-[12px] leading-relaxed text-[#6B6678]">
+                      <span className="mt-0.5 block text-[12px] leading-relaxed text-[#7C7C90]">
                         {k.description}
                       </span>
                     </span>
@@ -791,25 +827,25 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
             </div>
 
             {!Object.values(contentMix).some(Boolean) && (
-              <p className="rounded-xl border border-[#A65209]/25 bg-[#A65209]/[0.07] px-4 py-3 text-[12.5px] text-[#B45309]">
+              <p className="rounded-xl border border-[#FFB443]/25 bg-[#FFB443]/[0.07] px-4 py-3 text-[12.5px] text-[#E0B77A]">
                 Pick at least one format, otherwise there is nothing to plan.
               </p>
             )}
 
             {contentMix.video && (
-              <div className="rounded-2xl border border-[#DB2777]/25 bg-[#DB2777]/[0.05] p-4">
-                <p className="mb-1 flex items-center gap-2 text-[14px] font-semibold text-[#141220]">
-                  <Icon name="video" size={15} className="text-[#DB2777]" />
+              <div className="rounded-2xl border border-[#FF6B8A]/25 bg-[#FF6B8A]/[0.05] p-4">
+                <p className="mb-1 flex items-center gap-2 text-[14px] font-semibold text-white">
+                  <Icon name="video" size={15} className="text-[#FF6B8A]" />
                   How should the videos be made?
                 </p>
-                <p className="mb-4 text-[12.5px] text-[#6B6678]">
+                <p className="mb-4 text-[12.5px] text-[#7C7C90]">
                   Asked now so no script is written the wrong way round.
                 </p>
 
                 <div className="space-y-3.5">
                   {VIDEO_PREFS.map((pref) => (
                     <div key={pref.key}>
-                      <p className="mb-1.5 flex items-center gap-1.5 text-[12px] font-semibold text-[#615D70]">
+                      <p className="mb-1.5 flex items-center gap-1.5 text-[12px] font-semibold text-[#9B9BAE]">
                         <span style={{ color: pref.accent }}>
                           <Icon name={pref.icon} size={12} />
                         </span>
@@ -823,7 +859,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                               key={c.value}
                               onClick={() => setVideoStyle((v) => ({ ...v, [pref.key]: c.value }))}
                               className={`rounded-xl border px-3 py-2 text-left transition-colors ${
-                                on ? "" : "border-[#E6E2DC] bg-white hover:border-[#C9C4BC]"
+                                on ? "" : "border-[#1E1E28] bg-white/[0.02] hover:border-[#33333F]"
                               }`}
                               style={
                                 on
@@ -831,8 +867,8 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                                   : undefined
                               }
                             >
-                              <span className="block text-[12.5px] font-medium text-[#141220]">{c.label}</span>
-                              <span className="block text-[10.5px] leading-snug text-[#6E697E]">{c.note}</span>
+                              <span className="block text-[12.5px] font-medium text-white">{c.label}</span>
+                              <span className="block text-[10.5px] leading-snug text-[#7E7E93]">{c.note}</span>
                             </button>
                           );
                         })}
@@ -845,7 +881,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
 
             <div>
               <label className="label">Where are you most active?</label>
-              <p className="mb-2.5 text-[12px] text-[#6E697E]">
+              <p className="mb-2.5 text-[12px] text-[#7E7E93]">
                 Only used to size the artwork and set caption length.
               </p>
               <div className="flex flex-wrap gap-2">
@@ -867,31 +903,177 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
           <div className="space-y-5">
             <div>
               <h2 className="display text-2xl">Who are we talking to?</h2>
-              <p className="mt-1.5 text-[14px] text-[#6B6678]">
+              <p className="mt-1.5 text-[14px] text-[#7C7C90]">
                 The sharper this is, the sharper every hook gets.
               </p>
             </div>
 
-            <div>
-              <label className="label">Target audience</label>
-              <textarea
-                className="input"
-                value={audience}
-                onChange={(e) => setAudience(e.target.value)}
-                placeholder="Home baristas aged 25 to 45 who just bought a grinder and want to stop wasting beans."
-              />
-            </div>
-
             <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="label">Age range</label>
+                <div className="flex items-center gap-2">
+                  <select
+                    className="input"
+                    value={aud.ageMin}
+                    onChange={(e) =>
+                      setAud((v) => {
+                        const n = Number(e.target.value);
+                        return { ...v, ageMin: n, ageMax: Math.max(n, v.ageMax) };
+                      })
+                    }
+                  >
+                    {AGE_STOPS.map((n) => (
+                      <option key={n} value={n}>
+                        {n}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="shrink-0 text-[13px] text-[#7C7C90]">to</span>
+                  <select
+                    className="input"
+                    value={aud.ageMax}
+                    onChange={(e) =>
+                      setAud((v) => {
+                        const n = Number(e.target.value);
+                        return { ...v, ageMax: n, ageMin: Math.min(n, v.ageMin) };
+                      })
+                    }
+                  >
+                    {AGE_STOPS.map((n) => (
+                      <option key={n} value={n}>
+                        {n}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
               <div>
                 <label className="label">Market / location</label>
                 <input
                   className="input"
                   value={market}
                   onChange={(e) => setMarket(e.target.value)}
-                  placeholder="United Kingdom"
+                  placeholder="Kuwait"
                 />
               </div>
+            </div>
+
+            <div>
+              <label className="label">Mostly</label>
+              <div className="grid grid-cols-3 gap-2">
+                {GENDERS.map((g) => (
+                  <button
+                    key={g.value}
+                    onClick={() => setAud((v) => ({ ...v, gender: g.value }))}
+                    className={`rounded-xl border px-3 py-2.5 text-[13px] font-medium transition-colors ${
+                      aud.gender === g.value
+                        ? "border-[#7C5CFF] bg-[#7C5CFF]/10 text-[#C4B5FD]"
+                        : "border-[#1E1E28] bg-white/[0.02] text-[#9B9BAE] hover:border-[#3A3355]"
+                    }`}
+                  >
+                    {g.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="label">They are buying for</label>
+              <div className="grid gap-2 sm:grid-cols-3">
+                {BUYING_FOR.map((b) => (
+                  <button
+                    key={b.value}
+                    onClick={() => setAud((v) => ({ ...v, buyingFor: b.value }))}
+                    className={`rounded-xl border p-3 text-start transition-colors ${
+                      aud.buyingFor === b.value
+                        ? "border-[#7C5CFF] bg-[#7C5CFF]/10"
+                        : "border-[#1E1E28] bg-white/[0.02] hover:border-[#3A3355]"
+                    }`}
+                  >
+                    <p className="text-[13px] font-semibold text-white">{b.label}</p>
+                    <p className="mt-0.5 text-[11.5px] leading-snug text-[#7C7C90]">{b.note}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="label">How they think about price</label>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {SPEND_LEVELS.map((sp) => (
+                  <button
+                    key={sp.value}
+                    onClick={() => setAud((v) => ({ ...v, spend: sp.value }))}
+                    className={`rounded-xl border p-3 text-start transition-colors ${
+                      aud.spend === sp.value
+                        ? "border-[#7C5CFF] bg-[#7C5CFF]/10"
+                        : "border-[#1E1E28] bg-white/[0.02] hover:border-[#3A3355]"
+                    }`}
+                  >
+                    <p className="text-[13px] font-semibold text-white">{sp.label}</p>
+                    <p className="mt-0.5 text-[11.5px] leading-snug text-[#7C7C90]">{sp.note}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="label">
+                What matters most to them{" "}
+                <span className="font-normal text-[#7E7E93]">pick up to three</span>
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {PRIORITIES.map((pr) => {
+                  const on = aud.priorities.includes(pr.key);
+                  return (
+                    <button
+                      key={pr.key}
+                      onClick={() =>
+                        setAud((v) => ({
+                          ...v,
+                          priorities: on
+                            ? v.priorities.filter((k) => k !== pr.key)
+                            : v.priorities.length >= 3
+                              ? v.priorities
+                              : [...v.priorities, pr.key],
+                        }))
+                      }
+                      disabled={!on && aud.priorities.length >= 3}
+                      className={`inline-flex items-center gap-2 rounded-full border px-3 py-2 text-[12.5px] font-medium transition-colors disabled:opacity-40 ${
+                        on
+                          ? "border-[#7C5CFF] bg-[#7C5CFF]/10 text-[#C4B5FD]"
+                          : "border-[#1E1E28] bg-white/[0.02] text-[#9B9BAE] hover:border-[#3A3355]"
+                      }`}
+                    >
+                      <Icon name={pr.icon} size={13} />
+                      {pr.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div>
+              <label className="label">
+                Anything else{" "}
+                <span className="font-normal text-[#7E7E93]">optional</span>
+              </label>
+              <textarea
+                className="input"
+                rows={2}
+                value={aud.note}
+                onChange={(e) => setAud((v) => ({ ...v, note: e.target.value }))}
+                placeholder="They just bought a grinder and keep wasting beans dialling it in."
+              />
+            </div>
+
+            <div className="rounded-xl border border-[#2A2438] bg-[#171327] p-3.5">
+              <p className="text-[11px] font-bold uppercase tracking-wider text-[#7C5CFF]">
+                Every hook gets written for
+              </p>
+              <p className="mt-1.5 text-[13.5px] leading-relaxed text-[#C4C4D4]">
+                {describeAudience(aud, market)}
+              </p>
             </div>
 
 
@@ -941,15 +1123,15 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
           <div className="space-y-5">
             <div>
               <h2 className="display text-2xl">Who are you up against?</h2>
-              <p className="mt-1.5 text-[14px] leading-relaxed text-[#6B6678]">
+              <p className="mt-1.5 text-[14px] leading-relaxed text-[#7C7C90]">
                 Koala reads their public pages, works out where they are weak, and points your
                 month at that gap. Add their site or their social profiles.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-[#6D4DF6]/25 bg-[#6D4DF6]/[0.06] p-4">
+            <div className="rounded-2xl border border-[#7C5CFF]/25 bg-[#7C5CFF]/[0.06] p-4">
               <label className="label flex items-center gap-1.5">
-                <Icon name="target" size={14} className="text-[#6D4DF6]" />
+                <Icon name="target" size={14} className="text-[#7C5CFF]" />
                 Add a competitor
               </label>
               <div className="flex gap-2">
@@ -973,8 +1155,8 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                   {rivalBusy ? "Reading…" : "Analyse"}
                 </button>
               </div>
-              {rivalError && <p className="mt-2 text-[12px] text-[#DB2777]">{rivalError}</p>}
-              <p className="mt-2 text-[11px] leading-relaxed text-[#6E697E]">
+              {rivalError && <p className="mt-2 text-[12px] text-[#FF6B8A]">{rivalError}</p>}
+              <p className="mt-2 text-[11px] leading-relaxed text-[#7E7E93]">
                 Websites are read for positioning, catalogue size and where they post. Social
                 platforms block server-side reading, so handles are stored for reference.
               </p>
@@ -983,11 +1165,11 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
             {rivals.length > 0 && (
               <div className="space-y-2.5">
                 {rivals.map((r, i) => (
-                  <div key={i} className="rounded-2xl border border-[#E6E2DC] bg-white p-4">
+                  <div key={i} className="rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-4">
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0 flex-1">
                         <input
-                          className="w-full bg-transparent text-[14.5px] font-semibold text-[#141220] outline-none"
+                          className="w-full bg-transparent text-[14.5px] font-semibold text-white outline-none"
                           value={r.name}
                           onChange={(e) =>
                             setRivals((v) =>
@@ -995,7 +1177,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                             )
                           }
                         />
-                        <p className="truncate text-[11.5px] text-[#6E697E]">
+                        <p className="truncate text-[11.5px] text-[#7E7E93]">
                           {r.website || r.instagram || r.tiktok}
                         </p>
                       </div>
@@ -1008,8 +1190,8 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                       </button>
                     </div>
                     {r.note && (
-                      <p className="mt-2.5 flex gap-2 border-t border-[#EDEAE4] pt-2.5 text-[12.5px] leading-relaxed text-[#615D70]">
-                        <Icon name="eye" size={13} className="mt-0.5 shrink-0 text-[#0369A1]" />
+                      <p className="mt-2.5 flex gap-2 border-t border-[#16161F] pt-2.5 text-[12.5px] leading-relaxed text-[#9B9BAE]">
+                        <Icon name="eye" size={13} className="mt-0.5 shrink-0 text-[#7DE7F7]" />
                         {r.note}
                       </p>
                     )}
@@ -1018,9 +1200,9 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
               </div>
             )}
 
-            <div className="rounded-2xl border border-[#E6E2DC] bg-white p-4">
-              <p className="mb-2 flex items-center gap-1.5 text-[13px] font-semibold text-[#141220]">
-                <Icon name="shield" size={14} className="text-[#357A38]" />
+            <div className="rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-4">
+              <p className="mb-2 flex items-center gap-1.5 text-[13px] font-semibold text-white">
+                <Icon name="shield" size={14} className="text-[#C8F751]" />
                 What Koala does with this
               </p>
               <ul className="space-y-1.5">
@@ -1029,8 +1211,8 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                   "Names the gap in how they sell — price, service, trust, or silence",
                   "Turns that gap into the angle your posts attack all month",
                 ].map((t) => (
-                  <li key={t} className="flex gap-2 text-[12.5px] leading-relaxed text-[#6B6678]">
-                    <Icon name="check" size={12} className="mt-0.5 shrink-0 text-[#357A38]" strokeWidth={2.6} />
+                  <li key={t} className="flex gap-2 text-[12.5px] leading-relaxed text-[#7C7C90]">
+                    <Icon name="check" size={12} className="mt-0.5 shrink-0 text-[#C8F751]" strokeWidth={2.6} />
                     {t}
                   </li>
                 ))}
@@ -1052,15 +1234,15 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
           <div className="space-y-5">
             <div>
               <h2 className="display text-2xl">What are you selling?</h2>
-              <p className="mt-1.5 text-[14px] text-[#6B6678]">
+              <p className="mt-1.5 text-[14px] text-[#7C7C90]">
                 Tag heroes to push them harder, and slow movers so Koala builds rescue campaigns for
                 them in week three.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-[#6D4DF6]/25 bg-[#6D4DF6]/[0.06] p-4">
+            <div className="rounded-2xl border border-[#7C5CFF]/25 bg-[#7C5CFF]/[0.06] p-4">
               <label className="label flex items-center gap-1.5">
-                <Icon name="store" size={14} className="text-[#6D4DF6]" />
+                <Icon name="store" size={14} className="text-[#7C5CFF]" />
                 Import from a store or product link
               </label>
               <div className="flex gap-2">
@@ -1085,12 +1267,12 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                 </button>
               </div>
               {productNote && (
-                <p className="mt-2 flex items-start gap-1.5 text-[12px] leading-relaxed text-[#5B3FE0]">
+                <p className="mt-2 flex items-start gap-1.5 text-[12px] leading-relaxed text-[#C9BEFF]">
                   <Icon name="sparkle" size={12} className="mt-0.5 shrink-0" filled />
                   {productNote}
                 </p>
               )}
-              <p className="mt-2 text-[11px] text-[#6E697E]">
+              <p className="mt-2 text-[11px] text-[#7E7E93]">
                 Works with Shopify and WooCommerce stores, and any product page with structured data.
                 Paste the whole shop to pull the catalogue, or one product to add just that.
               </p>
@@ -1098,14 +1280,14 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
 
             <div className="space-y-3">
               {products.map((p, i) => (
-                <div key={i} className="rounded-2xl border border-[#E6E2DC] bg-white p-4">
+                <div key={i} className="rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-4">
                   <div className="mb-3 flex items-center gap-2">
                     {p.images[0] && (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={p.images[0]}
                         alt=""
-                        className="h-11 w-11 shrink-0 rounded-lg border border-[#DCD7CF] object-cover"
+                        className="h-11 w-11 shrink-0 rounded-lg border border-[#22222E] object-cover"
                       />
                     )}
                     <input
@@ -1134,9 +1316,9 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                   <div className="mb-3 flex gap-2">
                     {(
                       [
-                        ["hero", "Hero — push hardest", "#357A38"],
-                        ["core", "Core line", "#615D70"],
-                        ["slow", "Slow mover — rescue", "#A65209"],
+                        ["hero", "Hero — push hardest", "#C8F751"],
+                        ["core", "Core line", "#9B9BAE"],
+                        ["slow", "Slow mover — rescue", "#FFB443"],
                       ] as const
                     ).map(([tier, label, color]) => (
                       <button
@@ -1189,7 +1371,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
           <div className="space-y-5">
             <div>
               <h2 className="display text-2xl">Check three days first</h2>
-              <p className="mt-1.5 text-[14px] leading-relaxed text-[#6B6678]">
+              <p className="mt-1.5 text-[14px] leading-relaxed text-[#7C7C90]">
                 Before Koala builds all {options.totalPosts}, here is what your month will look and
                 sound like. Adjust until it feels right.
               </p>
@@ -1198,12 +1380,12 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
             {sampleBusy && (
               <div className="flex flex-col items-center gap-3 py-10">
                 <Koala size={110} mood="thinking" />
-                <p className="text-[13px] text-[#6B6678]">Making three samples…</p>
+                <p className="text-[13px] text-[#7C7C90]">Making three samples…</p>
               </div>
             )}
 
             {sampleError && (
-              <p className="rounded-xl border border-[#DB2777]/30 bg-[#DB2777]/10 px-4 py-3 text-[13px] text-[#DB2777]">
+              <p className="rounded-xl border border-[#FF6B8A]/30 bg-[#FF6B8A]/10 px-4 py-3 text-[13px] text-[#FF6B8A]">
                 {sampleError}
               </p>
             )}
@@ -1216,10 +1398,10 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                     return (
                       <div key={s.id} className="min-w-0">
                         <div
-                          className="overflow-hidden rounded-xl border border-[#E6E2DC] bg-[#F3F1EE] [&>svg]:h-auto [&>svg]:w-full"
+                          className="overflow-hidden rounded-xl border border-[#1E1E28] bg-white/[0.05] [&>svg]:h-auto [&>svg]:w-full"
                           dangerouslySetInnerHTML={{ __html: s.svg }}
                         />
-                        <p className="mt-2 truncate text-[11px] text-[#6E697E]">
+                        <p className="mt-2 truncate text-[11px] text-[#7E7E93]">
                           Day {s.day} · {s.contentTypeName}
                         </p>
                         <div className="mt-1.5 flex gap-1.5">
@@ -1227,8 +1409,8 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                             onClick={() => setSampleVotes((v) => ({ ...v, [s.id]: v[s.id] === 1 ? 0 : 1 }))}
                             className={`flex flex-1 items-center justify-center rounded-lg border py-1.5 transition-colors ${
                               vote === 1
-                                ? "border-[#357A38]/60 bg-[#357A38]/15 text-[#357A38]"
-                                : "border-[#E6E2DC] bg-white text-[#6E697E] hover:text-[#615D70]"
+                                ? "border-[#C8F751]/60 bg-[#C8F751]/15 text-[#C8F751]"
+                                : "border-[#1E1E28] bg-white/[0.02] text-[#7E7E93] hover:text-[#9B9BAE]"
                             }`}
                             aria-label="Like this sample"
                           >
@@ -1238,8 +1420,8 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                             onClick={() => setSampleVotes((v) => ({ ...v, [s.id]: v[s.id] === -1 ? 0 : -1 }))}
                             className={`flex flex-1 items-center justify-center rounded-lg border py-1.5 transition-colors ${
                               vote === -1
-                                ? "border-[#DB2777]/60 bg-[#DB2777]/15 text-[#DB2777]"
-                                : "border-[#E6E2DC] bg-white text-[#6E697E] hover:text-[#615D70]"
+                                ? "border-[#FF6B8A]/60 bg-[#FF6B8A]/15 text-[#FF6B8A]"
+                                : "border-[#1E1E28] bg-white/[0.02] text-[#7E7E93] hover:text-[#9B9BAE]"
                             }`}
                             aria-label="Dislike this sample"
                           >
@@ -1251,9 +1433,9 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                   })}
                 </div>
 
-                <div className="rounded-2xl border border-[#E6E2DC] bg-white p-4">
-                  <p className="mb-1 text-[13px] font-semibold text-[#141220]">Not quite right?</p>
-                  <p className="mb-3 text-[12px] text-[#6E697E]">
+                <div className="rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-4">
+                  <p className="mb-1 text-[13px] font-semibold text-white">Not quite right?</p>
+                  <p className="mb-3 text-[12px] text-[#7E7E93]">
                     Tap an adjustment and the samples rebuild.
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -1280,7 +1462,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
             )}
             <div>
               <h2 className="display mt-2 text-lg">Everything Koala will use</h2>
-              <p className="mt-1.5 text-[13px] text-[#6B6678]">
+              <p className="mt-1.5 text-[13px] text-[#7C7C90]">
                 Then it writes the strategy and produces{" "}
                 {options.totalPosts} posts
                 {options.videos > 0 ? ` and ${options.videos} video scripts` : ""} across the next 30
@@ -1297,7 +1479,12 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                   ? [["Video style", `${videoStyle.talent}, ${videoStyle.voice} voice, ${videoStyle.captions} captions`] as [string, string]]
                   : []),
                 ["Brand", name || "—"],
-                ["Category", options.categories.find((c) => c.key === category)?.label || category],
+                [
+                  "Category",
+                  category === "other"
+                    ? customCategory.trim() || "General Business"
+                    : options.categories.find((c) => c.key === category)?.label || category,
+                ],
                 ["Voice", voice],
                 ["Language", `${getLocale(locale).language} — ${getLocale(locale).dialect}`],
                 ["Platforms", platforms.join(", ") || "—"],
@@ -1305,15 +1492,15 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                 ["Heroes", products.filter((p) => p.tier === "hero" && p.name.trim()).length || "none tagged"],
                 ["Slow movers", products.filter((p) => p.tier === "slow" && p.name.trim()).length || "none tagged"],
               ].map(([k, v]) => (
-                <div key={k} className="rounded-xl border border-[#E6E2DC] bg-white px-4 py-3">
-                  <p className="text-[11px] uppercase tracking-wider text-[#6E697E]">{k}</p>
-                  <p className="mt-0.5 truncate text-[13px] font-medium text-[#141220]">{String(v)}</p>
+                <div key={k} className="rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3">
+                  <p className="text-[11px] uppercase tracking-wider text-[#7E7E93]">{k}</p>
+                  <p className="mt-0.5 truncate text-[13px] font-medium text-white">{String(v)}</p>
                 </div>
               ))}
             </div>
 
             <div
-              className="rounded-2xl border border-[#E6E2DC] p-5"
+              className="rounded-2xl border border-[#1E1E28] p-5"
               style={{ background: colors.background }}
             >
               <p className="text-[11px] uppercase tracking-wider" style={{ color: colors.primary }}>
@@ -1330,7 +1517,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
             </div>
 
             {products.filter((p) => p.tier === "slow" && p.name.trim()).length === 0 && (
-              <p className="rounded-xl border border-[#A65209]/25 bg-[#A65209]/[0.07] px-4 py-3 text-[12.5px] leading-relaxed text-[#B45309]">
+              <p className="rounded-xl border border-[#FFB443]/25 bg-[#FFB443]/[0.07] px-4 py-3 text-[12.5px] leading-relaxed text-[#E0B77A]">
                 No slow movers tagged. That is fine — but tagging them is how Koala builds the week
                 three rescue campaigns that shift stubborn stock.
               </p>
@@ -1339,12 +1526,12 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
         )}
 
         {error && (
-          <p className="mt-5 rounded-lg border border-[#DB2777]/30 bg-[#DB2777]/10 px-3 py-2.5 text-[13px] text-[#DB2777]">
+          <p className="mt-5 rounded-lg border border-[#FF6B8A]/30 bg-[#FF6B8A]/10 px-3 py-2.5 text-[13px] text-[#FF6B8A]">
             {error}
           </p>
         )}
 
-        <div className="mt-7 flex items-center justify-between border-t border-[#EDEAE4] pt-5">
+        <div className="mt-7 flex items-center justify-between border-t border-[#16161F] pt-5">
           <button
             className="btn btn-quiet"
             onClick={() => (step === 0 ? router.push("/dashboard") : setStep(step - 1))}

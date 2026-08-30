@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 /** The direction that actually shipped. */
-const LIVE = "paper";
+const LIVE = "nebula";
 
 function Swatches({ t }: { t: MockTheme }) {
   const chips = [
@@ -131,8 +131,8 @@ export default function MockupsPage() {
       />
 
       <footer className="mt-16 border-t border-white/10 pt-6 text-[12.5px] text-[#6C6C80]">
-        Paper is the one that shipped — its tokens now drive the whole site and dashboard. The
-        rest are kept here so the decision can be revisited without rebuilding them.
+        Nebula is the one running. Paper shipped briefly and was reverted, so the light tokens are
+        known to work if the decision changes again.
       </footer>
     </main>
   );

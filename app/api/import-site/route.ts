@@ -101,6 +101,25 @@ function socialsFrom(html: string): { platform: string; url: string }[] {
   return [...found.entries()].map(([platform, url]) => ({ platform, url }));
 }
 
+/**
+ * Section headings that are navigation, not merchandise.
+ *
+ * The heading sweep is a fallback for sites with no structured data, and on a
+ * brochure site it happily returned "About Us" as a product. Matching a bare
+ * word list was not enough — real pages say "About Us", "Get in touch",
+ * "Why choose us" — so this matches on the leading phrase.
+ */
+const PAGE_FURNITURE =
+  /^(about|contact|get in touch|reach us|faq|frequently asked|home|blog|news|menu|search|cart|checkout|login|log in|sign in|sign up|register|subscribe|newsletter|follow us|testimonials?|reviews?|our story|our mission|our vision|our values|our team|meet the team|why (choose|us)|how it works|gallery|portfolio|careers?|jobs|privacy|terms|cookies?|sitemap|legal|support|help|share this|related|categories|shop( all| now)?|contact us)\b/i;
+
+function isPageFurniture(text: string): boolean {
+  const t = text.replace(/\s+/g, " ").trim();
+  if (PAGE_FURNITURE.test(t)) return true;
+  // A heading that reads as a sentence is copy, not a product name.
+  if (/[.!?]$/.test(t) && t.split(" ").length > 4) return true;
+  return false;
+}
+
 function productsFrom(html: string): { name: string }[] {
   const names = new Set<string>();
 
@@ -124,9 +143,7 @@ function productsFrom(html: string): { name: string }[] {
     const headings = html.matchAll(/<h[23][^>]*>([\s\S]{2,70}?)<\/h[23]>/gi);
     for (const h of headings) {
       const text = decodeEntities(h[1].replace(/<[^>]+>/g, "").trim());
-      if (text.length > 2 && text.length < 60 && !/^(about|contact|faq|home|blog|menu|search|cart)$/i.test(text)) {
-        names.add(text);
-      }
+      if (text.length > 2 && text.length < 60 && !isPageFurniture(text)) names.add(text);
       if (names.size >= 8) break;
     }
   }

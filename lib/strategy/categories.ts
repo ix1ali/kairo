@@ -1,4 +1,5 @@
 import type { CategoryPlaybook } from "./knowledge";
+import { makeExtraCategories } from "./categoriesExtra";
 
 // Category playbooks. Each one encodes how that industry actually sells on social:
 // who buys, who they compare you to, what stops them, and what to post about it.
@@ -1237,6 +1238,9 @@ export const CATEGORIES: Record<string, CategoryPlaybook> = {
     ],
   },
 };
+
+// Industries added after the first ten, built on top of the general playbook.
+Object.assign(CATEGORIES, makeExtraCategories(CATEGORIES.general));
 
 export const CATEGORY_OPTIONS = Object.entries(CATEGORIES).map(([key, v]) => ({
   key,
