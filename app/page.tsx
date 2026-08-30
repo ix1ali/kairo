@@ -12,6 +12,7 @@ import { PricingCards } from "@/components/landing/Pricing";
 import CalendarDemo, { type DemoPost } from "@/components/landing/CalendarDemo";
 import VideoWall from "@/components/landing/VideoWall";
 import ImageWall from "@/components/landing/ImageWall";
+import FromOnePhoto from "@/components/landing/FromOnePhoto";
 import VideoOptions from "@/components/landing/VideoOptions";
 import Models from "@/components/landing/Models";
 import ContentTypes from "@/components/landing/ContentTypes";
@@ -170,8 +171,13 @@ export default async function Home() {
           <VideoWall />
         </Section>
 
-        {/* ============ 5. THE STILLS, ON THEIR OWN ============ */}
-        <Section bleed>
+        {/* ============ 5. ONE PHOTO, FOUR POSTS ============ */}
+        <Section>
+          <FromOnePhoto />
+        </Section>
+
+        {/* ============ 6. THE STILLS, ON THEIR OWN ============ */}
+        <Section tone="raised" bleed>
           <div className={GUTTER}>
             <SectionHead
               eyebrow={t.wall.stillsEyebrow}
@@ -182,8 +188,8 @@ export default async function Home() {
           <ImageWall />
         </Section>
 
-        {/* ============ 6. IN EVERY POST ============ */}
-        <Section tone="raised">
+        {/* ============ 7. IN EVERY POST ============ */}
+        <Section>
           <SectionHead eyebrow={t.everyPost.eyebrow} title={t.everyPost.h1} />
           <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
             {t.everyPost.items.map((item, i) => (
@@ -203,18 +209,18 @@ export default async function Home() {
           </div>
         </Section>
 
-        {/* ============ 7. VIDEO, YOUR WAY ============ */}
-        <Section>
+        {/* ============ 8. VIDEO, YOUR WAY ============ */}
+        <Section tone="raised">
           <VideoOptions />
         </Section>
 
-        {/* ============ 8. CONTENT STRATEGIES ============ */}
-        <Section tone="raised">
+        {/* ============ 9. CONTENT STRATEGIES ============ */}
+        <Section>
           <ContentTypes />
         </Section>
 
-        {/* ============ 9. LIVE DEMO ============ */}
-        <Section id="plan">
+        {/* ============ 10. LIVE DEMO ============ */}
+        <Section id="plan" tone="raised">
           <div className="mb-9 flex flex-wrap items-end justify-between gap-5 sm:mb-12">
             <SectionHead
               align="start"
@@ -253,24 +259,24 @@ export default async function Home() {
           </div>
         </Section>
 
-        {/* ============ 10. LANGUAGES ============ */}
-        <Section tone="raised">
+        {/* ============ 11. LANGUAGES ============ */}
+        <Section>
           <Languages />
         </Section>
 
-        {/* ============ 11. THE MODELS ============ */}
-        <Section>
+        {/* ============ 12. THE MODELS ============ */}
+        <Section tone="raised">
           <Models />
         </Section>
 
-        {/* ============ 12. WHAT THIS REPLACES ============ */}
-        <Section tone="raised">
+        {/* ============ 13. WHAT THIS REPLACES ============ */}
+        <Section>
           <SectionHead eyebrow={t.savings.eyebrow} title={t.savings.h1} sub={t.savings.sub} />
           <Savings />
         </Section>
 
-        {/* ============ 13. PRICING ============ */}
-        <Section id="pricing">
+        {/* ============ 14. PRICING ============ */}
+        <Section id="pricing" tone="raised">
           <SectionHead eyebrow={t.pricing.eyebrow} title={t.pricing.h1} sub={t.pricing.sub} />
           <PricingCards />
           <p className="mt-8 text-center text-[13px] text-[#6E697E]">
@@ -281,14 +287,14 @@ export default async function Home() {
           </p>
         </Section>
 
-        {/* ============ 14. FAQ ============ */}
-        <Section id="faq" tone="raised">
+        {/* ============ 15. FAQ ============ */}
+        <Section id="faq">
           <SectionHead eyebrow={t.faq.eyebrow} title={t.faq.h1} />
           <FAQ />
         </Section>
 
-        {/* ============ 15. CTA ============ */}
-        <section className="relative overflow-hidden py-16 sm:py-24">
+        {/* ============ 16. CTA ============ */}
+        <section className="relative overflow-hidden border-t border-[#E6E2DC] bg-[#F3F1EE] py-16 sm:py-24">
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[24rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#6D4DF6]/16 blur-[130px]" />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 text-center sm:px-6 lg:px-8">
             <Koala sizeClass="h-[120px] w-[120px] sm:h-[150px] sm:w-[150px]" mood="wow" />

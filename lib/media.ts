@@ -27,23 +27,27 @@ export const VIDEO_ROWS = [
 ];
 
 /**
- * Stills grouped into families — the lip-glaze campaign, then skincare, then
- * fragrance, fashion, food and finally home and auto. Consecutive images are
- * meant to be seen stacked as a pair, so the grouping matters twice over.
+ * Stills grouped into families, then ordered so the palette flows: pale
+ * fragrance into dark oud, cream eyewear into navy tech, bright drinks into
+ * dark food. Consecutive images are seen stacked as a pair and neighbouring
+ * columns sit side by side, so the grouping has to hold in both directions.
+ *
+ * Twelve of the forty are not here. Eight were weak — flat promo banners and
+ * text-heavy infographics that undercut everything around them — one was a
+ * near-duplicate, and the four lip-glaze creatives were pulled out to carry
+ * the before-and-after section on their own.
  */
 export const STILL_ORDER = [
-  // one lip-glaze campaign, four ways — the clearest proof of a consistent look
-  1, 3, 4, 2,
   // skincare and beauty
-  23, 8, 22, 40, 7,
-  // fragrance, oud and Arabic luxury
+  23, 8, 22, 7, 40,
+  // fragrance, oud and Arabic luxury — pale into dark
   9, 29, 21, 19, 20,
-  // fashion, eyewear and tech
+  // eyewear, audio and footwear — the clean, minimal end
   10, 15, 11, 6, 13, 18,
   // food and drink
-  12, 28, 5, 35, 36, 34, 24, 37, 38, 32,
-  // home, auto and lifestyle
-  17, 16, 14, 31, 30, 25, 26, 27,
+  12, 28, 5, 35, 36, 37, 38, 24,
+  // home, outdoor and auto
+  17, 16, 14, 25,
 ].map(still);
 
 /** Columns of two, so the wall has a denser rhythm than the video rows. */

@@ -164,6 +164,17 @@ models: {
     a3sub: "Model costs are ours, not yours. Your price does not move when a provider changes theirs.",
   },
 
+  source: {
+    eyebrow: "From one photo",
+    h1: "This is the photo they had.",
+    sub: "One flat pack shot on a white background — the same picture sitting on every product page. No studio, no model, no set. These four posts came out of it, and each one has a different job in the month.",
+    beforeTag: "Uploaded",
+    beforeAlt: "The original product photograph, shot flat on a white background",
+    beforeNote: "The only asset the brand owned.",
+    jobs: ["Product hero", "Flavour story", "Comment-bait UGC", "Lifestyle portrait"],
+    afterNote: "Four posts, one palette, one typographic voice — so they still read as one brand when they land in a feed days apart.",
+  },
+
   wall: {
     videoEyebrow: "UGC and video",
     videoH1: "Nobody was filmed. Nothing was shipped.",

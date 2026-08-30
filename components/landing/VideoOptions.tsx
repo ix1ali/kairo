@@ -4,7 +4,7 @@ import { dict } from "@/lib/i18n";
 import { getLang } from "@/lib/i18n/server";
 
 const META: { icon: IconName; accent: string; choices: string[] }[] = [
-  { icon: "text", accent: "#0284C7", choices: ["Burned in", "Soft subs", "None"] },
+  { icon: "text", accent: "#0369A1", choices: ["Burned in", "Soft subs", "None"] },
   { icon: "megaphone", accent: "#6D4DF6", choices: ["AI voice", "Your voice", "Music only"] },
   { icon: "users", accent: "#357A38", choices: ["Presenter", "Hands only", "Product only"] },
   { icon: "bolt", accent: "#A65209", choices: ["Trending", "Licensed", "Silent"] },
