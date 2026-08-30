@@ -18,12 +18,15 @@ export type KoalaMood = "happy" | "thinking" | "sleepy" | "wow";
 
 export default function Koala({
   size = 260,
+  sizeClass,
   mood = "happy",
   interactive = true,
   float = true,
   className = "",
 }: {
   size?: number;
+  /** Tailwind width/height classes; overrides `size` so the koala can be responsive. */
+  sizeClass?: string;
   mood?: KoalaMood;
   interactive?: boolean;
   float?: boolean;
@@ -113,13 +116,13 @@ export default function Koala({
   return (
     <div
       ref={ref}
-      className={`${float ? "animate-floaty" : ""} ${className}`}
-      style={{ width: size, height: size, perspective: 600 }}
+      className={`${float ? "animate-floaty" : ""} ${sizeClass ?? ""} ${className}`}
+      style={sizeClass ? { perspective: 600 } : { width: size, height: size, perspective: 600 }}
     >
       <svg
         viewBox="0 0 260 260"
-        width={size}
-        height={size}
+        width={sizeClass ? "100%" : size}
+        height={sizeClass ? "100%" : size}
         role="img"
         aria-label="Kai, the Kairo koala"
         style={{

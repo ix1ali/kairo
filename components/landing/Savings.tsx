@@ -45,7 +45,7 @@ export default function Savings() {
   return (
     <div className="grid gap-5 lg:grid-cols-[1.15fr_1fr]">
       {/* the old way */}
-      <div className="panel p-6 sm:p-7">
+      <div className="panel p-4 sm:p-7">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-[15px] font-semibold text-white">{t.savings.oldWay}</p>
@@ -70,7 +70,7 @@ export default function Savings() {
           {rows.map((r) => (
             <div
               key={r.key}
-              className={`flex items-center gap-3 rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3 ${
+              className={`flex flex-wrap items-center gap-x-3 gap-y-2.5 rounded-xl border border-[#1E1E28] bg-white/[0.02] px-3 py-3 sm:flex-nowrap sm:px-4 ${
                 r.qty === 0 ? "opacity-40" : ""
               }`}
             >
@@ -85,7 +85,7 @@ export default function Savings() {
                   {t.savings.lines[r.key as keyof typeof t.savings.lines].note}
                 </p>
               </div>
-              <div className="flex shrink-0 items-center gap-1.5">
+              <div className="flex w-full shrink-0 items-center justify-end gap-1.5 sm:w-auto">
                 <span className="text-[12px] text-[#5B5B70]">$</span>
                 <input
                   type="number"

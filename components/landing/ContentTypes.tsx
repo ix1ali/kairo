@@ -1,5 +1,6 @@
 import { CONTENT_TYPES } from "@/lib/strategy/contentTypes";
 import { Icon, type IconName } from "@/components/icons/Ui";
+import { SectionHead } from "./Section";
 import { dict } from "@/lib/i18n";
 import { getLang } from "@/lib/i18n/server";
 
@@ -49,15 +50,15 @@ export default async function ContentTypes() {
 
   return (
     <div>
-      <div className="mx-auto mb-12 max-w-2xl text-center">
-        <p className="eyebrow">{t.eyebrow}</p>
-        <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">
-          {CONTENT_TYPES.length} {t.h1}
-        </h2>
-        <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
-          {t.sub}
-        </p>
-      </div>
+      <SectionHead
+        eyebrow={t.eyebrow}
+        title={
+          <>
+            {CONTENT_TYPES.length} {t.h1}
+          </>
+        }
+        sub={t.sub}
+      />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {GROUPS.map((g) => (

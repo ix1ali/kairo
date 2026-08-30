@@ -1,4 +1,5 @@
 import { Flag } from "@/components/icons/Flag";
+import { SectionHead } from "./Section";
 import { LOCALES } from "@/lib/languages";
 import { dict } from "@/lib/i18n";
 import { getLang } from "@/lib/i18n/server";
@@ -21,18 +22,18 @@ export default async function Languages() {
 
   return (
     <div>
-      <div className="mx-auto mb-10 max-w-2xl text-center">
-        <p className="eyebrow">{t.eyebrow}</p>
-        <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">
-          {languages} {t.languages}{" "}
-          <span className="grad-text-soft">
-            {LOCALES.length} {t.dialects}
-          </span>
-        </h2>
-        <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
-          {t.sub}
-        </p>
-      </div>
+      <SectionHead
+        eyebrow={t.eyebrow}
+        title={
+          <>
+            {languages} {t.languages}{" "}
+            <span className="grad-text-soft">
+              {LOCALES.length} {t.dialects}
+            </span>
+          </>
+        }
+        sub={t.sub}
+      />
 
       <div className="mx-auto grid max-w-4xl grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
         {shown.map((l) => (

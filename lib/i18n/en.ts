@@ -152,18 +152,30 @@ export const en = {
   },
 
 models: {
-    eyebrow: "Model agnostic",
-    h1: "Bring the model you already pay for.",
-    sub: "Kairo is not tied to one provider. Plug in your own key and the engine routes to it — or run it with no key at all and the built-in strategy and design engines do the work.",
-    connected: "Connects directly today",
-    legend: "Connects directly today. The video models are reached through Higgsfield, which brokers them behind one key.",
+    eyebrow: "The engine room",
+    h1: "Twelve models. Nothing for you to set up.",
+    sub: "Every model Kairo needs is already connected on our side. You never create an account with a provider, never paste a key, never choose a model — the engine sends each job to whichever one is best at it and hands you the finished file.",
+    jobs: { image: "Images", video: "Video and voice", copy: "Copy and strategy" },
+    a1: "No keys, ever",
+    a1sub: "There is no settings page asking for an API key, because there is nothing for you to connect.",
+    a2: "Routed for you",
+    a2sub: "A product still, a talking-head clip and a caption do not want the same model. Kairo picks per job.",
+    a3: "Included in your plan",
+    a3sub: "Model costs are ours, not yours. Your price does not move when a provider changes theirs.",
   },
 
   wall: {
-    eyebrow: "The output",
-    h1: "Made without a camera.",
-    sub: "Product ads, campaign stills and UGC clips — every one of them generated. No studio booked, no shoot day, no agency retainer, no waiting two weeks for a first draft.",
-    footer: "Stills and video, in English and Arabic, across a dozen industries.",
+    videoEyebrow: "UGC and video",
+    videoH1: "Nobody was filmed. Nothing was shipped.",
+    videoSub: "Every clip below started as one product photo. No model booked, no studio hired, no props bought, no reshoot because the light was wrong.",
+    videoTag: "AI",
+    videoFooter: "Twenty-two clips. Skincare, jewellery, food, pets, drinkware — all generated.",
+    stillsEyebrow: "The stills",
+    stillsH1: "One look, held for thirty days.",
+    stillsSub: "This is what consistency actually looks like. Same palette, same typographic weight, same treatment — across an entire month, in English and Arabic.",
+    stillsMore: "Show all forty",
+    stillsLess: "Show fewer",
+    stillsFooter: "Generated stills across a dozen industries.",
   },
 
   video: {
@@ -208,6 +220,7 @@ models: {
   },
 
   pricing: {
+    videoNote: "A finished video every {n} days",
     eyebrow: "Pricing",
     h1: "Pick your posting volume.",
     sub: "Every plan delivers a complete 30-day campaign the moment you add a brand.",
@@ -253,7 +266,7 @@ models: {
       },
       {
         q: "Does it write in my language?",
-        a: "You pick a country, not just a language, so the copy lands in the dialect people actually speak there. Non-English output needs an AI provider key — without one the copy is generated in English and the app says so plainly.",
+        a: "You pick a country, not just a language, so the copy lands in the dialect people actually speak there. Kuwaiti Arabic reads differently from Egyptian, and the calendar is written in whichever one you chose.",
       },
       {
         q: "Do I have to post it manually?",

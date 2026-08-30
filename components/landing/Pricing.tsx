@@ -21,13 +21,13 @@ function Check({ dim = false }: { dim?: boolean }) {
 export async function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: string }) {
   const t = dict(await getLang()).pricing;
   return (
-    <div className="grid gap-5 lg:grid-cols-3">
+    <div className="grid gap-4 sm:gap-5 lg:grid-cols-3">
       {PACKAGES.map((pkg) => {
         const featured = pkg.highlight;
         return (
           <div
             key={pkg.id}
-            className={`relative flex flex-col rounded-3xl p-7 transition-transform duration-300 ${
+            className={`relative flex flex-col rounded-3xl p-5 transition-transform duration-300 sm:p-7 ${
               featured
                 ? "border border-[#7C5CFF]/45 bg-gradient-to-b from-[#171327] to-[#0D0D14] shadow-[0_30px_90px_-30px_rgba(124,92,255,0.55)] lg:-translate-y-3"
                 : "border border-[#1E1E28] bg-white/[0.02]"
@@ -42,8 +42,8 @@ export async function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: stri
             <h3 className="display text-2xl">{pkg.name}</h3>
             <p className="mt-1.5 min-h-[42px] text-sm leading-relaxed text-[#9B9BAE]">{pkg.tagline}</p>
 
-            <div className="mt-6 flex items-baseline gap-1">
-              <span className="display text-5xl">${pkg.price}</span>
+            <div className="mt-5 flex items-baseline gap-1 sm:mt-6">
+              <span className="display text-[2.75rem] sm:text-5xl">${pkg.price}</span>
               <span className="text-sm text-[#6C6C80]">{t.month}</span>
             </div>
 
@@ -52,8 +52,8 @@ export async function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: stri
                 <p className="display text-lg">{pkg.totalPosts}</p>
                 <p className="text-[10px] uppercase tracking-wider text-[#5B5B70]">{t.posts}</p>
               </div>
-              <div>
-                <p className="display text-lg">{pkg.videosPerMonth || "—"}</p>
+              <div className="border-x border-[#1A1A24]">
+                <p className="display text-lg text-[#22D3EE]">{pkg.videosPerMonth}</p>
                 <p className="text-[10px] uppercase tracking-wider text-[#5B5B70]">{t.videos}</p>
               </div>
               <div>
@@ -61,6 +61,13 @@ export async function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: stri
                 <p className="text-[10px] uppercase tracking-wider text-[#5B5B70]">{t.credits}</p>
               </div>
             </div>
+
+            <p className="mt-2.5 flex items-center justify-center gap-1.5 text-[11.5px] text-[#5B5B70]">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" className="text-[#22D3EE]">
+                <path d="M3 1.6 10 6l-7 4.4V1.6Z" />
+              </svg>
+              {t.videoNote.replace("{n}", String(pkg.videoEveryNDays))}
+            </p>
 
             <Link
               href={`${ctaPrefix}?plan=${pkg.id}`}

@@ -10,27 +10,21 @@ import Savings from "@/components/landing/Savings";
 import PlatformStrip from "@/components/landing/PlatformStrip";
 import { PricingCards } from "@/components/landing/Pricing";
 import CalendarDemo, { type DemoPost } from "@/components/landing/CalendarDemo";
-import MediaRail from "@/components/landing/MediaRail";
+import VideoWall from "@/components/landing/VideoWall";
+import ImageWall from "@/components/landing/ImageWall";
 import VideoOptions from "@/components/landing/VideoOptions";
 import Models from "@/components/landing/Models";
 import ContentTypes from "@/components/landing/ContentTypes";
 import Languages from "@/components/landing/Languages";
 import Koala from "@/components/Koala";
+import { Section, SectionHead, GUTTER } from "@/components/landing/Section";
 import { Icon, type IconName } from "@/components/icons/Ui";
 import { demoPlan } from "@/lib/demoSample";
 import { renderPosterSVG } from "@/lib/render/poster";
 import { dict } from "@/lib/i18n";
 import { getLang } from "@/lib/i18n/server";
 
-const IN_EVERY_POST: { icon: IconName; title: string; body: string }[] = [
-  { icon: "image", title: "A finished image", body: "Sized for the platform, built from your palette. Download and post." },
-  { icon: "text", title: "The caption", body: "A real hook and a reason to act, not a wall of adjectives." },
-  { icon: "hash", title: "Hashtags", body: "Mixed across reach, niche and community. Counts adapt per platform." },
-  { icon: "clock", title: "When to post", body: "The slot is chosen, not guessed. Morning value, evening offer." },
-  { icon: "target", title: "Why it exists", body: "Every day has a job: get seen, build trust, sell, or keep them." },
-  { icon: "video", title: "Video scripts", body: "On Studio: timed shot lists, sound direction and a loop cue." },
-];
-
+const POST_ICONS: IconName[] = ["image", "text", "hash", "clock", "target", "video"];
 
 export default async function Home() {
   const t = dict(await getLang());
@@ -64,48 +58,50 @@ export default async function Home() {
     <>
       <Nav />
       <main className="pt-16">
-        {/* ================= HERO ================= */}
+        {/* ============ 1. HERO ============ */}
         <section className="relative overflow-hidden">
           <div className="pointer-events-none absolute inset-0 grid-bg opacity-60" />
           <div className="pointer-events-none absolute left-1/2 top-[-16rem] h-[36rem] w-[70rem] -translate-x-1/2 rounded-full bg-[#7C5CFF]/14 blur-[140px]" />
 
-          <div className="relative mx-auto max-w-7xl px-5 pb-16 pt-14 sm:px-8 sm:pt-20">
-            <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-              <div>
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#2A2438] bg-[#12101C]/80 px-3.5 py-1.5 text-xs font-medium text-[#B9AEE8] backdrop-blur">
+          <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-10 sm:px-6 sm:pt-16 lg:px-8 lg:pb-16 lg:pt-20">
+            <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
+              <div className="order-1">
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#2A2438] bg-[#12101C]/80 px-3 py-1.5 text-[11px] font-medium text-[#B9AEE8] backdrop-blur sm:px-3.5 sm:text-xs">
                   <Icon name="sparkle" size={13} filled />
                   {t.hero.badge}
                 </span>
 
-                <h1 className="display mt-6 text-[2.5rem] leading-[1.02] text-balance sm:text-[3rem] lg:text-[3.5rem]">
+                <h1 className="display mt-5 text-[2rem] leading-[1.05] text-balance sm:mt-6 sm:text-[2.75rem] lg:text-[3.5rem] lg:leading-[1.02]">
                   <RevealHeadline text={t.hero.line1} delay={80} />
                   <span className="mt-1 block">
                     <RevealHeadline text={t.hero.line2} wordClass="grad-text-soft" delay={340} />
                   </span>
                 </h1>
 
-                <p className="mt-5 max-w-md text-[16px] leading-relaxed text-[#9B9BAE]">
+                <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[#9B9BAE] sm:mt-5 sm:text-[16px]">
                   {t.hero.sub}
                 </p>
 
-                <div className="mt-7">
+                <div className="mt-6 sm:mt-7">
                   <HeroImport />
                 </div>
-
               </div>
 
               {/* koala + floating cards */}
-              <div className="relative mx-auto w-full max-w-[420px] py-6">
+              <div className="relative order-2 mx-auto w-full max-w-[420px] py-2 sm:py-6">
                 <div className="pointer-events-none absolute inset-0 grid place-items-center">
-                  <div className="h-72 w-72 rounded-full bg-[#7C5CFF]/18 blur-[80px]" />
+                  <div className="h-48 w-48 rounded-full bg-[#7C5CFF]/18 blur-[80px] sm:h-72 sm:w-72" />
                 </div>
 
                 <div className="flex justify-center">
-                  <Koala size={320} mood="happy" className="relative z-10" />
+                  <Koala
+                    sizeClass="h-[190px] w-[190px] sm:h-[260px] sm:w-[260px] lg:h-[320px] lg:w-[320px]"
+                    mood="happy"
+                    className="relative z-10"
+                  />
                 </div>
 
-                {/* floating proof chips */}
-                <div className="absolute -left-6 top-0 z-20 hidden animate-floaty rounded-2xl border border-[#22222E] bg-[#0C0C13]/90 px-3.5 py-2.5 backdrop-blur sm:block">
+                <div className="absolute -left-2 top-0 z-20 hidden animate-floaty rounded-2xl border border-[#22222E] bg-[#0C0C13]/90 px-3.5 py-2.5 backdrop-blur sm:block lg:-left-6">
                   <div className="flex items-center gap-2">
                     <span className="grid h-7 w-7 place-items-center rounded-lg bg-[#C8F751]/15 text-[#C8F751]">
                       <Icon name="check" size={13} strokeWidth={3} />
@@ -118,11 +114,11 @@ export default async function Home() {
                 </div>
 
                 <div
-                  className="absolute -right-6 bottom-0 z-20 hidden animate-floaty rounded-2xl border border-[#22222E] bg-[#0C0C13]/90 px-3.5 py-2.5 backdrop-blur sm:block"
+                  className="absolute -right-2 bottom-0 z-20 hidden animate-floaty rounded-2xl border border-[#22222E] bg-[#0C0C13]/90 px-3.5 py-2.5 backdrop-blur sm:block lg:-right-6"
                   style={{ animationDelay: "1.4s" }}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="grid h-7 w-7 place-items-center rounded-lg bg-[#7C5CFF]/18 text-[#A78BFA]">
+                    <span className="grid h-7 w-7 place-items-center rounded-xl bg-[#7C5CFF]/18 text-[#A78BFA]">
                       <Icon name="calendar" size={13} />
                     </span>
                     <div>
@@ -133,103 +129,105 @@ export default async function Home() {
                 </div>
               </div>
             </div>
-
           </div>
 
           {/* full-bleed ticker so the rows run edge to edge */}
-          <div className="relative pb-16 pt-4">
+          <div className="relative pb-12 pt-2 sm:pb-16 sm:pt-4">
             <PlatformStrip />
           </div>
         </section>
 
-        {/* ================= THE POINT ================= */}
-        <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8">
-            <div className="mx-auto mb-12 max-w-2xl text-center">
-              <p className="eyebrow">{t.difference.eyebrow}</p>
-              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">
+        {/* ============ 2. THE POINT ============ */}
+        <Section tone="raised">
+          <SectionHead
+            eyebrow={t.difference.eyebrow}
+            title={
+              <>
                 {t.difference.h1} <span className="text-[#6C6C80]">{t.difference.h2}</span>
-              </h2>
-              <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
-                {t.difference.sub}
-              </p>
-            </div>
+              </>
+            }
+            sub={t.difference.sub}
+          />
+          <ChaosVsPlan />
+        </Section>
 
-            <ChaosVsPlan />
-          </div>
-        </section>
-
-        {/* ================= HOW IT WORKS ================= */}
-        <section id="how" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
-          <div className="mx-auto mb-14 max-w-2xl text-center">
-            <p className="eyebrow">{t.how.eyebrow}</p>
-            <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.how.h1}</h2>
-          </div>
+        {/* ============ 3. HOW IT WORKS ============ */}
+        <Section id="how">
+          <SectionHead eyebrow={t.how.eyebrow} title={t.how.h1} />
           <HowItWorks />
-        </section>
+        </Section>
 
-        {/* ================= MEDIA RAIL ================= */}
-        <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8">
-            <div className="mb-10 max-w-2xl">
-              <p className="eyebrow">{t.wall.eyebrow}</p>
-              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.wall.h1}</h2>
-              <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">{t.wall.sub}</p>
-            </div>
-            <MediaRail />
+        {/* ============ 4. UGC VIDEO WALL ============ */}
+        <Section tone="raised" bleed>
+          <div className={GUTTER}>
+            <SectionHead
+              eyebrow={t.wall.videoEyebrow}
+              title={t.wall.videoH1}
+              sub={t.wall.videoSub}
+              align="start"
+            />
           </div>
-        </section>
+          <VideoWall />
+        </Section>
 
-        {/* ================= IN EVERY POST ================= */}
-        <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8">
-            <div className="mx-auto mb-12 max-w-2xl text-center">
-              <p className="eyebrow">{t.everyPost.eyebrow}</p>
-              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.everyPost.h1}</h2>
-            </div>
+        {/* ============ 5. THE STILLS, ON THEIR OWN ============ */}
+        <Section>
+          <SectionHead
+            eyebrow={t.wall.stillsEyebrow}
+            title={t.wall.stillsH1}
+            sub={t.wall.stillsSub}
+          />
+          <ImageWall />
+        </Section>
 
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {IN_EVERY_POST.map((f, i) => (
-                <div
-                  key={f.title}
-                  className="group rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#3A3355] hover:bg-white/[0.045]"
-                >
-                  <span className="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-[#7C5CFF]/25 to-[#22D3EE]/12 text-[#A78BFA] transition-transform duration-300 group-hover:scale-110">
-                    <Icon name={f.icon} size={20} />
-                  </span>
-                  <p className="display text-lg">{t.everyPost.items[i].title}</p>
-                  <p className="mt-2 text-[13.5px] leading-relaxed text-[#7C7C90]">
-                    {t.everyPost.items[i].body}
-                  </p>
-                </div>
-              ))}
-            </div>
+        {/* ============ 6. IN EVERY POST ============ */}
+        <Section tone="raised">
+          <SectionHead eyebrow={t.everyPost.eyebrow} title={t.everyPost.h1} />
+          <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+            {t.everyPost.items.map((item, i) => (
+              <div
+                key={item.title}
+                className="group rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#3A3355] hover:bg-white/[0.045] sm:p-6"
+              >
+                <span className="mb-3.5 grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-[#7C5CFF]/25 to-[#22D3EE]/12 text-[#A78BFA] transition-transform duration-300 group-hover:scale-110 sm:mb-4 sm:h-11 sm:w-11">
+                  <Icon name={POST_ICONS[i]} size={19} />
+                </span>
+                <p className="display text-[17px] sm:text-lg">{item.title}</p>
+                <p className="mt-2 text-[13px] leading-relaxed text-[#7C7C90] sm:text-[13.5px]">
+                  {item.body}
+                </p>
+              </div>
+            ))}
           </div>
-        </section>
+        </Section>
 
-        {/* ================= VIDEO ================= */}
-        <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+        {/* ============ 7. VIDEO, YOUR WAY ============ */}
+        <Section>
           <VideoOptions />
-        </section>
+        </Section>
 
-        {/* ================= CONTENT STRATEGIES ================= */}
-        <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+        {/* ============ 8. CONTENT STRATEGIES ============ */}
+        <Section tone="raised">
           <ContentTypes />
-        </section>
+        </Section>
 
-        {/* ================= LIVE DEMO ================= */}
-        <section id="plan" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
-            <div className="max-w-xl">
-              <p className="eyebrow">{t.demo.eyebrow}</p>
-              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">
-                {t.demo.h1}
-                <span className="grad-text-soft"> {t.demo.h2}</span>
-              </h2>
-              <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">{t.demo.sub}</p>
-            </div>
+        {/* ============ 9. LIVE DEMO ============ */}
+        <Section id="plan">
+          <div className="mb-9 flex flex-wrap items-end justify-between gap-5 sm:mb-12">
+            <SectionHead
+              align="start"
+              className="mb-0 max-w-xl"
+              eyebrow={t.demo.eyebrow}
+              title={
+                <>
+                  {t.demo.h1}
+                  <span className="grad-text-soft"> {t.demo.h2}</span>
+                </>
+              }
+              sub={t.demo.sub}
+            />
             <div className="flex items-center gap-3 rounded-2xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3">
-              <span className="h-9 w-9 rounded-xl bg-gradient-to-br from-[#E4732B] to-[#F2C14E]" />
+              <span className="h-9 w-9 shrink-0 rounded-xl bg-gradient-to-br from-[#E4732B] to-[#F2C14E]" />
               <div>
                 <p className="text-sm font-semibold text-white">{project.name}</p>
                 <p className="text-[11px] text-[#5B5B70]">{project.tagline}</p>
@@ -239,9 +237,9 @@ export default async function Home() {
 
           <CalendarDemo posts={demoPosts} previews={previews} />
 
-          <div className="mt-10">
+          <div className="mt-9 sm:mt-10">
             <p className="eyebrow mb-4">{t.demo.oneLook}</p>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
               {gallery.map((p) => (
                 <div
                   key={p.id}
@@ -251,45 +249,27 @@ export default async function Home() {
               ))}
             </div>
           </div>
-        </section>
+        </Section>
 
-        {/* ================= LANGUAGES ================= */}
-        <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8">
-            <Languages />
-          </div>
-        </section>
+        {/* ============ 10. LANGUAGES ============ */}
+        <Section tone="raised">
+          <Languages />
+        </Section>
 
-        {/* ================= MODELS ================= */}
-        <section className="border-y border-[#14141C] bg-[#09090F] py-20 sm:py-24">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8">
-            <Models />
-          </div>
-        </section>
+        {/* ============ 11. THE MODELS ============ */}
+        <Section>
+          <Models />
+        </Section>
 
-        {/* ================= SAVINGS ================= */}
-        <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
-          <div className="mx-auto mb-12 max-w-2xl text-center">
-            <p className="eyebrow">{t.savings.eyebrow}</p>
-            <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">
-              {t.savings.h1}
-            </h2>
-            <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
-              {t.savings.sub}
-            </p>
-          </div>
+        {/* ============ 12. WHAT THIS REPLACES ============ */}
+        <Section tone="raised">
+          <SectionHead eyebrow={t.savings.eyebrow} title={t.savings.h1} sub={t.savings.sub} />
           <Savings />
-        </section>
+        </Section>
 
-        {/* ================= PRICING ================= */}
-        <section id="pricing" className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
-          <div className="mx-auto mb-14 max-w-2xl text-center">
-            <p className="eyebrow">{t.pricing.eyebrow}</p>
-            <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.pricing.h1}</h2>
-            <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">
-              {t.pricing.sub}
-            </p>
-          </div>
+        {/* ============ 13. PRICING ============ */}
+        <Section id="pricing">
+          <SectionHead eyebrow={t.pricing.eyebrow} title={t.pricing.h1} sub={t.pricing.sub} />
           <PricingCards />
           <p className="mt-8 text-center text-[13px] text-[#5B5B70]">
             {t.pricing.creditsLink}{" "}
@@ -297,29 +277,26 @@ export default async function Home() {
               {t.pricing.creditsLinkCta}
             </Link>
           </p>
-        </section>
+        </Section>
 
-        {/* ================= FAQ ================= */}
-        <section id="faq" className="border-t border-[#14141C] bg-[#09090F] py-20 sm:py-24">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8">
-            <div className="mx-auto mb-12 max-w-2xl text-center">
-              <p className="eyebrow">{t.faq.eyebrow}</p>
-              <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.faq.h1}</h2>
-            </div>
-            <FAQ />
-          </div>
-        </section>
+        {/* ============ 14. FAQ ============ */}
+        <Section id="faq" tone="raised">
+          <SectionHead eyebrow={t.faq.eyebrow} title={t.faq.h1} />
+          <FAQ />
+        </Section>
 
-        {/* ================= CTA ================= */}
-        <section className="relative overflow-hidden py-24">
+        {/* ============ 15. CTA ============ */}
+        <section className="relative overflow-hidden py-16 sm:py-24">
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[24rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7C5CFF]/16 blur-[130px]" />
-          <div className="relative mx-auto flex max-w-3xl flex-col items-center px-5 text-center sm:px-8">
-            <Koala size={150} mood="wow" />
-            <h2 className="display mt-6 text-4xl sm:text-5xl">{t.finalCta.h1}</h2>
-            <p className="mx-auto mt-4 max-w-md text-[15.5px] leading-relaxed text-[#9B9BAE]">
+          <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 text-center sm:px-6 lg:px-8">
+            <Koala sizeClass="h-[120px] w-[120px] sm:h-[150px] sm:w-[150px]" mood="wow" />
+            <h2 className="display mt-5 text-[1.875rem] leading-[1.1] text-balance sm:mt-6 sm:text-4xl lg:text-5xl">
+              {t.finalCta.h1}
+            </h2>
+            <p className="mx-auto mt-3.5 max-w-md text-[15px] leading-relaxed text-[#9B9BAE] sm:mt-4 sm:text-[15.5px]">
               {t.finalCta.sub}
             </p>
-            <div className="mt-8">
+            <div className="mt-7 w-full sm:mt-8">
               <HeroImport compact />
             </div>
           </div>

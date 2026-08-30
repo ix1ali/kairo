@@ -623,8 +623,8 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                 {getLocale(locale).language !== "English" && !options.hasTextProvider ? (
                   <p className="mt-1.5 flex gap-1.5 text-[11px] leading-relaxed text-[#E0B77A]">
                     <Icon name="lock" size={12} className="mt-0.5 shrink-0" />
-                    Writing in {getLocale(locale).language} needs an AI provider key. Without one the
-                    copy is generated in English — add a key in Settings.
+                    Writing in {getLocale(locale).language} is not switched on yet. Your copy will
+                    arrive in English for now — nothing for you to set up, we are enabling it.
                   </p>
                 ) : (
                   <p className="mt-1.5 text-[11px] text-[#4E4E60]">

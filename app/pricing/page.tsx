@@ -50,7 +50,7 @@ export default function PricingPage() {
 
         {/* volume comparison */}
         <section className="border-y border-[#14141C] bg-[#09090F] py-20">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-10 max-w-2xl">
               <p className="eyebrow">Daily rhythm</p>
               <h2 className="display mt-4 text-3xl sm:text-4xl">What each plan posts, day by day.</h2>
@@ -115,7 +115,7 @@ export default function PricingPage() {
 
         {/* credits */}
         <section className="border-y border-[#14141C] bg-[#09090F] py-20">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-10 max-w-2xl">
               <p className="eyebrow">Credits</p>
               <h2 className="display mt-4 text-3xl sm:text-4xl">Change anything you want.</h2>

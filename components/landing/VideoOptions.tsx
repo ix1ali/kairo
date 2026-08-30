@@ -1,4 +1,5 @@
 import { Icon, type IconName } from "@/components/icons/Ui";
+import { SectionHead } from "./Section";
 import { dict } from "@/lib/i18n";
 import { getLang } from "@/lib/i18n/server";
 
@@ -14,11 +15,9 @@ export default async function VideoOptions() {
 
   return (
     <div>
-      <div className="mx-auto mb-12 max-w-2xl text-center">
-        <p className="eyebrow">{t.eyebrow}</p>
-        <h2 className="display mt-4 text-3xl sm:text-[2.75rem]">{t.h1}</h2>
-        <p className="mt-4 text-[15px] leading-relaxed text-[#8A8A9E]">{t.sub}</p>
-        <span className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#C8F751]/30 bg-[#C8F751]/[0.08] px-3.5 py-1.5 text-[12px] font-medium text-[#C8F751]">
+      <SectionHead eyebrow={t.eyebrow} title={t.h1} sub={t.sub} className="mb-6 sm:mb-7" />
+      <div className="mb-9 text-center sm:mb-12">
+        <span className="inline-flex items-center gap-2 rounded-full border border-[#C8F751]/30 bg-[#C8F751]/[0.08] px-3.5 py-1.5 text-[12px] font-medium text-[#C8F751]">
           <Icon name="checkCircle" size={13} />
           {t.asked}
         </span>
