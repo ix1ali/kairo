@@ -1,14 +1,24 @@
+import { gatewayConfigured, gatewayImage, gatewayText, gatewayVideo } from "./gateway";
+import { imageModel, textModel, videoModel } from "./models";
+
 /**
  * Pluggable generation layer.
  *
- * Koala always works without any API keys: the deterministic strategy engine
- * writes the plan and the SVG poster engine renders the artwork. When keys are
- * present, these providers take over image and copy generation for higher
- * fidelity output. Add keys to .env.local — nothing else needs to change.
+ * Koala always works with nothing configured: the deterministic strategy
+ * engine writes the plan and the SVG poster engine renders the artwork.
+ *
+ * Above that sits the Vercel AI Gateway, which is the intended production
+ * path — one credential reaches Seedance, Veo, Kling, FLUX, GPT Image and
+ * Claude, so neither we nor a customer manages per-provider keys. The direct
+ * provider calls below it are kept as an escape hatch for running outside
+ * Vercel with your own keys.
+ *
+ * Order of preference: gateway, then a directly configured provider, then the
+ * built-in engines.
  */
 
-export type ImageProviderName = "gemini" | "openai" | "higgsfield" | "local";
-export type TextProviderName = "anthropic" | "openai" | "gemini" | "local";
+export type ImageProviderName = "gateway" | "gemini" | "openai" | "higgsfield" | "local";
+export type TextProviderName = "gateway" | "anthropic" | "openai" | "gemini" | "local";
 
 export interface ProviderStatus {
   name: string;
@@ -20,6 +30,13 @@ export interface ProviderStatus {
 
 export function providerStatus(): ProviderStatus[] {
   return [
+    {
+      name: "Vercel AI Gateway",
+      key: "VERCEL_OIDC_TOKEN / AI_GATEWAY_API_KEY",
+      configured: gatewayConfigured(),
+      kind: "image",
+      note: `Routes to every model. Images ${imageModel()}, video ${videoModel()}, copy ${textModel()}.`,
+    },
     {
       name: "Google Gemini",
       key: "GEMINI_API_KEY",
@@ -52,6 +69,7 @@ export function providerStatus(): ProviderStatus[] {
 }
 
 export function activeImageProvider(): ImageProviderName {
+  if (gatewayConfigured()) return "gateway";
   if (process.env.GEMINI_API_KEY) return "gemini";
   if (process.env.OPENAI_API_KEY) return "openai";
   if (process.env.HIGGSFIELD_API_KEY) return "higgsfield";
@@ -59,6 +77,7 @@ export function activeImageProvider(): ImageProviderName {
 }
 
 export function activeTextProvider(): TextProviderName {
+  if (gatewayConfigured()) return "gateway";
   if (process.env.ANTHROPIC_API_KEY) return "anthropic";
   if (process.env.OPENAI_API_KEY) return "openai";
   if (process.env.GEMINI_API_KEY) return "gemini";
@@ -82,12 +101,17 @@ async function safeFetch(url: string, init: RequestInit, timeoutMs = 60000) {
 export interface ImageRequest {
   prompt: string;
   aspect: "1:1" | "4:5" | "9:16";
+  /** Attributed in gateway cost reporting. */
+  userId?: string;
 }
 
 /** Returns a data URI, or null when no provider is configured or the call fails. */
 export async function generateImage(req: ImageRequest): Promise<string | null> {
   const provider = activeImageProvider();
   try {
+    if (provider === "gateway") {
+      return await gatewayImage({ prompt: req.prompt, aspect: req.aspect, userId: req.userId });
+    }
     if (provider === "gemini") return await geminiImage(req);
     if (provider === "openai") return await openaiImage(req);
     if (provider === "higgsfield") return await higgsfieldImage(req);
@@ -162,7 +186,15 @@ async function higgsfieldImage(req: ImageRequest): Promise<string | null> {
 /* video                                                               */
 /* ------------------------------------------------------------------ */
 
-export async function generateVideo(prompt: string): Promise<string | null> {
+export async function generateVideo(prompt: string, userId?: string): Promise<string | null> {
+  if (gatewayConfigured()) {
+    try {
+      return await gatewayVideo({ prompt, userId });
+    } catch (err) {
+      console.error("[koala:ai] gateway video failed", err);
+      return null;
+    }
+  }
   if (!process.env.HIGGSFIELD_API_KEY) return null;
   try {
     const base = process.env.HIGGSFIELD_VIDEO_URL || "https://platform.higgsfield.ai/v1/video/generate";
@@ -194,6 +226,7 @@ export async function generateVideo(prompt: string): Promise<string | null> {
 export async function refineCopy(system: string, user: string): Promise<string | null> {
   const provider = activeTextProvider();
   try {
+    if (provider === "gateway") return await gatewayText(system, user);
     if (provider === "anthropic") {
       const res = await safeFetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
