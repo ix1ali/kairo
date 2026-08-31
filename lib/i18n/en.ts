@@ -19,7 +19,7 @@ export const en = {
     badge: "Meet Kai, your content koala",
     line1: "A whole month of content.",
     line2: "Done in a minute.",
-    sub: "Paste your store link. Kai learns your brand, writes a real marketing plan, and hands you 30 days of posts — designed, written and ready to publish.",
+    sub: "Paste your store link. Get thirty days of posts, designed and written, ready to publish.",
     placeholder: "yourstore.com",
     cta: "Build my content plan",
     hint: "Paste any store or product link — Koala reads your brand and products automatically.",
@@ -27,14 +27,14 @@ export const en = {
     chipPostedSub: "18 of 30 done",
     chipReady: "30 days ready",
     chipReadySub: "Strategy included",
-    ticker: "Wherever you post. Whatever you sell.",
+    ticker: "Built for",
   },
 
   difference: {
     eyebrow: "The difference",
-    h1: "Most brands post.",
-    h2: "Few brands plan.",
-    sub: "Thirty unrelated posts fill a grid. Thirty planned posts build a customer.",
+    h1: "Posting is not a plan.",
+    h2: "That is the whole problem.",
+    sub: "Thirty random posts fill a grid. Thirty planned posts turn a stranger into a customer.",
     chaosTitle: "Posting randomly",
     chaosSub: "What most brands actually do",
     chaosPoints: [
@@ -61,7 +61,7 @@ export const en = {
 
   how: {
     eyebrow: "How it works",
-    h1: "Four steps. One finished month.",
+    h1: "Four steps. Then you are done.",
     steps: [
       {
         title: "Drop your link",
@@ -88,10 +88,10 @@ export const en = {
   },
 
   showcase: {
-    eyebrow: "Made by Koala",
-    h1: "Six brands. One engine.",
-    sub: "Every card below was generated from a brand brief — palette, voice, products — with nothing edited afterwards. Different industry, different look, same thirty-day logic underneath.",
-    footer: "Six brands, six looks — all from the same engine, none of them touched by hand.",
+    eyebrow: "What you get",
+    h1: "Pick a format. See what we make.",
+    sub: "Real output, not mockups. Same brand, same colours, every time.",
+    tabs: ["Videos", "Ads", "Social posts"],
     prev: "Previous",
     next: "Next",
   },
@@ -152,9 +152,9 @@ export const en = {
   },
 
 models: {
-    eyebrow: "The engine room",
-    h1: "Twelve models. Nothing for you to set up.",
-    sub: "Every model Koala needs is already connected on our side. You never create an account with a provider, never paste a key, never choose a model — the engine sends each job to whichever one is best at it and hands you the finished file.",
+    eyebrow: "Powered by",
+    h1: "The best models, already connected.",
+    sub: "We pay for them. We connect them. You never see a key, an account or a setting — just the finished file.",
     jobs: { image: "Images", video: "Video and voice", copy: "Copy and strategy" },
     a1: "No keys, ever",
     a1sub: "There is no settings page asking for an API key, because there is nothing for you to connect.",
@@ -165,22 +165,51 @@ models: {
   },
 
   source: {
-    eyebrow: "From one photo",
-    h1: "This is the photo they had.",
-    sub: "One flat pack shot on a white background — the same picture sitting on every product page. No studio, no model, no set. These four posts came out of it, and each one has a different job in the month.",
+    eyebrow: "Before and after",
+    h1: "One photo in. A campaign out.",
+    sub: "This brand had one plain photo, the same one on their product page. Here is what we turned it into.",
     beforeTag: "Uploaded",
     beforeAlt: "The original product photograph, shot flat on a white background",
-    beforeNote: "The only asset the brand owned.",
+    beforeNote: "What they sent us.",
     jobs: ["Product hero", "Flavour story", "Arabic + English", "Lifestyle portrait"],
-    afterNote: "Four posts, one palette, one typographic voice — so they still read as one brand when they land in a feed days apart.",
+    afterNote: "Same colours, same style, same brand. That is what keeps a feed looking professional.",
+  },
+
+  platforms: {
+    eyebrow: "Every platform",
+    h1: "Sized right for wherever you post.",
+    sub: "The same campaign, exported at the correct size for each feed. No cropping, no guessing.",
+  },
+
+  rivals: {
+    eyebrow: "Your competitors",
+    h1: "We study your rivals before we write a word.",
+    sub: "Your month is built around the gaps they leave open. That is where the sales are.",
+    steps: [
+      {
+        title: "We read their accounts",
+        body: "Their site, their socials, what they post and how often. All of it public, all of it useful.",
+      },
+      {
+        title: "We find what they get wrong",
+        body: "Slow replies, no proof, hiding prices, the same three posts on repeat. Every brand leaks somewhere.",
+      },
+      {
+        title: "We aim your month at it",
+        body: "Your posts answer what they ignore. That is the reason someone picks you instead.",
+      },
+    ],
+    payoffTitle: "You get the angle, not just the artwork.",
+    payoffBody: "Anyone can make a nice image. Knowing what to say, and why it beats the brand next to you, is the part that sells.",
+    payoffTags: ["Positioning", "Their weak spots", "Your angle"],
   },
 
   wall: {
-    videoEyebrow: "UGC and video",
-    videoH1: "Nobody was filmed. Nothing was shipped.",
-    videoSub: "Every clip below started as one product photo. No model booked, no studio hired, no props bought, no reshoot because the light was wrong.",
+    videoEyebrow: "Video",
+    videoH1: "Ads like these, from one product photo.",
+    videoSub: "No camera. No studio. No models to book. You send a photo, we send back the ad.",
     videoTag: "AI",
-    videoFooter: "Fourteen clips. Skincare, fragrance, food, pets and supplements — all generated.",
+    videoFooter: "Real clips we made. Skincare, perfume, food, pets, supplements.",
     stillsEyebrow: "The stills",
     stillsH1: "One look, held for thirty days.",
     stillsSub: "This is what consistency actually looks like. Same palette, same typographic weight, same treatment — across an entire month, in English and Arabic.",
@@ -202,7 +231,7 @@ models: {
 
   savings: {
     eyebrow: "The maths",
-    h1: "What this replaces.",
+    h1: "What you stop paying for.",
     sub: "A designer, a copywriter, an editor and a strategist — for one month of content. Change the rates to match what you actually pay.",
     oldWay: "Doing it the usual way",
     oldWaySub: "Change any rate to match your market",
@@ -251,7 +280,7 @@ models: {
 
   faq: {
     eyebrow: "Questions",
-    h1: "Straight answers.",
+    h1: "Questions people ask.",
     items: [
       {
         q: "Is this just an AI caption generator?",

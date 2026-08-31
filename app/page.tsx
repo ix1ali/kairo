@@ -5,48 +5,27 @@ import FAQ from "@/components/landing/FAQ";
 import ChaosVsPlan from "@/components/landing/ChaosVsPlan";
 import HowItWorks from "@/components/landing/HowItWorks";
 import HeroImport from "@/components/landing/HeroImport";
+import HeroStage from "@/components/landing/HeroStage";
 import RevealHeadline from "@/components/landing/RevealHeadline";
 import Savings from "@/components/landing/Savings";
 import PlatformStrip from "@/components/landing/PlatformStrip";
 import { PricingCards } from "@/components/landing/Pricing";
-import CalendarDemo, { type DemoPost } from "@/components/landing/CalendarDemo";
 import VideoWall from "@/components/landing/VideoWall";
-import ImageWall from "@/components/landing/ImageWall";
+import Showcase from "@/components/landing/Showcase";
 import FromOnePhoto from "@/components/landing/FromOnePhoto";
-import VideoOptions from "@/components/landing/VideoOptions";
+import Platforms from "@/components/landing/Platforms";
+import Rivals from "@/components/landing/Rivals";
 import Models from "@/components/landing/Models";
-import ContentTypes from "@/components/landing/ContentTypes";
 import Languages from "@/components/landing/Languages";
 import Koala from "@/components/Koala";
 import { Section, SectionHead, GUTTER } from "@/components/landing/Section";
 import { Icon } from "@/components/icons/Ui";
-import { demoPlan } from "@/lib/demoSample";
-import { renderPosterSVG } from "@/lib/render/poster";
 import { dict } from "@/lib/i18n";
 import { getLang } from "@/lib/i18n/server";
 
 export default async function Home() {
   const t = dict(await getLang());
-  const { project, posts } = demoPlan();
 
-  const demoPosts: DemoPost[] = posts.map((p) => ({
-    id: p.id,
-    day: p.day,
-    pillar: p.pillar,
-    funnel: p.funnel,
-    format: p.format,
-    platform: p.platform,
-    timeOfDay: p.timeOfDay,
-    theme: p.theme,
-    hook: p.hook,
-    caption: p.caption,
-    hashtags: p.hashtags,
-    visualDirection: p.visualDirection,
-    productName: p.productName,
-  }));
-
-  const previews: Record<string, string> = {};
-  for (const p of posts) previews[p.id] = renderPosterSVG(p, project, null);
   return (
     <>
       <Nav />
@@ -54,7 +33,6 @@ export default async function Home() {
         {/* ============ 1. HERO ============ */}
         <section className="relative overflow-hidden">
           <div className="pointer-events-none absolute inset-0 grid-bg opacity-60" />
-          <div className="pointer-events-none absolute left-1/2 top-[-16rem] h-[36rem] w-[70rem] -translate-x-1/2 rounded-full bg-[#7C5CFF]/14 blur-[140px]" />
 
           <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-10 sm:px-6 sm:pt-16 lg:px-8 lg:pb-16 lg:pt-20">
             <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
@@ -80,46 +58,13 @@ export default async function Home() {
                 </div>
               </div>
 
-              {/* koala + floating cards */}
-              <div className="relative order-2 mx-auto w-full max-w-[420px] py-2 sm:py-6">
-                <div className="pointer-events-none absolute inset-0 grid place-items-center">
-                  <div className="h-48 w-48 rounded-full bg-[#7C5CFF]/18 blur-[80px] sm:h-72 sm:w-72" />
-                </div>
-
-                <div className="flex justify-center">
-                  <Koala
-                    sizeClass="h-[190px] w-[190px] sm:h-[260px] sm:w-[260px] lg:h-[320px] lg:w-[320px]"
-                    mood="happy"
-                    className="relative z-10"
-                  />
-                </div>
-
-                <div className="absolute -left-2 top-0 z-20 hidden animate-floaty rounded-2xl border border-[#22222E] bg-[#0C0C13]/90 px-3.5 py-2.5 backdrop-blur sm:block lg:-left-6">
-                  <div className="flex items-center gap-2">
-                    <span className="grid h-7 w-7 place-items-center rounded-lg bg-[#C8F751]/15 text-[#C8F751]">
-                      <Icon name="check" size={13} strokeWidth={3} />
-                    </span>
-                    <div>
-                      <p className="text-[11px] font-semibold text-white">{t.hero.chipPosted}</p>
-                      <p className="text-[10px] text-[#7E7E93]">{t.hero.chipPostedSub}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  className="absolute -right-2 bottom-0 z-20 hidden animate-floaty rounded-2xl border border-[#22222E] bg-[#0C0C13]/90 px-3.5 py-2.5 backdrop-blur sm:block lg:-right-6"
-                  style={{ animationDelay: "1.4s" }}
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="grid h-7 w-7 place-items-center rounded-xl bg-[#7C5CFF]/18 text-[#7C5CFF]">
-                      <Icon name="calendar" size={13} />
-                    </span>
-                    <div>
-                      <p className="text-[11px] font-semibold text-white">{t.hero.chipReady}</p>
-                      <p className="text-[10px] text-[#7E7E93]">{t.hero.chipReadySub}</p>
-                    </div>
-                  </div>
-                </div>
+              <div className="order-2">
+                <HeroStage
+                  chipPosted={t.hero.chipPosted}
+                  chipPostedSub={t.hero.chipPostedSub}
+                  chipReady={t.hero.chipReady}
+                  chipReadySub={t.hero.chipReadySub}
+                />
               </div>
             </div>
           </div>
@@ -130,8 +75,13 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ============ 2. THE POINT ============ */}
+        {/* ============ 2. WHERE IT GETS POSTED ============ */}
         <Section tone="raised">
+          <Platforms />
+        </Section>
+
+        {/* ============ 3. THE POINT ============ */}
+        <Section>
           <SectionHead
             eyebrow={t.difference.eyebrow}
             title={
@@ -144,13 +94,23 @@ export default async function Home() {
           <ChaosVsPlan />
         </Section>
 
-        {/* ============ 3. HOW IT WORKS ============ */}
-        <Section id="how">
+        {/* ============ 4. HOW IT WORKS ============ */}
+        <Section tone="raised" id="how">
           <SectionHead eyebrow={t.how.eyebrow} title={t.how.h1} />
           <HowItWorks />
         </Section>
 
-        {/* ============ 4. UGC VIDEO WALL ============ */}
+        {/* ============ 5. PICK A FORMAT ============ */}
+        <Section>
+          <SectionHead
+            eyebrow={t.showcase.eyebrow}
+            title={t.showcase.h1}
+            sub={t.showcase.sub}
+          />
+          <Showcase />
+        </Section>
+
+        {/* ============ 6. THE VIDEO WALL ============ */}
         <Section tone="raised" bleed>
           <div className={GUTTER}>
             <SectionHead
@@ -163,79 +123,34 @@ export default async function Home() {
           <VideoWall />
         </Section>
 
-        {/* ============ 5. ONE PHOTO, FOUR POSTS ============ */}
+        {/* ============ 7. ONE PHOTO, FOUR POSTS ============ */}
         <Section>
           <FromOnePhoto />
         </Section>
 
-        {/* ============ 6. THE STILLS, ON THEIR OWN ============ */}
-        <Section tone="raised" bleed>
-          <div className={GUTTER}>
-            <SectionHead
-              eyebrow={t.wall.stillsEyebrow}
-              title={t.wall.stillsH1}
-              sub={t.wall.stillsSub}
-            />
-          </div>
-          <ImageWall />
+        {/* ============ 8. YOUR COMPETITORS ============ */}
+        <Section tone="raised">
+          <Rivals />
         </Section>
 
-        {/* ============ 7. VIDEO, YOUR WAY ============ */}
+        {/* ============ 9. LANGUAGES ============ */}
         <Section>
-          <VideoOptions />
-        </Section>
-
-        {/* ============ 8. CONTENT STRATEGIES ============ */}
-        <Section tone="raised">
-          <ContentTypes />
-        </Section>
-
-        {/* ============ 9. LIVE DEMO ============ */}
-        <Section id="plan">
-          <div className="mb-9 flex flex-wrap items-end justify-between gap-5 sm:mb-12">
-            <SectionHead
-              align="start"
-              className="mb-0 max-w-xl"
-              eyebrow={t.demo.eyebrow}
-              title={
-                <>
-                  {t.demo.h1}
-                  <span className="grad-text-soft"> {t.demo.h2}</span>
-                </>
-              }
-              sub={t.demo.sub}
-            />
-            <div className="flex items-center gap-3 rounded-2xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3">
-              <span className="h-9 w-9 shrink-0 rounded-xl bg-gradient-to-br from-[#E4732B] to-[#F2C14E]" />
-              <div>
-                <p className="text-sm font-semibold text-white">{project.name}</p>
-                <p className="text-[11px] text-[#7E7E93]">{project.tagline}</p>
-              </div>
-            </div>
-          </div>
-
-          <CalendarDemo posts={demoPosts} previews={previews} />
-
-        </Section>
-
-        {/* ============ 10. LANGUAGES ============ */}
-        <Section tone="raised">
           <Languages />
         </Section>
 
-        {/* ============ 11. THE MODELS ============ */}
-        <Section>
+        {/* ============ 10. THE MODELS ============ */}
+        <Section tone="raised">
           <Models />
         </Section>
 
-        {/* ============ 12. WHAT THIS REPLACES ============ */}
-        <Section tone="raised">
+        {/* ============ 11. WHAT THIS REPLACES ============ */}
+        <Section>
           <SectionHead eyebrow={t.savings.eyebrow} title={t.savings.h1} sub={t.savings.sub} />
           <Savings />
         </Section>
 
-        {/* ============ 13. PRICING ============ */}
-        <Section id="pricing">
+        {/* ============ 12. PRICING ============ */}
+        <Section tone="raised" id="pricing">
           <SectionHead eyebrow={t.pricing.eyebrow} title={t.pricing.h1} sub={t.pricing.sub} />
           <PricingCards />
           <p className="mt-8 text-center text-[13px] text-[#7E7E93]">
@@ -246,13 +161,13 @@ export default async function Home() {
           </p>
         </Section>
 
-        {/* ============ 14. FAQ ============ */}
-        <Section id="faq" tone="raised">
+        {/* ============ 13. FAQ ============ */}
+        <Section id="faq">
           <SectionHead eyebrow={t.faq.eyebrow} title={t.faq.h1} />
           <FAQ />
         </Section>
 
-        {/* ============ 15. CTA ============ */}
+        {/* ============ 14. CTA ============ */}
         <section className="relative overflow-hidden py-16 sm:py-24">
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[24rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7C5CFF]/16 blur-[130px]" />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 text-center sm:px-6 lg:px-8">
