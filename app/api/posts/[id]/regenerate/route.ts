@@ -27,7 +27,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   if (!(action in CREDIT_COSTS)) return fail("Unknown action.");
   const cost = CREDIT_COSTS[action];
 
-  const db = read();
+  const db = await read();
   const post = db.posts.find((p) => p.id === id);
   if (!post) return fail("Post not found.", 404);
   const project = db.projects.find((p) => p.id === post.projectId && p.userId === auth.user.id);
@@ -85,7 +85,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     }
   }
 
-  mutate((d) => {
+  await mutate((d) => {
     const target = d.posts.find((p) => p.id === id)!;
     Object.assign(target, patch);
     target.assetUrl = assetUrl;
@@ -100,7 +100,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     u.credits -= cost;
   });
 
-  const fresh = read();
+  const fresh = await read();
   return json({
     post: fresh.posts.find((p) => p.id === id),
     credits: fresh.users.find((u) => u.id === auth.user.id)!.credits,

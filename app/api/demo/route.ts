@@ -11,7 +11,7 @@ export async function POST() {
   if (user.subscriptionStatus !== "active" || !user.packageId) {
     return fail("Choose a package first.", 402);
   }
-  const db = read();
+  const db = await read();
   if (db.projects.filter((p) => p.userId === user.id).length >= projectLimitFor(user)) {
     return fail("You have used all the projects on your plan.", 402);
   }

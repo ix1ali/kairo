@@ -7,7 +7,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   const auth = await requireUser();
   if ("response" in auth) return auth.response;
   const { id } = await params;
-  const found = getProjectFor(auth.user.id, id);
+  const found = await getProjectFor(auth.user.id, id);
   if (!found) return fail("Project not found.", 404);
   return json({ ...found, stats: projectStats(found.posts) });
 }
@@ -18,7 +18,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   const { id } = await params;
   const body = await req.json().catch(() => ({}));
 
-  const db = read();
+  const db = await read();
   const project = db.projects.find((p) => p.id === id && p.userId === auth.user.id);
   if (!project) return fail("Project not found.", 404);
 
@@ -28,7 +28,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     "platforms", "products", "goals", "goal", "contentMix", "videoStyle", "competitorsInput", "competitorProfiles",
   ];
 
-  mutate((d) => {
+  await mutate((d) => {
     const target = d.projects.find((p) => p.id === id)!;
     for (const key of editable) {
       if (key in body) (target as unknown as Record<string, unknown>)[key] = body[key];
@@ -38,11 +38,11 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   });
 
   if (body.regenerate) {
-    const fresh = read().projects.find((p) => p.id === id)!;
-    regeneratePlan(fresh, auth.user);
+    const fresh = (await read()).projects.find((p) => p.id === id)!;
+    await regeneratePlan(fresh, auth.user);
   }
 
-  const found = getProjectFor(auth.user.id, id)!;
+  const found = (await getProjectFor(auth.user.id, id))!;
   return json({ ...found, stats: projectStats(found.posts) });
 }
 
@@ -51,11 +51,11 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
   if ("response" in auth) return auth.response;
   const { id } = await params;
 
-  const db = read();
+  const db = await read();
   const project = db.projects.find((p) => p.id === id && p.userId === auth.user.id);
   if (!project) return fail("Project not found.", 404);
 
-  mutate((d) => {
+  await mutate((d) => {
     d.projects = d.projects.filter((p) => p.id !== id);
     d.posts = d.posts.filter((p) => p.projectId !== id);
   });

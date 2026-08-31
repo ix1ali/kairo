@@ -155,43 +155,42 @@ and nothing else needs to change.
 
 ## Deploying to Vercel
 
-The Vercel project is `hayakel/koala`, linked to this repository.
+Project: `hayakel/koala`, linked to this repository. Both storage pieces are
+provisioned and verified against a real deployment.
 
-### File storage — done
+### Data — Neon Postgres
 
-Uploaded logos and generated artwork go through `putPublicFile` in
-`lib/storage.ts`, which picks a driver at runtime:
+`lib/db.ts` picks a driver at runtime:
 
-- `BLOB_READ_WRITE_TOKEN` present -> Vercel Blob (`koala-uploads`)
-- otherwise -> `public/uploads` on the local disk
+- `DATABASE_URL` present -> Neon Postgres
+- otherwise -> `data/db.json` on the local disk, so the app runs with nothing
+  provisioned
 
-The token is set on the Vercel project and pulled into `.env.local`, so
-production uses Blob with no code change. Note that once you have pulled it,
-local development writes to the same store — that is the intended Vercel
-workflow, but it does mean local uploads are real.
+Each collection is one table of `id` plus a JSONB `data` column, with the key
+columns that are actually queried broken out (`email`, `user_id`,
+`project_id`). The domain objects are documents — a project carries its
+products, socials and strategy inline — so shredding them into relational
+columns would have been a large migration that bought nothing at this size.
+The schema is created on first use; there is no migration step to run.
 
-### Database — still to do
+`read` / `write` / `mutate` are **async**. They could not stay synchronous once
+the data lives across a network.
 
-`lib/db.ts` keeps users, projects, posts, transactions and support messages in
-`data/db.json`. Vercel has no writable filesystem, so the first signup on a
-deployment would fail.
+**Known limit:** `read()` loads every row from every table, exactly as the JSON
+file did. That is fine at current volumes and will need scoping by user before
+the post table gets large — the seam for it is those three functions.
 
-Provisioning Neon stopped at a browser step: Neon's marketplace terms have to
-be accepted by the account owner. To finish:
+### Files — Vercel Blob
 
-1. Open <https://vercel.com/hayakel/~/integrations/accept-terms/neon?source=cli>
-   and accept.
-2. Re-run:
+`putPublicFile` in `lib/storage.ts` writes to the `koala-uploads` store when
+`BLOB_READ_WRITE_TOKEN` is set, and to `public/uploads` when it is not. Once
+you have pulled the env locally, local uploads go to the real store too.
 
-   ```
-   vercel integration add neon --plan free_v3 -m region=fra1 -m auth=false -n koala-db --no-claim
-   ```
+### Secrets
 
-   Free plan, Frankfurt (closest offered region to the Gulf), and Neon Auth
-   switched off because this app has its own.
-3. `vercel env pull .env.local --yes`, then the `read`/`write`/`mutate` seam in
-   `lib/db.ts` gets a Postgres driver behind it — those three functions are the
-   only place application data is touched.
+`AUTH_SECRET` signs the session cookie. It is set on all three environments.
+A deployed environment without it now throws rather than falling back to the
+development literal, which is public in this repository.
 
 ## Optional AI providers
 

@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   const email = String(body.email || "").trim().toLowerCase();
   const password = String(body.password || "");
 
-  const db = read();
+  const db = await read();
   const user = db.users.find((u) => u.email === email);
   if (!user || !verifyPassword(password, user.salt, user.passwordHash)) {
     return fail("Email or password is incorrect.", 401);

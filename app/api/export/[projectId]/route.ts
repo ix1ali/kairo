@@ -17,7 +17,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ projectI
   if ("response" in auth) return auth.response;
   const { projectId } = await params;
 
-  const db = read();
+  const db = await read();
   const project = db.projects.find((p) => p.id === projectId && p.userId === auth.user.id);
   if (!project) return new Response("Not found", { status: 404 });
   const posts = db.posts

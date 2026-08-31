@@ -6,8 +6,23 @@ import type { User } from "./types";
 const COOKIE = "koala_session";
 const MAX_AGE = 60 * 60 * 24 * 30;
 
+/**
+ * Signs the session cookie.
+ *
+ * The development fallback is a literal in a public repository, so anyone
+ * could forge a session with it. That is tolerable on localhost and not
+ * anywhere else, so a deployed environment without AUTH_SECRET fails loudly
+ * rather than quietly accepting forged cookies.
+ */
 function secret() {
-  return process.env.AUTH_SECRET || "koala-dev-secret-change-me-in-production";
+  const configured = process.env.AUTH_SECRET;
+  if (configured) return configured;
+  if (process.env.VERCEL === "1" || process.env.NODE_ENV === "production") {
+    throw new Error(
+      "AUTH_SECRET is not set. Refusing to sign sessions with the public development fallback."
+    );
+  }
+  return "koala-dev-secret-change-me-in-production";
 }
 
 export function hashPassword(password: string, salt?: string) {
@@ -64,7 +79,7 @@ export async function currentUser(): Promise<User | null> {
   if (!token) return null;
   const userId = verifyToken(token);
   if (!userId) return null;
-  const db = read();
+  const db = await read();
   return db.users.find((u) => u.id === userId) || null;
 }
 
@@ -75,7 +90,7 @@ export function publicUser(u: User) {
   return rest;
 }
 
-export function createUser(email: string, name: string, password: string): User {
+export async function createUser(email: string, name: string, password: string): Promise<User> {
   const { salt, passwordHash } = hashPassword(password);
   const user: User = {
     id: uid("usr"),
@@ -90,6 +105,6 @@ export function createUser(email: string, name: string, password: string): User 
     credits: 0,
     onboarded: false,
   };
-  mutate((db) => db.users.push(user));
+  await mutate((db) => db.users.push(user));
   return user;
 }

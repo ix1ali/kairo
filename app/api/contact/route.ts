@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     status: "open" as const,
   };
 
-  mutate((d) => {
+  await mutate((d) => {
     d.supportMessages = [...(d.supportMessages || []), entry];
   });
 

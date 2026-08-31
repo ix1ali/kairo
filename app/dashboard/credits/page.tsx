@@ -6,7 +6,7 @@ export const metadata = { title: "Credits" };
 
 export default async function CreditsPage() {
   const user = (await currentUser())!;
-  const db = read();
+  const db = await read();
   const spend = db.posts
     .filter((p) => db.projects.some((x) => x.id === p.projectId && x.userId === user.id))
     .flatMap((p) =>

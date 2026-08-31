@@ -24,7 +24,7 @@ function Stat({ label, value, accent }: { label: string; value: string | number;
 
 export default async function DashboardHome() {
   const user = (await currentUser())!;
-  const db = read();
+  const db = await read();
   const projects = db.projects.filter((p) => p.userId === user.id);
   const pkg = getPackage(user.packageId);
   const active = user.subscriptionStatus === "active" && !!user.packageId;

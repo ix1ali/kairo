@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
   const prefs = sanitisePreferences(body);
 
-  mutate((d) => {
+  await mutate((d) => {
     const u = d.users.find((x) => x.id === auth.user.id);
     if (u) u.preferences = prefs;
   });

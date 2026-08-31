@@ -120,7 +120,7 @@ export function projectLimitFor(user: User) {
   return getPackage(user.packageId).projects;
 }
 
-export function createProjectWithPlan(user: User, input: ProjectInput): Project {
+export async function createProjectWithPlan(user: User, input: ProjectInput): Promise<Project> {
   const pkg = getPackage(user.packageId);
   const now = new Date().toISOString();
   const start = input.startDate ? new Date(input.startDate) : new Date();
@@ -169,7 +169,7 @@ export function createProjectWithPlan(user: User, input: ProjectInput): Project 
     projectId: project.id,
   })) as Post[];
 
-  mutate((db) => {
+  await mutate((db) => {
     db.projects.push(project);
     db.posts.push(...posts);
   });
@@ -177,7 +177,7 @@ export function createProjectWithPlan(user: User, input: ProjectInput): Project 
   return project;
 }
 
-export function regeneratePlan(project: Project, user: User): Project {
+export async function regeneratePlan(project: Project, user: User): Promise<Project> {
   const pkg = getPackage(user.packageId);
   const start = project.planStartDate ? new Date(project.planStartDate) : new Date();
   const strategy = buildStrategy(project, pkg);
@@ -188,7 +188,7 @@ export function regeneratePlan(project: Project, user: User): Project {
     projectId: project.id,
   })) as Post[];
 
-  mutate((db) => {
+  await mutate((db) => {
     const idx = db.projects.findIndex((p) => p.id === project.id);
     if (idx >= 0) {
       db.projects[idx] = { ...project, strategy, packageId: pkg.id, updatedAt: new Date().toISOString() };
@@ -197,11 +197,11 @@ export function regeneratePlan(project: Project, user: User): Project {
     db.posts.push(...posts);
   });
 
-  return read().projects.find((p) => p.id === project.id)!;
+  return (await read()).projects.find((p) => p.id === project.id)!;
 }
 
-export function getProjectFor(userId: string, projectId: string) {
-  const db = read();
+export async function getProjectFor(userId: string, projectId: string) {
+  const db = await read();
   const project = db.projects.find((p) => p.id === projectId && p.userId === userId) || null;
   if (!project) return null;
   const posts = db.posts
@@ -235,7 +235,7 @@ export function projectStats(posts: Post[]) {
  * A no-op when the locale is English or no text provider is configured.
  */
 export async function localiseProject(projectId: string): Promise<boolean> {
-  const db = read();
+  const db = await read();
   const project = db.projects.find((p) => p.id === projectId);
   if (!project) return false;
 
@@ -248,7 +248,7 @@ export async function localiseProject(projectId: string): Promise<boolean> {
   );
   if (!localised) return false;
 
-  mutate((d) => {
+  await mutate((d) => {
     posts.forEach((p, i) => {
       const target = d.posts.find((x) => x.id === p.id);
       if (!target) return;

@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     const renews = new Date();
     renews.setMonth(renews.getMonth() + 1);
 
-    mutate((d) => {
+    await mutate((d) => {
       const u = d.users.find((x) => x.id === auth.user.id)!;
       const isNew = u.packageId !== pkg.id;
       u.packageId = pkg.id as PackageId;
@@ -37,14 +37,14 @@ export async function POST(req: Request) {
       });
     });
 
-    const user = read().users.find((u) => u.id === auth.user.id)!;
+    const user = (await read()).users.find((u) => u.id === auth.user.id)!;
     return json({ ok: true, packageId: user.packageId, credits: user.credits });
   }
 
   if (body.kind === "credits") {
     const pack = CREDIT_PACKS.find((p) => p.id === body.packId);
     if (!pack) return fail("Unknown credit pack.");
-    mutate((d) => {
+    await mutate((d) => {
       const u = d.users.find((x) => x.id === auth.user.id)!;
       u.credits += pack.credits;
       d.transactions.push({
@@ -57,12 +57,12 @@ export async function POST(req: Request) {
         createdAt: new Date().toISOString(),
       });
     });
-    const user = read().users.find((u) => u.id === auth.user.id)!;
+    const user = (await read()).users.find((u) => u.id === auth.user.id)!;
     return json({ ok: true, credits: user.credits });
   }
 
   if (body.kind === "cancel") {
-    mutate((d) => {
+    await mutate((d) => {
       const u = d.users.find((x) => x.id === auth.user.id)!;
       u.subscriptionStatus = "cancelled";
     });

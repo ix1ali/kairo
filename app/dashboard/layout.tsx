@@ -10,7 +10,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const user = await currentUser();
   if (!user) redirect("/login");
 
-  const db = read();
+  const db = await read();
   const owned = db.projects.filter((p) => p.userId === user.id);
   const projects: SidebarProject[] = owned.map((p) => {
     const posts = db.posts.filter((x) => x.projectId === p.id);

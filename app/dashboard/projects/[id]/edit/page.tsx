@@ -13,7 +13,7 @@ export const metadata = { title: "Edit project" };
 export default async function EditProjectPage({ params }: { params: Promise<{ id: string }> }) {
   const user = (await currentUser())!;
   const { id } = await params;
-  const found = getProjectFor(user.id, id);
+  const found = await getProjectFor(user.id, id);
   if (!found) notFound();
 
   const pkg = getPackage(user.packageId);

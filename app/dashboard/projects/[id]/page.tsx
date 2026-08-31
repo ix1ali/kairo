@@ -8,14 +8,14 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const user = await currentUser();
   if (!user) return { title: "Project" };
   const { id } = await params;
-  const found = getProjectFor(user.id, id);
+  const found = await getProjectFor(user.id, id);
   return { title: found?.project.name || "Project" };
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
   const user = (await currentUser())!;
   const { id } = await params;
-  const found = getProjectFor(user.id, id);
+  const found = await getProjectFor(user.id, id);
   if (!found) notFound();
 
   return (

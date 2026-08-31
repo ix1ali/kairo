@@ -15,7 +15,7 @@ export default async function NewProjectPage() {
   if (user.subscriptionStatus !== "active" || !user.packageId) redirect("/dashboard/billing");
 
   const pkg = getPackage(user.packageId);
-  const owned = read().projects.filter((p) => p.userId === user.id).length;
+  const owned = (await read()).projects.filter((p) => p.userId === user.id).length;
   if (owned >= pkg.projects) redirect("/dashboard/billing");
 
   const options: WizardOptions = {

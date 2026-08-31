@@ -12,12 +12,12 @@ export async function POST(req: Request) {
   if (!isEmail(email)) return fail("That email address does not look right.");
   if (password.length < 8) return fail("Password must be at least 8 characters.");
 
-  const db = read();
+  const db = await read();
   if (db.users.some((u) => u.email === email)) {
     return fail("An account with that email already exists. Try signing in.");
   }
 
-  const user = createUser(email, name, password);
+  const user = await createUser(email, name, password);
   await setSession(user.id);
   return json({ user: publicUser(user) }, 201);
 }

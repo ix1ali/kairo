@@ -7,7 +7,7 @@ export const metadata = { title: "Billing" };
 
 export default async function BillingPage() {
   const user = (await currentUser())!;
-  const db = read();
+  const db = await read();
   const projectCount = db.projects.filter((p) => p.userId === user.id).length;
   const transactions = db.transactions
     .filter((t) => t.userId === user.id)
