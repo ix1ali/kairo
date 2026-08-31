@@ -1,26 +1,32 @@
 import { PLATFORM_COLOR, PLATFORM_ICONS } from "@/components/icons/Social";
+import { Icon, type IconName } from "@/components/icons/Ui";
 import { SectionHead } from "./Section";
 import { dict } from "@/lib/i18n";
 import { getLang } from "@/lib/i18n/server";
 
 /**
- * Where the content goes. Split out of the hero ticker, because "who this is
- * for" and "where it gets posted" are different questions.
+ * What we make content for.
  *
- * Each platform keeps its own brand colour — those are real marks, not our
- * palette — and carries the size it gets exported at, which is the actual
- * answer to "will this fit my feed".
+ * Sizes used to sit under each name, which answered a question nobody was
+ * asking at this point on the page. The list is the message: these are the
+ * places your month lands.
  */
 
-const PLATFORMS: { key: string; label: string; size: string }[] = [
-  { key: "instagram", label: "Instagram", size: "1080 × 1350" },
-  { key: "tiktok", label: "TikTok", size: "1080 × 1920" },
-  { key: "youtube", label: "YouTube Shorts", size: "1080 × 1920" },
-  { key: "facebook", label: "Facebook", size: "1080 × 1350" },
-  { key: "linkedin", label: "LinkedIn", size: "1200 × 1200" },
-  { key: "x", label: "X", size: "1600 × 900" },
-  { key: "pinterest", label: "Pinterest", size: "1000 × 1500" },
-  { key: "threads", label: "Threads", size: "1080 × 1350" },
+const SOCIAL = [
+  "instagram",
+  "tiktok",
+  "youtube",
+  "facebook",
+  "linkedin",
+  "x",
+  "pinterest",
+  "threads",
+];
+
+/** Destinations that are not a social feed and have no brand mark of their own. */
+const OTHER: { key: string; icon: IconName; color: string }[] = [
+  { key: "email", icon: "send", color: "#A78BFA" },
+  { key: "banners", icon: "grid", color: "#22D3EE" },
 ];
 
 export default async function Platforms() {
@@ -30,28 +36,44 @@ export default async function Platforms() {
     <div>
       <SectionHead eyebrow={t.eyebrow} title={t.h1} sub={t.sub} />
 
-      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
-        {PLATFORMS.map((p) => {
-          const Cmp = PLATFORM_ICONS[p.key];
-          const color = PLATFORM_COLOR[p.key];
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
+        {SOCIAL.map((key) => {
+          const Cmp = PLATFORM_ICONS[key];
+          const color = PLATFORM_COLOR[key];
           return (
             <div
-              key={p.key}
-              className="group flex items-center gap-3 rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-3.5 transition-colors duration-300 hover:border-[#3A3355]"
+              key={key}
+              className="flex items-center gap-3 rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-3.5 transition-colors duration-300 hover:border-[#3A3355]"
             >
               <span
-                className="grid h-10 w-10 shrink-0 place-items-center rounded-xl"
+                className="grid h-9 w-9 shrink-0 place-items-center rounded-xl"
                 style={{ background: `${color}1A`, color }}
               >
-                <Cmp size={19} />
+                <Cmp size={18} />
               </span>
-              <div className="min-w-0">
-                <p className="truncate text-[13.5px] font-semibold text-white">{p.label}</p>
-                <p className="text-[11.5px] tabular-nums text-[#7E7E93]">{p.size}</p>
-              </div>
+              <p className="text-[13.5px] font-semibold leading-tight text-white">
+                {t.names[key as keyof typeof t.names]}
+              </p>
             </div>
           );
         })}
+
+        {OTHER.map((o) => (
+          <div
+            key={o.key}
+            className="flex items-center gap-3 rounded-2xl border border-[#2A2438] bg-[#7C5CFF]/[0.06] p-3.5 transition-colors duration-300 hover:border-[#3A3355]"
+          >
+            <span
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-xl"
+              style={{ background: `${o.color}1A`, color: o.color }}
+            >
+              <Icon name={o.icon} size={18} />
+            </span>
+            <p className="text-[13.5px] font-semibold leading-tight text-white">
+              {t.names[o.key as keyof typeof t.names]}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );

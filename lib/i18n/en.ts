@@ -18,7 +18,7 @@ export const en = {
   hero: {
     badge: "Meet Kai, your content koala",
     line1: "A whole month of content.",
-    line2: "Done in a minute.",
+    line2: "Ready in minutes.",
     sub: "Paste your store link. Get thirty days of posts, designed and written, ready to publish.",
     placeholder: "yourstore.com",
     cta: "Build my content plan",
@@ -31,10 +31,10 @@ export const en = {
   },
 
   difference: {
-    eyebrow: "The difference",
-    h1: "Posting is not a plan.",
-    h2: "That is the whole problem.",
-    sub: "Thirty random posts fill a grid. Thirty planned posts turn a stranger into a customer.",
+    eyebrow: "The problem",
+    h1: "Nobody has time to post every day.",
+    h2: "So we do it for you.",
+    sub: "Most businesses stop posting after two weeks, because there is never anything ready. We give you the whole month up front.",
     chaosTitle: "Posting randomly",
     chaosSub: "What most brands actually do",
     chaosPoints: [
@@ -61,7 +61,7 @@ export const en = {
 
   how: {
     eyebrow: "How it works",
-    h1: "Four steps. Then you are done.",
+    h1: "It takes four steps.",
     steps: [
       {
         title: "Drop your link",
@@ -89,8 +89,8 @@ export const en = {
 
   showcase: {
     eyebrow: "What you get",
-    h1: "Pick a format. See what we make.",
-    sub: "Real output, not mockups. Same brand, same colours, every time.",
+    h1: "See what we make.",
+    sub: "This is real work we made, not examples we invented.",
     tabs: ["Videos", "Ads"],
     prev: "Previous",
     next: "Next",
@@ -153,8 +153,8 @@ export const en = {
 
 models: {
     eyebrow: "Powered by",
-    h1: "The best models, already connected.",
-    sub: "We pay for them. We connect them. You never see a key, an account or a setting. Just the finished file.",
+    h1: "The best AI tools, already set up.",
+    sub: "We pay for them and connect them. You just get the finished file.",
     jobs: { image: "Images", video: "Video and voice", copy: "Copy and strategy" },
     a1: "No keys, ever",
     a1sub: "There is no settings page asking for an API key, because there is nothing for you to connect.",
@@ -166,41 +166,53 @@ models: {
 
   source: {
     eyebrow: "Before and after",
-    h1: "One photo in. A campaign out.",
-    sub: "This brand had one plain photo, the same one on their product page. Here is what we turned it into.",
+    h1: "We turn one photo into a full campaign.",
+    sub: "This brand sent us one plain photo. Here is what we made from it.",
     beforeTag: "Uploaded",
     beforeAlt: "The original product photograph, shot flat on a white background",
     beforeNote: "What they sent us.",
     jobs: ["Product hero", "Flavour story", "Arabic + English", "Lifestyle portrait"],
-    afterNote: "Same colours, same style, same brand. That is what keeps a feed looking professional.",
+    afterNote: "Same colours and same style every time, so your page looks professional.",
   },
 
   platforms: {
-    eyebrow: "Every platform",
-    h1: "Sized right for wherever you post.",
-    sub: "The same campaign, exported at the correct size for each feed. No cropping, no guessing.",
+    eyebrow: "Platforms",
+    h1: "We make content for all of these.",
+    sub: "Every post comes in the right size for each one.",
+    names: {
+      instagram: "Instagram",
+      tiktok: "TikTok",
+      youtube: "YouTube Shorts",
+      facebook: "Facebook",
+      linkedin: "LinkedIn",
+      x: "X",
+      pinterest: "Pinterest",
+      threads: "Threads",
+      email: "Email",
+      banners: "Web banners",
+    },
   },
 
   rivals: {
     eyebrow: "Your competitors",
-    h1: "We study your rivals before we write a word.",
-    sub: "Your month is built around the gaps they leave open. That is where the sales are.",
+    h1: "We look at your competitors first.",
+    sub: "Then we make posts that beat them.",
     steps: [
       {
-        title: "We read their accounts",
-        body: "Their site, their socials, what they post and how often. All of it public, all of it useful.",
+        title: "We check their pages",
+        body: "Their website, their social media, what they post and how often.",
       },
       {
-        title: "We find what they get wrong",
-        body: "Slow replies, no proof, hidden prices, the same three posts on repeat. Every brand leaks somewhere.",
+        title: "We find their weak spots",
+        body: "Slow replies, no reviews, hidden prices, the same posts again and again.",
       },
       {
-        title: "We aim your month at it",
-        body: "Your posts answer what they ignore. That is the reason someone picks you instead.",
+        title: "We use it to win customers",
+        body: "Your posts cover what they miss, so people choose you instead.",
       },
     ],
-    payoffTitle: "You get the angle, not just the artwork.",
-    payoffBody: "Anyone can make a nice image. Knowing what to say, and why it beats the brand next to you, is the part that sells.",
+    payoffTitle: "You get a reason people pick you.",
+    payoffBody: "Anyone can make a nice picture. Knowing what to say is the part that sells.",
     payoffTags: ["Positioning", "Their weak spots", "Your angle"],
   },
 
@@ -230,7 +242,7 @@ models: {
   },
 
   savings: {
-    eyebrow: "The maths",
+    eyebrow: "Cost",
     h1: "What you stop paying for.",
     sub: "A designer, a copywriter, an editor and a strategist, for one month of content. Change the rates to match what you pay.",
     oldWay: "Doing it the usual way",
@@ -264,8 +276,8 @@ models: {
     compare: "Compare everything in each plan",
     videoNote: "A finished video every {n} days",
     eyebrow: "Pricing",
-    h1: "Pick your posting volume.",
-    sub: "Every plan delivers a complete 30-day campaign the moment you add a brand.",
+    h1: "Choose your plan.",
+    sub: "Every plan gives you a full 30 days of content as soon as you add your brand.",
     creditsLink: "Need to change a post?",
     creditsLinkCta: "Credits let you rebuild anything →",
     popular: "Most popular",
@@ -280,7 +292,7 @@ models: {
 
   faq: {
     eyebrow: "Questions",
-    h1: "Questions people ask.",
+    h1: "Common questions.",
     items: [
       {
         q: "Is this just an AI caption generator?",
