@@ -155,37 +155,43 @@ and nothing else needs to change.
 
 ## Deploying to Vercel
 
-The site builds and renders on Vercel as-is, but **accounts will not work there
-yet**, and it is worth being precise about why rather than discovering it after
-the first signup.
+The Vercel project is `hayakel/koala`, linked to this repository.
 
-Two things in this app write to disk:
+### File storage — done
 
-- `lib/db.ts` keeps everything — users, projects, posts, transactions — in
-  `data/db.json`.
-- `lib/storage.ts` writes uploaded logos and generated artwork into
-  `public/uploads`.
+Uploaded logos and generated artwork go through `putPublicFile` in
+`lib/storage.ts`, which picks a driver at runtime:
 
-Vercel's filesystem is read-only apart from `/tmp`, and `/tmp` is not shared
-between invocations. A logo written while a brand is being imported would be
-gone by the next request, and the first signup would fail outright.
+- `BLOB_READ_WRITE_TOKEN` present -> Vercel Blob (`koala-uploads`)
+- otherwise -> `public/uploads` on the local disk
 
-Every file write already goes through `putPublicFile` in `lib/storage.ts`, and
-every read and write of application data goes through `read`/`write`/`mutate`
-in `lib/db.ts`. Those are the only two seams that need a driver, so the move is
-contained.
+The token is set on the Vercel project and pulled into `.env.local`, so
+production uses Blob with no code change. Note that once you have pulled it,
+local development writes to the same store — that is the intended Vercel
+workflow, but it does mean local uploads are real.
 
-**What to provision** (run `/marketplace` in Claude Code, which handles the
-account, the environment variables and the local `.env` pull):
+### Database — still to do
 
-1. **A database** for the four collections in `DBShape`. Any Postgres on the
-   Vercel marketplace is fine; the data is small and relational.
-2. **A blob store** for uploads, then set `BLOB_READ_WRITE_TOKEN`.
-   `storageDriver()` switches on that variable being present.
+`lib/db.ts` keeps users, projects, posts, transactions and support messages in
+`data/db.json`. Vercel has no writable filesystem, so the first signup on a
+deployment would fail.
 
-Until both exist, `putPublicFile` throws `StorageUnavailableError` and the
-upload routes answer `503` with a message saying what is missing, rather than
-failing silently or writing somewhere that will vanish.
+Provisioning Neon stopped at a browser step: Neon's marketplace terms have to
+be accepted by the account owner. To finish:
+
+1. Open <https://vercel.com/hayakel/~/integrations/accept-terms/neon?source=cli>
+   and accept.
+2. Re-run:
+
+   ```
+   vercel integration add neon --plan free_v3 -m region=fra1 -m auth=false -n koala-db --no-claim
+   ```
+
+   Free plan, Frankfurt (closest offered region to the Gulf), and Neon Auth
+   switched off because this app has its own.
+3. `vercel env pull .env.local --yes`, then the `read`/`write`/`mutate` seam in
+   `lib/db.ts` gets a Postgres driver behind it — those three functions are the
+   only place application data is touched.
 
 ## Optional AI providers
 

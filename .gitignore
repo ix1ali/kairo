@@ -48,3 +48,6 @@ next-env.d.ts
 
 # .env.example carries no secrets and documents the optional keys
 !.env.example
+
+.vercel
+.env*

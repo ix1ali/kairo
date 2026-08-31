@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { put } from "@vercel/blob";
 
 /**
  * Where uploaded and generated files go.
@@ -9,10 +10,10 @@ import path from "path";
  * /tmp is not shared between invocations, so a logo written during signup
  * would be gone by the next request.
  *
- * Everything that writes a file goes through putPublicFile, so moving to a
- * blob store is one driver here rather than a change in four route handlers.
- * To switch: install @vercel/blob, provision a store, and fill in the branch
- * below — the call sites do not change.
+ * Everything that writes a file goes through putPublicFile, so which of the
+ * two drivers runs is decided in exactly one place. The blob driver switches
+ * on BLOB_READ_WRITE_TOKEN being present, which the Vercel integration sets
+ * automatically — so production picks it up without any code change.
  */
 
 export type StorageDriver = "local" | "blob";
@@ -27,24 +28,34 @@ export function isReadOnlyFilesystem(): boolean {
 }
 
 export class StorageUnavailableError extends Error {
-  constructor() {
-    super(
-      "File storage is not configured for this deployment. Provision a blob store and set BLOB_READ_WRITE_TOKEN."
-    );
+  constructor(
+    message = "File storage is not configured for this deployment. Provision a blob store and set BLOB_READ_WRITE_TOKEN."
+  ) {
+    super(message);
     this.name = "StorageUnavailableError";
   }
 }
 
 /**
  * Writes bytes and returns the URL they can be served from.
- * `name` is a already-safe filename, not a user-supplied path.
+ * `name` is an already-safe filename, not a user-supplied path.
  */
 export async function putPublicFile(name: string, bytes: Buffer): Promise<string> {
   if (storageDriver() === "blob") {
-    // Deliberately not implemented against a store that has not been
-    // provisioned yet — guessing at an API and shipping it untested would be
-    // worse than failing loudly here.
-    throw new StorageUnavailableError();
+    try {
+      // addRandomSuffix is off because callers already generate a unique id;
+      // a second suffix would make the stored name unpredictable for cleanup.
+      const blob = await put(`uploads/${name}`, bytes, {
+        access: "public",
+        addRandomSuffix: false,
+        contentType: contentTypeFor(name),
+      });
+      return blob.url;
+    } catch (err) {
+      throw new StorageUnavailableError(
+        `Blob upload failed: ${err instanceof Error ? err.message : "unknown error"}`
+      );
+    }
   }
 
   if (isReadOnlyFilesystem()) throw new StorageUnavailableError();
@@ -53,4 +64,18 @@ export async function putPublicFile(name: string, bytes: Buffer): Promise<string
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, name), bytes);
   return `/uploads/${name}`;
+}
+
+const TYPES: Record<string, string> = {
+  png: "image/png",
+  jpg: "image/jpeg",
+  jpeg: "image/jpeg",
+  webp: "image/webp",
+  gif: "image/gif",
+  svg: "image/svg+xml",
+};
+
+function contentTypeFor(name: string): string {
+  const ext = name.split(".").pop()?.toLowerCase() || "";
+  return TYPES[ext] || "application/octet-stream";
 }
