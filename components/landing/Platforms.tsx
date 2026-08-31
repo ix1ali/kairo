@@ -15,12 +15,13 @@ import { getLang } from "@/lib/i18n/server";
 const SOCIAL = [
   "instagram",
   "tiktok",
+  "snapchat",
+  "whatsapp",
   "youtube",
   "facebook",
-  "linkedin",
   "x",
-  "pinterest",
-  "threads",
+  "linkedin",
+  "google",
 ];
 
 /** Destinations that are not a social feed and have no brand mark of their own. */
@@ -34,16 +35,16 @@ export default async function Platforms() {
 
   return (
     <div>
-      <SectionHead eyebrow={t.eyebrow} title={t.h1} sub={t.sub} />
+      <SectionHead eyebrow={t.eyebrow} title={t.h1} />
 
-      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
+      <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
         {SOCIAL.map((key) => {
           const Cmp = PLATFORM_ICONS[key];
           const color = PLATFORM_COLOR[key];
           return (
             <div
               key={key}
-              className="flex items-center gap-3 rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-3.5 transition-colors duration-300 hover:border-[#3A3355]"
+              className="flex w-[calc(50%-5px)] items-center gap-3 rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-3.5 transition-colors duration-300 hover:border-[#3A3355] sm:w-[calc(33.333%-8px)] lg:w-[calc(20%-10px)]"
             >
               <span
                 className="grid h-9 w-9 shrink-0 place-items-center rounded-xl"
@@ -61,7 +62,7 @@ export default async function Platforms() {
         {OTHER.map((o) => (
           <div
             key={o.key}
-            className="flex items-center gap-3 rounded-2xl border border-[#2A2438] bg-[#7C5CFF]/[0.06] p-3.5 transition-colors duration-300 hover:border-[#3A3355]"
+            className="flex w-[calc(50%-5px)] items-center gap-3 rounded-2xl border border-[#2A2438] bg-[#7C5CFF]/[0.06] p-3.5 transition-colors duration-300 hover:border-[#3A3355] sm:w-[calc(33.333%-8px)] lg:w-[calc(20%-10px)]"
           >
             <span
               className="grid h-9 w-9 shrink-0 place-items-center rounded-xl"

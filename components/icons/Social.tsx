@@ -74,6 +74,27 @@ export const ThreadsIcon = ({ size = 20, className }: P) =>
     className
   );
 
+export const SnapchatIcon = ({ size = 20, className }: P) =>
+  wrap(
+    size,
+    <path d="M12 2.2c2.6 0 4.4 1.9 4.5 4.5 0 .6 0 1.3-.1 1.9.3.1.6.1.9 0 .3-.1.6-.2.9-.2.5 0 .9.3.9.8 0 .6-.6.9-1.2 1.1-.6.2-1.1.4-1.1.9 0 .2.1.4.2.6.6 1.3 1.7 2.4 3 2.9.4.2.6.4.6.7 0 .6-.9.9-1.7 1.1-.4.1-.5.2-.6.6-.1.4-.2.7-.6.7-.3 0-.6-.1-1-.1-.5 0-1 0-1.5.2-.5.2-.9.6-1.4 1-.6.5-1.2.9-2.1.9s-1.5-.4-2.1-.9c-.5-.4-.9-.8-1.4-1-.5-.2-1-.2-1.5-.2-.4 0-.7.1-1 .1-.4 0-.5-.3-.6-.7-.1-.4-.2-.5-.6-.6-.8-.2-1.7-.5-1.7-1.1 0-.3.2-.5.6-.7 1.3-.5 2.4-1.6 3-2.9.1-.2.2-.4.2-.6 0-.5-.5-.7-1.1-.9-.6-.2-1.2-.5-1.2-1.1 0-.5.4-.8.9-.8.3 0 .6.1.9.2.3.1.6.1.9 0-.1-.6-.1-1.3-.1-1.9C7.6 4.1 9.4 2.2 12 2.2Z" />,
+    className
+  );
+
+export const WhatsAppIcon = ({ size = 20, className }: P) =>
+  wrap(
+    size,
+    <path d="M12 2a9.9 9.9 0 0 0-8.5 15L2 22l5.2-1.4A9.9 9.9 0 1 0 12 2Zm0 18.1c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.1 8.1 0 1 1 12 20.1Zm4.5-6c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-1.3-.7-2.2-1.2-3.1-2.7-.2-.4.2-.4.6-1.2.1-.1 0-.3 0-.4 0-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.7.7-.9 1.6-.6 2.6.3 1 1 2 1.2 2.2.1.2 1.9 3 4.7 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.4-.3Z" />,
+    className
+  );
+
+export const GoogleIcon = ({ size = 20, className }: P) =>
+  wrap(
+    size,
+    <path d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.4Zm-9.6 10c2.7 0 4.9-.9 6.6-2.4l-3.2-2.5c-.9.6-2 .9-3.4.9-2.6 0-4.8-1.7-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22.2Zm-5.6-9.7a6 6 0 0 1 0-3.8V6.1H3.1a10 10 0 0 0 0 9l3.3-2.6Zm5.6-6c1.5 0 2.8.5 3.8 1.5l2.8-2.8A10 10 0 0 0 3.1 6.1l3.3 2.6c.8-2.4 3-4.2 5.6-4.2Z" />,
+    className
+  );
+
 export const PLATFORM_ICONS: Record<string, (p: P) => React.JSX.Element> = {
   instagram: InstagramIcon,
   tiktok: TikTokIcon,
@@ -83,6 +104,9 @@ export const PLATFORM_ICONS: Record<string, (p: P) => React.JSX.Element> = {
   youtube: YouTubeIcon,
   pinterest: PinterestIcon,
   threads: ThreadsIcon,
+  snapchat: SnapchatIcon,
+  whatsapp: WhatsAppIcon,
+  google: GoogleIcon,
 };
 
 export const PLATFORM_COLOR: Record<string, string> = {
@@ -94,6 +118,9 @@ export const PLATFORM_COLOR: Record<string, string> = {
   youtube: "#FF0033",
   pinterest: "#E60023",
   threads: "#ECECF3",
+  snapchat: "#FFFC00",
+  whatsapp: "#25D366",
+  google: "#8AB4F8",
 };
 
 export function PlatformIcon({ platform, size = 20, className }: { platform: string } & P) {
