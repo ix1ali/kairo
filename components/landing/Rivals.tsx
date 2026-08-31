@@ -17,7 +17,7 @@ export default async function Rivals() {
 
   return (
     <div>
-      <SectionHead eyebrow={t.eyebrow} title={t.h1} sub={t.sub} />
+      <SectionHead title={t.h1} sub={t.sub} />
 
       <div className="grid gap-3 sm:gap-4 lg:grid-cols-3">
         {t.steps.map((s, i) => (

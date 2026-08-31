@@ -5,58 +5,58 @@ import { CAMPAIGN, VIDEO_ROW } from "@/lib/media";
 import { useT } from "@/components/LangProvider";
 
 /**
- * Pick a format, see what we make of it.
+ * Pick a format, see what we make.
  *
- * A fanned row where the middle card is upright and the ones either side rake
- * away, so depth does the work instead of a caption explaining it. Tabs swap
- * the set.
+ * A row that keeps moving on its own, because a static fan looked like a
+ * screenshot. The track is rendered twice so the loop has no seam, and the
+ * tabs swap the set underneath it.
  *
- * Only work that is genuinely ours is listed. A tab of stock-looking stills
- * would fill the row and prove nothing.
+ * This replaced a second video section that showed the same clips again
+ * further down the page.
  */
 
-type Item = { kind: "video"; src: string; poster: string } | { kind: "image"; src: string };
+type Item = { media: "video"; src: string; poster: string; kind: string } | { media: "image"; src: string; kind: string };
 
 const TABS: { key: string; items: Item[] }[] = [
   {
     key: "video",
-    items: VIDEO_ROW.slice(0, 7).map((v) => ({ kind: "video", src: v.src, poster: v.poster })),
+    // The eight strongest clips, not everything we have.
+    items: VIDEO_ROW.map((v) => ({ media: "video" as const, src: v.src, poster: v.poster, kind: v.kind })),
   },
-  // The one campaign that is genuinely ours: four posts from a single photo.
-  { key: "ads", items: CAMPAIGN.posts.map((src) => ({ kind: "image" as const, src })) },
+  { key: "images", items: CAMPAIGN.posts.map((p) => ({ media: "image" as const, src: p.src, kind: p.kind })) },
 ];
 
-function Card({ item, active }: { item: Item; active: boolean }) {
+function Clip({ src, poster }: { src: string; poster: string }) {
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (!active) {
-      el.pause();
-      return;
-    }
-    if (!el.getAttribute("src") && item.kind === "video") el.setAttribute("src", item.src);
-    void el.play().catch(() => {});
-  }, [active, item]);
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          if (!el.getAttribute("src")) el.setAttribute("src", src);
+          void el.play().catch(() => {});
+        } else {
+          el.pause();
+        }
+      },
+      { threshold: 0.2, rootMargin: "200px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [src]);
 
   return (
-    <div className="h-full w-full overflow-hidden rounded-2xl border border-[#22222E] bg-[#0C0C13]">
-      {item.kind === "video" ? (
-        <video
-          ref={ref}
-          poster={item.poster}
-          muted
-          loop
-          playsInline
-          preload="none"
-          className="h-full w-full object-cover"
-        />
-      ) : (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={item.src} alt="" loading="lazy" className="h-full w-full object-cover" />
-      )}
-    </div>
+    <video
+      ref={ref}
+      poster={poster}
+      muted
+      loop
+      playsInline
+      preload="none"
+      className="h-full w-full object-cover"
+    />
   );
 }
 
@@ -64,47 +64,51 @@ export default function Showcase() {
   const t = useT();
   const [tab, setTab] = useState(0);
   const items = TABS[tab].items;
-  const mid = (items.length - 1) / 2;
 
   return (
     <div>
-      {/* the fan */}
-      <div
-        className="relative -mx-4 flex h-[300px] items-center justify-center overflow-hidden sm:-mx-6 sm:h-[380px] lg:-mx-8 lg:h-[420px]"
-        style={{ perspective: 1400 }}
-      >
-        {items.map((item, i) => {
-          const offset = i - mid;
-          const distance = Math.abs(offset);
-          return (
-            <div
-              key={`${tab}-${item.src}`}
-              className="absolute aspect-[9/16] h-[220px] transition-all duration-700 sm:h-[300px] lg:h-[340px]"
-              style={{
-                transform: `translateX(${offset * 62}%) rotateY(${offset * -22}deg) scale(${
-                  1 - distance * 0.07
-                })`,
-                zIndex: 10 - Math.round(distance),
-                opacity: distance > 3 ? 0 : 1 - distance * 0.14,
-                filter: distance > 0.6 ? `brightness(${1 - distance * 0.12})` : undefined,
-              }}
-            >
-              <Card item={item} active={distance < 1.5} />
+      <div className="marquee-mask marquee-hover -mx-4 overflow-hidden sm:-mx-6 lg:-mx-8">
+        <div
+          key={tab}
+          className="marquee-track animate-marquee flex w-max gap-3 sm:gap-4"
+          style={{ animationDuration: items.length > 5 ? "48s" : "34s" }}
+        >
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex gap-3 sm:gap-4" aria-hidden={copy === 1}>
+              {items.map((item) => (
+                <figure
+                  key={`${copy}-${item.src}`}
+                  className="w-[168px] shrink-0 sm:w-[210px] lg:w-[236px]"
+                >
+                  <div className="relative aspect-[9/16] overflow-hidden rounded-2xl border border-[#22222E] bg-[#0C0C13]">
+                    {item.media === "video" ? (
+                      <Clip src={item.src} poster={item.poster} />
+                    ) : (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={item.src}
+                        alt=""
+                        loading="lazy"
+                        className="h-full w-full object-cover"
+                      />
+                    )}
+                  </div>
+                  {/* Naming the kind is the point: it shows the range, not just the look. */}
+                  <figcaption className="mt-3 text-center text-[13px] font-semibold text-[#C4C4D4] sm:text-[14px]">
+                    {item.kind}
+                  </figcaption>
+                </figure>
+              ))}
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
 
-      {/* tabs */}
-      <div className="mx-auto mt-8 grid max-w-md grid-cols-2 gap-3 sm:mt-10 sm:gap-6">
+      <div className="mx-auto mt-8 grid max-w-sm grid-cols-2 gap-3 sm:mt-10 sm:gap-6">
         {TABS.map((x, i) => {
           const on = i === tab;
           return (
-            <button
-              key={x.key}
-              onClick={() => setTab(i)}
-              className="group relative pb-3 text-center"
-            >
+            <button key={x.key} onClick={() => setTab(i)} className="group relative pb-3 text-center">
               <span
                 className={`block text-[13.5px] font-semibold transition-colors sm:text-[15px] ${
                   on ? "text-white" : "text-[#75758C] group-hover:text-[#C4C4D4]"

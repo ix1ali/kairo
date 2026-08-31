@@ -112,12 +112,12 @@ export default function Savings() {
       </div>
 
       {/* the Koala way */}
-      <div className="relative overflow-hidden rounded-3xl border border-[#C8F751]/30 bg-gradient-to-b from-[#141a0d] to-[#0A0A0F] p-6 sm:p-7">
-        <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#C8F751]/12 blur-[70px]" />
+      <div className="relative overflow-hidden rounded-3xl border border-[#22D3EE]/30 bg-gradient-to-b from-[#0A1620] to-[#0A0A0F] p-6 sm:p-7">
+        <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#22D3EE]/12 blur-[70px]" />
 
         <div className="relative">
           <p className="text-[15px] font-semibold text-white">{t.savings.withKoala}</p>
-          <p className="text-[12.5px] text-[#7C8A5F]">
+          <p className="text-[12.5px] text-[#6C8F97]">
             {plan.name} · {t.savings.sameposts} {plan.totalPosts} {t.savings.posts}
           </p>
 
@@ -126,20 +126,20 @@ export default function Savings() {
             <span className="text-[14px] text-[#7E7E93]">{t.savings.perMonth}</span>
           </div>
 
-          <div className="mt-7 rounded-2xl border border-[#C8F751]/25 bg-[#C8F751]/[0.07] p-5 text-center">
-            <p className="text-[11px] font-bold uppercase tracking-widest text-[#8FA85A]">
+          <div className="mt-7 rounded-2xl border border-[#22D3EE]/25 bg-[#22D3EE]/[0.07] p-5 text-center">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-[#7DD3FC]">
               {t.savings.youKeep}
             </p>
-            <p className="display mt-1.5 text-4xl text-[#C8F751]">${saved.toLocaleString()}</p>
-            <p className="mt-1 text-[13px] text-[#7C8A5F]">
+            <p className="display mt-1.5 text-4xl text-[#22D3EE]">${saved.toLocaleString()}</p>
+            <p className="mt-1 text-[13px] text-[#6C8F97]">
               {t.savings.everyMonth}, {pct}% {t.savings.less}
             </p>
           </div>
 
           <ul className="mt-6 space-y-2.5">
             {t.savings.points.map((point) => (
-              <li key={point} className="flex gap-2.5 text-[13px] leading-relaxed text-[#7C8A5F]">
-                <Icon name="check" size={14} className="mt-0.5 shrink-0 text-[#C8F751]" strokeWidth={2.6} />
+              <li key={point} className="flex gap-2.5 text-[13px] leading-relaxed text-[#6C8F97]">
+                <Icon name="check" size={14} className="mt-0.5 shrink-0 text-[#22D3EE]" strokeWidth={2.6} />
                 {point}
               </li>
             ))}

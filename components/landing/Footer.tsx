@@ -18,12 +18,12 @@ export default async function Footer() {
       ],
     },
     {
-      title: t.useCases,
+      title: t.help,
       links: [
-        { href: "/#categories", label: t.coffee },
-        { href: "/#categories", label: t.gyms },
-        { href: "/#categories", label: t.beauty },
-        { href: "/#categories", label: t.ecom },
+        { href: "/dashboard/contact", label: t.contact },
+        { href: "/#faq", label: t.faq },
+        { href: "/pricing", label: t.pricing },
+        { href: "/#plan", label: t.inside },
       ],
     },
     {

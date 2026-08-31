@@ -180,21 +180,28 @@ export default async function Models() {
     <div>
       <SectionHead eyebrow={t.eyebrow} title={t.h1} sub={t.sub} />
 
-      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5">
-        {MODELS.map((m) => (
-          <span
-            key={m.name}
-            className="lift inline-flex items-center gap-2 rounded-xl border border-[#1E1E28] bg-white/[0.02] px-3 py-2.5 text-[13px] font-medium text-[#C4C4D4] sm:gap-2.5 sm:rounded-2xl sm:px-4 sm:py-3 sm:text-[14px]"
-          >
-            <span style={{ color: m.color }}>{m.glyph}</span>
-            {m.name}
-            <span
-              className="h-1.5 w-1.5 shrink-0 rounded-full"
-              style={{ background: JOB_COLOR[m.job] }}
-              title={t.jobs[m.job]}
-            />
-          </span>
-        ))}
+      {/* One moving row rather than a static block of chips. */}
+      <div className="marquee-mask marquee-hover -mx-4 overflow-hidden sm:-mx-6 lg:-mx-8">
+        <div className="marquee-track flex w-max gap-2.5 animate-marquee" style={{ animationDuration: "42s" }}>
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex shrink-0 gap-2.5" aria-hidden={copy === 1}>
+              {MODELS.map((m) => (
+                <span
+                  key={`${copy}-${m.name}`}
+                  className="inline-flex shrink-0 items-center gap-2.5 rounded-2xl border border-[#1E1E28] bg-white/[0.025] px-4 py-3 text-[14px] font-medium text-[#C4C4D4]"
+                >
+                  <span style={{ color: m.color }}>{m.glyph}</span>
+                  {m.name}
+                  <span
+                    className="h-1.5 w-1.5 shrink-0 rounded-full"
+                    style={{ background: JOB_COLOR[m.job] }}
+                    title={t.jobs[m.job]}
+                  />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* what each dot means */}

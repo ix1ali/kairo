@@ -10,7 +10,6 @@ import RevealHeadline from "@/components/landing/RevealHeadline";
 import Savings from "@/components/landing/Savings";
 import PlatformStrip from "@/components/landing/PlatformStrip";
 import { PricingCards } from "@/components/landing/Pricing";
-import VideoWall from "@/components/landing/VideoWall";
 import Showcase from "@/components/landing/Showcase";
 import FromOnePhoto from "@/components/landing/FromOnePhoto";
 import Platforms from "@/components/landing/Platforms";
@@ -102,6 +101,9 @@ export default async function Home() {
         <Section tone="raised" id="how">
           <SectionHead eyebrow={t.how.eyebrow} title={t.how.h1} />
           <HowItWorks />
+          <div className="mt-14 border-t border-[#16161F] pt-12 sm:mt-16 sm:pt-14">
+            <Rivals />
+          </div>
         </Section>
 
         {/* ============ 5. PICK A FORMAT ============ */}
@@ -114,46 +116,28 @@ export default async function Home() {
           <Showcase />
         </Section>
 
-        {/* ============ 6. THE VIDEO WALL ============ */}
-        <Section tone="raised" bleed>
-          <div className={GUTTER}>
-            <SectionHead
-              eyebrow={t.wall.videoEyebrow}
-              title={t.wall.videoH1}
-              sub={t.wall.videoSub}
-              align="start"
-            />
-          </div>
-          <VideoWall />
-        </Section>
-
-        {/* ============ 7. ONE PHOTO, FOUR POSTS ============ */}
-        <Section>
+        {/* ============ 6. ONE PHOTO, FOUR POSTS ============ */}
+        <Section tone="raised">
           <FromOnePhoto />
         </Section>
 
-        {/* ============ 8. YOUR COMPETITORS ============ */}
-        <Section tone="raised">
-          <Rivals />
-        </Section>
-
-        {/* ============ 9. LANGUAGES ============ */}
+        {/* ============ 7. LANGUAGES ============ */}
         <Section>
           <Languages />
         </Section>
 
-        {/* ============ 10. THE MODELS ============ */}
+        {/* ============ 8. THE MODELS ============ */}
         <Section tone="raised">
           <Models />
         </Section>
 
-        {/* ============ 11. WHAT THIS REPLACES ============ */}
+        {/* ============ 9. WHAT THIS REPLACES ============ */}
         <Section>
           <SectionHead eyebrow={t.savings.eyebrow} title={t.savings.h1} sub={t.savings.sub} />
           <Savings />
         </Section>
 
-        {/* ============ 12. PRICING ============ */}
+        {/* ============ 10. PRICING ============ */}
         <Section tone="raised" id="pricing">
           <SectionHead eyebrow={t.pricing.eyebrow} title={t.pricing.h1} sub={t.pricing.sub} />
           <PricingCards />
@@ -165,13 +149,13 @@ export default async function Home() {
           </p>
         </Section>
 
-        {/* ============ 13. FAQ ============ */}
+        {/* ============ 11. FAQ ============ */}
         <Section id="faq">
           <SectionHead eyebrow={t.faq.eyebrow} title={t.faq.h1} />
           <FAQ />
         </Section>
 
-        {/* ============ 14. CTA ============ */}
+        {/* ============ 12. CTA ============ */}
         <section className="relative overflow-hidden py-16 sm:py-24">
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[24rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7C5CFF]/16 blur-[130px]" />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 text-center sm:px-6 lg:px-8">
