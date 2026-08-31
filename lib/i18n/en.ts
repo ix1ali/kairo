@@ -182,15 +182,15 @@ models: {
     names: {
       instagram: "Instagram",
       tiktok: "TikTok",
-      youtube: "YouTube Shorts",
+      youtube: "YouTube",
       facebook: "Facebook",
       linkedin: "LinkedIn",
       x: "X",
       snapchat: "Snapchat",
       whatsapp: "WhatsApp",
-      google: "Google Business",
+      google: "Google",
       email: "Email",
-      banners: "Web banners",
+      banners: "Banners",
     },
   },
 

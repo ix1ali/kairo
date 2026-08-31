@@ -5,11 +5,16 @@ import { dict } from "@/lib/i18n";
 import { getLang } from "@/lib/i18n/server";
 
 /**
- * What we make content for.
+ * Where the content goes.
  *
- * Sizes used to sit under each name, which answered a question nobody was
- * asking at this point on the page. The list is the message: these are the
- * places your month lands.
+ * Uniform tiles rather than pills. The labels are different lengths, so pills
+ * produced a ragged row that never lined up, and one of them wrapped onto two
+ * lines and made its card taller than the rest. A fixed tile with the mark
+ * stacked over a one-word label keeps every row even, and the wrap is centred
+ * so an odd count never strands the last one on its own.
+ *
+ * Each tile carries its platform's own colour, but only as a tint behind the
+ * mark, so eleven brand colours do not shout over each other.
  */
 
 const SOCIAL = [
@@ -30,6 +35,41 @@ const OTHER: { key: string; icon: IconName; color: string }[] = [
   { key: "banners", icon: "grid", color: "#22D3EE" },
 ];
 
+const TILE =
+  "group flex w-[92px] flex-col items-center gap-2.5 rounded-2xl border px-2 py-4 text-center transition-all duration-300 hover:-translate-y-1 sm:w-[112px] sm:py-5";
+
+function Tile({
+  color,
+  label,
+  featured,
+  children,
+}: {
+  color: string;
+  label: string;
+  featured?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={`${TILE} ${
+        featured
+          ? "border-[#2A2438] bg-[#7C5CFF]/[0.07] hover:bg-[#7C5CFF]/[0.12]"
+          : "border-[#1E1E28] bg-white/[0.02] hover:bg-white/[0.045]"
+      }`}
+    >
+      <span
+        className="grid h-11 w-11 place-items-center rounded-xl transition-transform duration-300 group-hover:scale-110"
+        style={{ background: `${color}1A`, color }}
+      >
+        {children}
+      </span>
+      <p className="text-[12px] font-semibold leading-none text-[#C4C4D4] transition-colors group-hover:text-white sm:text-[12.5px]">
+        {label}
+      </p>
+    </div>
+  );
+}
+
 export default async function Platforms() {
   const t = dict(await getLang()).platforms;
 
@@ -40,40 +80,26 @@ export default async function Platforms() {
       <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
         {SOCIAL.map((key) => {
           const Cmp = PLATFORM_ICONS[key];
-          const color = PLATFORM_COLOR[key];
           return (
-            <div
+            <Tile
               key={key}
-              className="flex w-[calc(50%-5px)] items-center gap-3 rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-3.5 transition-colors duration-300 hover:border-[#3A3355] sm:w-[calc(33.333%-8px)] lg:w-[calc(20%-10px)]"
+              color={PLATFORM_COLOR[key]}
+              label={t.names[key as keyof typeof t.names]}
             >
-              <span
-                className="grid h-9 w-9 shrink-0 place-items-center rounded-xl"
-                style={{ background: `${color}1A`, color }}
-              >
-                <Cmp size={18} />
-              </span>
-              <p className="text-[13.5px] font-semibold leading-tight text-white">
-                {t.names[key as keyof typeof t.names]}
-              </p>
-            </div>
+              <Cmp size={20} />
+            </Tile>
           );
         })}
 
         {OTHER.map((o) => (
-          <div
+          <Tile
             key={o.key}
-            className="flex w-[calc(50%-5px)] items-center gap-3 rounded-2xl border border-[#2A2438] bg-[#7C5CFF]/[0.06] p-3.5 transition-colors duration-300 hover:border-[#3A3355] sm:w-[calc(33.333%-8px)] lg:w-[calc(20%-10px)]"
+            color={o.color}
+            label={t.names[o.key as keyof typeof t.names]}
+            featured
           >
-            <span
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-xl"
-              style={{ background: `${o.color}1A`, color: o.color }}
-            >
-              <Icon name={o.icon} size={18} />
-            </span>
-            <p className="text-[13.5px] font-semibold leading-tight text-white">
-              {t.names[o.key as keyof typeof t.names]}
-            </p>
-          </div>
+            <Icon name={o.icon} size={20} />
+          </Tile>
         ))}
       </div>
     </div>

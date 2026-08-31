@@ -184,15 +184,15 @@ models: {
     names: {
       instagram: "إنستغرام",
       tiktok: "تيك توك",
-      youtube: "يوتيوب شورتس",
+      youtube: "يوتيوب",
       facebook: "فيسبوك",
       linkedin: "لينكدإن",
       x: "إكس",
       snapchat: "سناب شات",
       whatsapp: "واتساب",
-      google: "نشاطي على جوجل",
+      google: "جوجل",
       email: "البريد",
-      banners: "بانرات الموقع",
+      banners: "بانرات",
     },
   },
 
