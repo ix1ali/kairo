@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { VIDEO_ROW } from "@/lib/media";
+import { CAMPAIGN, VIDEO_ROW } from "@/lib/media";
 import { useT } from "@/components/LangProvider";
 
 /**
@@ -11,26 +11,19 @@ import { useT } from "@/components/LangProvider";
  * away, so depth does the work instead of a caption explaining it. Tabs swap
  * the set.
  *
- * Only formats we actually produce are listed. Adding an "Emails" tab would
- * look good here and would be a lie.
+ * Only work that is genuinely ours is listed. A tab of stock-looking stills
+ * would fill the row and prove nothing.
  */
 
 type Item = { kind: "video"; src: string; poster: string } | { kind: "image"; src: string };
-
-const img = (n: number): Item => ({
-  kind: "image",
-  src: `/assets/creatives/c${String(n).padStart(2, "0")}.webp`,
-});
 
 const TABS: { key: string; items: Item[] }[] = [
   {
     key: "video",
     items: VIDEO_ROW.slice(0, 7).map((v) => ({ kind: "video", src: v.src, poster: v.poster })),
   },
-  // Promotion-led layouts: an offer, a price, a reason to act.
-  { key: "ads", items: [7, 40, 23, 16, 29, 5, 24].map(img) },
-  // Feed-native posts: product and lifestyle rather than a hard offer.
-  { key: "social", items: [1, 3, 2, 4, 8, 9, 22].map(img) },
+  // The one campaign that is genuinely ours: four posts from a single photo.
+  { key: "ads", items: CAMPAIGN.posts.map((src) => ({ kind: "image" as const, src })) },
 ];
 
 function Card({ item, active }: { item: Item; active: boolean }) {
@@ -103,7 +96,7 @@ export default function Showcase() {
       </div>
 
       {/* tabs */}
-      <div className="mx-auto mt-8 grid max-w-2xl grid-cols-3 gap-2 sm:mt-10 sm:gap-4">
+      <div className="mx-auto mt-8 grid max-w-md grid-cols-2 gap-3 sm:mt-10 sm:gap-6">
         {TABS.map((x, i) => {
           const on = i === tab;
           return (

@@ -91,7 +91,7 @@ export const en = {
     eyebrow: "What you get",
     h1: "Pick a format. See what we make.",
     sub: "Real output, not mockups. Same brand, same colours, every time.",
-    tabs: ["Videos", "Ads", "Social posts"],
+    tabs: ["Videos", "Ads"],
     prev: "Previous",
     next: "Next",
   },

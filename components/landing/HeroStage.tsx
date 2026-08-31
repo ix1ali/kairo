@@ -3,27 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 import Koala from "@/components/Koala";
 import { Icon } from "@/components/icons/Ui";
-import { STILL_ORDER } from "@/lib/media";
 
 /**
- * The hero stage. Kai is the subject; the work orbits him.
+ * The hero stage. Kai, and nothing else.
  *
- * He is the brand, so he gets the centre, the light and the size. The finished
- * posts float around him at depth — enough to say what the product makes
- * without competing with him for attention.
+ * He is the brand, so he gets the whole stage — centre, lit, and large enough
+ * to read as a character rather than an icon. Sample posts used to orbit him
+ * and only split the attention.
  *
- * The whole group leans toward the pointer on a real cursor, which reads as one
- * object rather than a mascot plus some decorations. On touch it stays put,
- * where a tilt would only fight the scroll.
+ * He leans toward the pointer on a real cursor. On touch he stays put, where a
+ * tilt would only fight the scroll.
  */
-
-/** Four posts, placed by hand so they frame Kai instead of crowding him. */
-const ORBIT = [
-  { src: STILL_ORDER[0], cls: "left-0 top-6 h-[86px] w-[68px] sm:h-[112px] sm:w-[89px]", z: -60, delay: "0s", rot: -13 },
-  { src: STILL_ORDER[3], cls: "right-0 top-0 h-[96px] w-[76px] sm:h-[124px] sm:w-[99px]", z: -30, delay: "1.1s", rot: 11 },
-  { src: STILL_ORDER[9], cls: "left-2 bottom-2 h-[104px] w-[83px] sm:h-[132px] sm:w-[105px]", z: 40, delay: "2.2s", rot: 8 },
-  { src: STILL_ORDER[6], cls: "right-1 bottom-8 h-[80px] w-[64px] sm:h-[104px] sm:w-[83px]", z: 10, delay: "0.6s", rot: -9 },
-];
 
 export default function HeroStage({
   chipPosted,
@@ -77,23 +67,7 @@ export default function HeroStage({
           transition: "transform 0.6s cubic-bezier(0.22,1,0.36,1)",
         }}
       >
-        {/* the work, orbiting at depth */}
-        {ORBIT.map((o) => (
-          <div
-            key={o.src}
-            className={`animate-floaty absolute overflow-hidden rounded-xl border border-[#22222E] shadow-[0_18px_40px_-16px_rgba(0,0,0,0.85)] sm:rounded-2xl ${o.cls}`}
-            style={{
-              transform: `translateZ(${o.z}px) rotate(${o.rot}deg)`,
-              animationDelay: o.delay,
-            }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={o.src} alt="" loading="lazy" className="h-full w-full object-cover" />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
-          </div>
-        ))}
-
-        {/* Kai — centre, largest, lit */}
+        {/* Kai, and nothing competing with him */}
         <div
           className="absolute inset-0 grid place-items-center"
           style={{ transform: "translateZ(70px)" }}

@@ -12,7 +12,7 @@ import { gradientCss, type MockTheme } from "@/lib/mockThemes";
  * on a card border, so the swatch view alone would not be an honest test.
  */
 
-const SHOTS = ["c07.webp", "c12.webp", "c21.webp", "c33.webp"];
+const SHOTS = ["c01.webp", "c02.webp", "c03.webp", "c04.webp"];
 
 export default function ThemePreview({ t }: { t: MockTheme }) {
   const grad = gradientCss(t);
