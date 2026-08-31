@@ -90,8 +90,8 @@ export const en = {
   showcase: {
     eyebrow: "What you get",
     h1: "See what we make.",
-    sub: "Not just product photos. Reviews, unboxings, testimonials, brand stories and ads. All real work we made.",
-    tabs: ["Videos", "Ads"],
+    sub: "Not just product photos. Reviews, offers, tutorials, testimonials, before and afters. All real work we made.",
+    tabs: ["Videos", "Images"],
     prev: "Previous",
     next: "Next",
   },

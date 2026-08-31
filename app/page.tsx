@@ -11,7 +11,6 @@ import Savings from "@/components/landing/Savings";
 import PlatformStrip from "@/components/landing/PlatformStrip";
 import { PricingCards } from "@/components/landing/Pricing";
 import Showcase from "@/components/landing/Showcase";
-import FromOnePhoto from "@/components/landing/FromOnePhoto";
 import Platforms from "@/components/landing/Platforms";
 import Rivals from "@/components/landing/Rivals";
 import Models from "@/components/landing/Models";
@@ -116,29 +115,24 @@ export default async function Home() {
           <Showcase />
         </Section>
 
-        {/* ============ 6. ONE PHOTO, FOUR POSTS ============ */}
+        {/* ============ 6. LANGUAGES ============ */}
         <Section tone="raised">
-          <FromOnePhoto />
-        </Section>
-
-        {/* ============ 7. LANGUAGES ============ */}
-        <Section>
           <Languages />
         </Section>
 
-        {/* ============ 8. THE MODELS ============ */}
-        <Section tone="raised">
+        {/* ============ 7. THE MODELS ============ */}
+        <Section>
           <Models />
         </Section>
 
-        {/* ============ 9. WHAT THIS REPLACES ============ */}
-        <Section>
+        {/* ============ 8. WHAT THIS REPLACES ============ */}
+        <Section tone="raised">
           <SectionHead eyebrow={t.savings.eyebrow} title={t.savings.h1} sub={t.savings.sub} />
           <Savings />
         </Section>
 
-        {/* ============ 10. PRICING ============ */}
-        <Section tone="raised" id="pricing">
+        {/* ============ 9. PRICING ============ */}
+        <Section id="pricing">
           <SectionHead eyebrow={t.pricing.eyebrow} title={t.pricing.h1} sub={t.pricing.sub} />
           <PricingCards />
           <p className="mt-8 text-center text-[13px] text-[#7E7E93]">
@@ -149,13 +143,13 @@ export default async function Home() {
           </p>
         </Section>
 
-        {/* ============ 11. FAQ ============ */}
-        <Section id="faq">
+        {/* ============ 10. FAQ ============ */}
+        <Section tone="raised" id="faq">
           <SectionHead eyebrow={t.faq.eyebrow} title={t.faq.h1} />
           <FAQ />
         </Section>
 
-        {/* ============ 12. CTA ============ */}
+        {/* ============ 11. CTA ============ */}
         <section className="relative overflow-hidden py-16 sm:py-24">
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[24rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7C5CFF]/16 blur-[130px]" />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 text-center sm:px-6 lg:px-8">

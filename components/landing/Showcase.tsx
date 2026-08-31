@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CAMPAIGN, VIDEO_ROW } from "@/lib/media";
+import { IMAGE_ROW, VIDEO_ROW } from "@/lib/media";
 import { useT } from "@/components/LangProvider";
 
 /**
@@ -23,7 +23,7 @@ const TABS: { key: string; items: Item[] }[] = [
     // The eight strongest clips, not everything we have.
     items: VIDEO_ROW.map((v) => ({ media: "video" as const, src: v.src, poster: v.poster, kind: v.kind })),
   },
-  { key: "images", items: CAMPAIGN.posts.map((p) => ({ media: "image" as const, src: p.src, kind: p.kind })) },
+  { key: "images", items: IMAGE_ROW.map((p) => ({ media: "image" as const, src: p.src, kind: p.kind })) },
 ];
 
 function Clip({ src, poster }: { src: string; poster: string }) {
