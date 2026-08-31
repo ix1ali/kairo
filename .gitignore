@@ -46,8 +46,10 @@ next-env.d.ts
 !/public/uploads/.gitkeep
 .env.local
 
-# .env.example carries no secrets and documents the optional keys
-!.env.example
 
 .vercel
 .env*
+
+# .env.example carries no secrets and documents the optional keys.
+# This negation must stay below the .env* rule above, or it is overridden.
+!.env.example
