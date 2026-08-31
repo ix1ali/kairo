@@ -164,52 +164,73 @@ export async function write(next: DBShape) {
   await ensureSchema();
   const q = sql();
 
-  // Upsert everything present, then drop anything no longer in the snapshot.
-  // Written as explicit statements rather than a generic loop so each table
-  // keeps its own indexed key column.
+  /**
+   * One statement per table, not one per row.
+   *
+   * The first version fired an insert per record, so saving a project meant
+   * ninety-odd concurrent HTTP queries through the serverless driver. That
+   * burst failed intermittently and a project would land with none of its
+   * posts — silently, because the writes were fanned out rather than awaited
+   * as a unit. Expanding a single JSON array server-side keeps it to one
+   * round trip whatever the row count.
+   */
+  const upsert = async (table: string, records: unknown[]) => {
+    const payload = JSON.stringify(records);
+    if (table === "users") {
+      await q`insert into users (id, email, data)
+              select x->>'id', x->>'email', x
+              from jsonb_array_elements(${payload}::jsonb) as x
+              on conflict (id) do update set email = excluded.email, data = excluded.data`;
+      return;
+    }
+    // The remaining tables differ only in the name of their key column, and
+    // identifiers cannot be parameterised, so they are switched explicitly
+    // rather than interpolated.
+    if (table === "projects") {
+      await q`insert into projects (id, user_id, data)
+              select x->>'id', x->>'userId', x
+              from jsonb_array_elements(${payload}::jsonb) as x
+              on conflict (id) do update set user_id = excluded.user_id, data = excluded.data`;
+    } else if (table === "posts") {
+      await q`insert into posts (id, project_id, data)
+              select x->>'id', x->>'projectId', x
+              from jsonb_array_elements(${payload}::jsonb) as x
+              on conflict (id) do update set project_id = excluded.project_id, data = excluded.data`;
+    } else if (table === "transactions") {
+      await q`insert into transactions (id, user_id, data)
+              select x->>'id', x->>'userId', x
+              from jsonb_array_elements(${payload}::jsonb) as x
+              on conflict (id) do update set user_id = excluded.user_id, data = excluded.data`;
+    } else {
+      await q`insert into support_messages (id, user_id, data)
+              select x->>'id', x->>'userId', x
+              from jsonb_array_elements(${payload}::jsonb) as x
+              on conflict (id) do update set user_id = excluded.user_id, data = excluded.data`;
+    }
+  };
+
+  const support = next.supportMessages || [];
+
+  // Sequential: the burst of parallel statements is exactly what broke.
+  await upsert("users", next.users);
+  await upsert("projects", next.projects);
+  await upsert("posts", next.posts);
+  await upsert("transactions", next.transactions);
+  await upsert("support_messages", support);
+
   const ids = {
     users: next.users.map((u) => u.id),
     projects: next.projects.map((p) => p.id),
     posts: next.posts.map((p) => p.id),
     transactions: next.transactions.map((t) => t.id),
-    support: (next.supportMessages || []).map((m) => m.id),
+    support: support.map((m) => m.id),
   };
 
-  await Promise.all([
-    ...next.users.map(
-      (u) =>
-        q`insert into users (id, email, data) values (${u.id}, ${u.email}, ${JSON.stringify(u)}::jsonb)
-          on conflict (id) do update set email = excluded.email, data = excluded.data`
-    ),
-    ...next.projects.map(
-      (p) =>
-        q`insert into projects (id, user_id, data) values (${p.id}, ${p.userId}, ${JSON.stringify(p)}::jsonb)
-          on conflict (id) do update set user_id = excluded.user_id, data = excluded.data`
-    ),
-    ...next.posts.map(
-      (p) =>
-        q`insert into posts (id, project_id, data) values (${p.id}, ${p.projectId}, ${JSON.stringify(p)}::jsonb)
-          on conflict (id) do update set project_id = excluded.project_id, data = excluded.data`
-    ),
-    ...next.transactions.map(
-      (t) =>
-        q`insert into transactions (id, user_id, data) values (${t.id}, ${t.userId}, ${JSON.stringify(t)}::jsonb)
-          on conflict (id) do update set user_id = excluded.user_id, data = excluded.data`
-    ),
-    ...(next.supportMessages || []).map(
-      (m) =>
-        q`insert into support_messages (id, user_id, data) values (${m.id}, ${m.userId}, ${JSON.stringify(m)}::jsonb)
-          on conflict (id) do update set user_id = excluded.user_id, data = excluded.data`
-    ),
-  ]);
-
-  await Promise.all([
-    q`delete from users where not (id = any(${ids.users}::text[]))`,
-    q`delete from projects where not (id = any(${ids.projects}::text[]))`,
-    q`delete from posts where not (id = any(${ids.posts}::text[]))`,
-    q`delete from transactions where not (id = any(${ids.transactions}::text[]))`,
-    q`delete from support_messages where not (id = any(${ids.support}::text[]))`,
-  ]);
+  await q`delete from users where not (id = any(${ids.users}::text[]))`;
+  await q`delete from projects where not (id = any(${ids.projects}::text[]))`;
+  await q`delete from posts where not (id = any(${ids.posts}::text[]))`;
+  await q`delete from transactions where not (id = any(${ids.transactions}::text[]))`;
+  await q`delete from support_messages where not (id = any(${ids.support}::text[]))`;
 }
 
 export async function mutate<T>(fn: (db: DBShape) => T): Promise<T> {

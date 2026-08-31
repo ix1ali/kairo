@@ -118,7 +118,7 @@ export function CreditsExplainer() {
       <div className="panel p-7">
         <h3 className="display text-2xl">Credits are for changing your mind</h3>
         <p className="mt-2.5 text-sm leading-relaxed text-[#9B9BAE]">
-          Every plan arrives complete — you never need credits to receive your 30 days. Credits are
+          Every plan arrives complete. You never need credits to receive your 30 days. Credits are
           what you spend when you want a post rebuilt your way: a different angle, a sharper caption,
           a whole new visual. Describe the change in a prompt and Koala rebuilds that post.
         </p>

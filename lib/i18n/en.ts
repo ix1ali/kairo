@@ -22,7 +22,7 @@ export const en = {
     sub: "Paste your store link. Get thirty days of posts, designed and written, ready to publish.",
     placeholder: "yourstore.com",
     cta: "Build my content plan",
-    hint: "Paste any store or product link — Koala reads your brand and products automatically.",
+    hint: "Paste any store or product link. Koala reads your brand and products for you.",
     chipPosted: "Day 12 posted",
     chipPostedSub: "18 of 30 done",
     chipReady: "30 days ready",
@@ -73,7 +73,7 @@ export const en = {
       },
       {
         title: "You get a real plan",
-        body: "Not thirty random posts. A month with a strategy underneath it — get seen, build trust, sell, keep them.",
+        body: "Not thirty random posts. A month with a strategy underneath it: get seen, build trust, sell, keep them.",
       },
       {
         title: "Approve and post",
@@ -113,7 +113,7 @@ export const en = {
     eyebrow: "Content strategies",
     h1: "ways to make a post.",
     sub: "Koala picks a different tactic every day, so thirty posts never collapse into thirty product shots.",
-    footer: "Every one arrives with a production note — how to shoot it, how long to hold the shot, what to put on screen.",
+    footer: "Every one arrives with a production note. How to shoot it, how long to hold the shot, what to put on screen.",
     more: "more",
     groups: {
       ugc: { title: "Creator & customer made", note: "The formats that read as a recommendation, not an ad." },
@@ -147,14 +147,14 @@ export const en = {
     eyebrow: "Languages",
     languages: "languages.",
     dialects: "dialects.",
-    sub: "Pick a country, not just a language. Kuwaiti Arabic does not sell like Egyptian, and British English does not sell like American — so the copy is written the way people actually speak where you are.",
+    sub: "Pick a country, not just a language. Kuwaiti Arabic does not sell like Egyptian. Your copy is written the way people actually speak where you are.",
     more: "more, including Levantine, Darija, Rioplatense and Québécois.",
   },
 
 models: {
     eyebrow: "Powered by",
     h1: "The best models, already connected.",
-    sub: "We pay for them. We connect them. You never see a key, an account or a setting — just the finished file.",
+    sub: "We pay for them. We connect them. You never see a key, an account or a setting. Just the finished file.",
     jobs: { image: "Images", video: "Video and voice", copy: "Copy and strategy" },
     a1: "No keys, ever",
     a1sub: "There is no settings page asking for an API key, because there is nothing for you to connect.",
@@ -192,7 +192,7 @@ models: {
       },
       {
         title: "We find what they get wrong",
-        body: "Slow replies, no proof, hiding prices, the same three posts on repeat. Every brand leaks somewhere.",
+        body: "Slow replies, no proof, hidden prices, the same three posts on repeat. Every brand leaks somewhere.",
       },
       {
         title: "We aim your month at it",
@@ -212,7 +212,7 @@ models: {
     videoFooter: "Real clips we made. Skincare, perfume, food, pets, supplements.",
     stillsEyebrow: "The stills",
     stillsH1: "One look, held for thirty days.",
-    stillsSub: "This is what consistency actually looks like. Same palette, same typographic weight, same treatment — across an entire month, in English and Arabic.",
+    stillsSub: "Same palette, same weight, same treatment, across an entire month.",
     stillsFooter: "Generated stills across a dozen industries.",
   },
 
@@ -222,7 +222,7 @@ models: {
     sub: "Before a single frame is made, Koala asks how you want it. Captions or clean? A voice or just music? A person on camera or the product alone? Nothing is assumed.",
     asked: "Asked before anything is generated",
     options: [
-      { label: "Captions", note: "Burned in, styled to your brand, in your language — or none at all." },
+      { label: "Captions", note: "Burned in, styled to your brand, in your language. Or none at all." },
       { label: "Voiceover", note: "A generated voice, your own recording, or music only." },
       { label: "On camera", note: "A presenter holding the product, or product-only cinematic." },
       { label: "Sound and pace", note: "Trending audio or a licensed track, cut to the beat you pick." },
@@ -232,7 +232,7 @@ models: {
   savings: {
     eyebrow: "The maths",
     h1: "What you stop paying for.",
-    sub: "A designer, a copywriter, an editor and a strategist — for one month of content. Change the rates to match what you actually pay.",
+    sub: "A designer, a copywriter, an editor and a strategist, for one month of content. Change the rates to match what you pay.",
     oldWay: "Doing it the usual way",
     oldWaySub: "Change any rate to match your market",
     lines: {
@@ -284,11 +284,11 @@ models: {
     items: [
       {
         q: "Is this just an AI caption generator?",
-        a: "No. Koala starts with strategy: positioning, who you are actually talking to, which competitor archetypes you are up against and where the gaps are. Only then does it build the calendar. Every one of the 30 days has a reason to exist — a funnel stage, a content pillar, a place in the monthly arc.",
+        a: "No. Koala starts with strategy: your positioning, who you are talking to, which competitors you are up against and where their gaps are. Only then does it build the calendar. Every one of the 30 days has a job: a funnel stage, a content pillar, a place in the month.",
       },
       {
         q: "Why is there no free trial?",
-        a: "Because the product is not a demo you poke at — it is a finished 30-day campaign delivered the moment you add a project. You do see three sample days before anything is generated, and you can cancel before the next month.",
+        a: "Because the product is not a demo you poke at. It is a finished 30-day campaign, delivered the moment you add a project. You see three sample days before anything is generated, and you can cancel before the next month.",
       },
       {
         q: "What exactly do I get for each day?",
@@ -300,7 +300,7 @@ models: {
       },
       {
         q: "Can I change posts I do not like?",
-        a: "Yes. Edit any post directly, or rebuild it with a prompt using credits — rewrite the caption, ask for a different angle, redesign the visual, or regenerate the whole day.",
+        a: "Yes. Edit any post directly, or rebuild it with a prompt using credits: rewrite the caption, ask for a different angle, redesign the visual, or regenerate the whole day.",
       },
       {
         q: "Do I have to post it manually?",

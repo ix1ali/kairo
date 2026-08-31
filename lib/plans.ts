@@ -35,8 +35,8 @@ export const PACKAGES: PackageDef[] = [
     bestFor: "Solo founders and single-product brands",
     features: [
       "1 brand project",
-      "30 posts — 1 per day for 30 days",
-      "4 videos — one a week, scripted and storyboarded",
+      "30 posts, one per day for 30 days",
+      "4 videos, one a week, scripted and storyboarded",
       "Full 30-day strategy document, not random posts",
       "Competitor teardown + positioning angle",
       "Ready-to-post visual + caption + hashtags per day",
@@ -65,8 +65,8 @@ export const PACKAGES: PackageDef[] = [
     features: [
       "Everything in Starter, plus:",
       "3 brand projects",
-      "90 posts — 3 per day for 30 days",
-      "12 videos — every other day, with shot lists and sound",
+      "90 posts, three per day for 30 days",
+      "12 videos, every other day, with shot lists and sound",
       "Full-funnel daily structure (educate → sell → engage)",
       "Slow-mover rescue campaigns",
       "Hero-product push sequences",
@@ -95,8 +95,8 @@ export const PACKAGES: PackageDef[] = [
     features: [
       "Everything in Growth, plus:",
       "8 brand projects",
-      "60 posts — 2 per day for 30 days",
-      "15 videos — every other day, scripted + storyboarded",
+      "60 posts, two per day for 30 days",
+      "15 videos, every other day, scripted and storyboarded",
       "UGC-style talking-head clips and product-only cinematics",
       "Hook-tested short-form scripts with shot lists",
       "Trend + sound direction per video",

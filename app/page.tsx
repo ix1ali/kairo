@@ -33,27 +33,31 @@ export default async function Home() {
         {/* ============ 1. HERO ============ */}
         <section className="relative overflow-hidden">
           <div className="pointer-events-none absolute inset-0 grid-bg opacity-60" />
+          <div className="noise pointer-events-none absolute inset-0" />
 
           <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-10 sm:px-6 sm:pt-16 lg:px-8 lg:pb-16 lg:pt-20">
             <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
               <div className="order-1">
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#2A2438] bg-white/[0.05]/80 px-3 py-1.5 text-[11px] font-medium text-[#C9BEFF] backdrop-blur sm:px-3.5 sm:text-xs">
+                <span className="animate-rise inline-flex items-center gap-2 rounded-full border border-[#2A2438] bg-white/[0.05]/80 px-3 py-1.5 text-[11px] font-medium text-[#C9BEFF] backdrop-blur sm:px-3.5 sm:text-xs">
                   <Icon name="sparkle" size={13} filled />
                   {t.hero.badge}
                 </span>
 
-                <h1 className="display mt-5 text-[2rem] leading-[1.05] text-balance sm:mt-6 sm:text-[2.75rem] lg:text-[3.5rem] lg:leading-[1.02]">
+                <h1 className="display mt-5 text-[clamp(2.4rem,6.4vw,5rem)] leading-[0.98] text-balance sm:mt-6">
                   <RevealHeadline text={t.hero.line1} delay={80} />
                   <span className="mt-1 block">
                     <RevealHeadline text={t.hero.line2} wordClass="grad-text-soft" delay={340} />
                   </span>
                 </h1>
 
-                <p className="mt-4 max-w-md text-[15px] leading-relaxed text-[#9B9BAE] sm:mt-5 sm:text-[16px]">
+                <p
+                  className="animate-rise mt-4 max-w-md text-[15px] leading-relaxed text-[#9B9BAE] sm:mt-5 sm:text-[16px]"
+                  style={{ animationDelay: "220ms" }}
+                >
                   {t.hero.sub}
                 </p>
 
-                <div className="mt-6 sm:mt-7">
+                <div className="animate-rise mt-6 sm:mt-7" style={{ animationDelay: "340ms" }}>
                   <HeroImport />
                 </div>
               </div>

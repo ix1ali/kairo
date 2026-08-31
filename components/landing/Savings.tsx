@@ -118,7 +118,7 @@ export default function Savings() {
         <div className="relative">
           <p className="text-[15px] font-semibold text-white">{t.savings.withKoala}</p>
           <p className="text-[12.5px] text-[#7C8A5F]">
-            {plan.name} — {t.savings.sameposts} {plan.totalPosts} {t.savings.posts}
+            {plan.name} · {t.savings.sameposts} {plan.totalPosts} {t.savings.posts}
           </p>
 
           <div className="mt-6 flex items-baseline gap-2">
@@ -132,7 +132,7 @@ export default function Savings() {
             </p>
             <p className="display mt-1.5 text-4xl text-[#C8F751]">${saved.toLocaleString()}</p>
             <p className="mt-1 text-[13px] text-[#7C8A5F]">
-              {t.savings.everyMonth} — {pct}% {t.savings.less}
+              {t.savings.everyMonth}, {pct}% {t.savings.less}
             </p>
           </div>
 
