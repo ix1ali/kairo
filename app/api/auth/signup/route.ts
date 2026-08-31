@@ -1,5 +1,5 @@
 import { createUser, publicUser, setSession } from "@/lib/auth";
-import { read } from "@/lib/db";
+import { getUserByEmail } from "@/lib/db";
 import { fail, isEmail, json } from "@/lib/api";
 
 export async function POST(req: Request) {
@@ -12,8 +12,7 @@ export async function POST(req: Request) {
   if (!isEmail(email)) return fail("That email address does not look right.");
   if (password.length < 8) return fail("Password must be at least 8 characters.");
 
-  const db = await read();
-  if (db.users.some((u) => u.email === email)) {
+  if (await getUserByEmail(email)) {
     return fail("An account with that email already exists. Try signing in.");
   }
 

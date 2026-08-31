@@ -1,5 +1,5 @@
 import type { AudienceProfile } from "./strategy/audience";
-import { mutate, read, uid } from "./db";
+import { mutateForUser, readForUser, uid } from "./db";
 import { getPackage } from "./plans";
 import { buildCalendar, buildStrategy } from "./strategy/engine";
 import { localisePosts } from "./strategy/localise";
@@ -47,10 +47,10 @@ export const VOICE_OPTIONS = [
 export const PLATFORM_OPTIONS = [
   { key: "instagram", label: "Instagram" },
   { key: "tiktok", label: "TikTok" },
+  { key: "snapchat", label: "Snapchat" },
   { key: "facebook", label: "Facebook" },
   { key: "linkedin", label: "LinkedIn" },
   { key: "x", label: "X" },
-  { key: "pinterest", label: "Pinterest" },
   { key: "youtube", label: "YouTube Shorts" },
   { key: "threads", label: "Threads" },
 ];
@@ -95,7 +95,7 @@ export interface ProjectInput {
   goals?: string[];
   goal?: string;
   contentMix?: { static: boolean; carousel: boolean; video: boolean; story: boolean };
-  videoStyle?: { captions: string; voice: string; talent: string; sound: string };
+  videoStyle?: { captions: string[]; voice: string[]; talent: string[]; sound: string[] };
   competitorsInput?: string;
   competitorProfiles?: CompetitorProfile[];
   startDate?: string;
@@ -169,7 +169,7 @@ export async function createProjectWithPlan(user: User, input: ProjectInput): Pr
     projectId: project.id,
   })) as Post[];
 
-  await mutate((db) => {
+  await mutateForUser(user.id, (db) => {
     db.projects.push(project);
     db.posts.push(...posts);
   });
@@ -188,7 +188,7 @@ export async function regeneratePlan(project: Project, user: User): Promise<Proj
     projectId: project.id,
   })) as Post[];
 
-  await mutate((db) => {
+  await mutateForUser(user.id, (db) => {
     const idx = db.projects.findIndex((p) => p.id === project.id);
     if (idx >= 0) {
       db.projects[idx] = { ...project, strategy, packageId: pkg.id, updatedAt: new Date().toISOString() };
@@ -197,11 +197,11 @@ export async function regeneratePlan(project: Project, user: User): Promise<Proj
     db.posts.push(...posts);
   });
 
-  return (await read()).projects.find((p) => p.id === project.id)!;
+  return (await readForUser(user.id)).projects.find((p) => p.id === project.id)!;
 }
 
 export async function getProjectFor(userId: string, projectId: string) {
-  const db = await read();
+  const db = await readForUser(userId);
   const project = db.projects.find((p) => p.id === projectId && p.userId === userId) || null;
   if (!project) return null;
   const posts = db.posts
@@ -234,8 +234,8 @@ export function projectStats(posts: Post[]) {
  * Rewrites a freshly generated project into its target language and dialect.
  * A no-op when the locale is English or no text provider is configured.
  */
-export async function localiseProject(projectId: string): Promise<boolean> {
-  const db = await read();
+export async function localiseProject(projectId: string, userId: string): Promise<boolean> {
+  const db = await readForUser(userId);
   const project = db.projects.find((p) => p.id === projectId);
   if (!project) return false;
 
@@ -248,7 +248,7 @@ export async function localiseProject(projectId: string): Promise<boolean> {
   );
   if (!localised) return false;
 
-  await mutate((d) => {
+  await mutateForUser(userId, (d) => {
     posts.forEach((p, i) => {
       const target = d.posts.find((x) => x.id === p.id);
       if (!target) return;

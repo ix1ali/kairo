@@ -193,18 +193,28 @@ export function mixToFormats(mix: ContentMix | undefined): string[] {
  * Asked before a single frame is planned. These change the script that gets
  * written, not just a label on it.
  */
+/**
+ * How the videos should be made.
+ *
+ * Each field is a list, not a single choice. One entry means every video is
+ * made that way; several means the month mixes between them; empty means the
+ * brand has no preference and we pick per video. Locking a whole month to one
+ * treatment was the wrong default — thirty identical videos is exactly the
+ * sameness the product is supposed to solve.
+ */
 export interface VideoStyle {
-  captions: "burned" | "soft" | "none";
-  voice: "ai" | "own" | "music";
-  talent: "presenter" | "hands" | "product";
-  sound: "trending" | "licensed" | "silent";
+  captions: string[];
+  voice: string[];
+  talent: string[];
+  sound: string[];
 }
 
+/** Empty everywhere: by default we choose, and we vary it. */
 export const DEFAULT_VIDEO_STYLE: VideoStyle = {
-  captions: "burned",
-  voice: "ai",
-  talent: "product",
-  sound: "trending",
+  captions: [],
+  voice: [],
+  talent: [],
+  sound: [],
 };
 
 export const VIDEO_PREFS: {
@@ -260,42 +270,49 @@ export const VIDEO_PREFS: {
   },
 ];
 
+const CAPTION_NOTE: Record<string, string> = {
+  burned: "CAPTIONS: burned in, high contrast, max 4 words per line, brand colour on the key word.",
+  soft: "CAPTIONS: upload as a subtitle track. Keep the frame clean.",
+  none: "CAPTIONS: none. The visual has to carry it alone.",
+};
+
+const VOICE_NOTE: Record<string, string> = {
+  ai: "VOICE: generated voiceover. Write to be read aloud — short sentences, no clauses.",
+  own: "VOICE: record it yourself over this shot list. Speak, do not read.",
+  music: "VOICE: none. Tell it in pictures; the first frame must land without words.",
+};
+
+const TALENT_NOTE: Record<string, string> = {
+  presenter: "TALENT: a presenter to camera. Product enters frame by 3s, face stays in shot.",
+  hands: "TALENT: hands only. No faces. Shoot over the shoulder or top down.",
+  product: "TALENT: no people. Product, surface and light do the work.",
+};
+
+const SOUND_NOTE: Record<string, string> = {
+  trending: "SOUND: trending audio, low under the voice. Cut on the beat.",
+  licensed: "SOUND: licensed track so it is safe to boost as an ad.",
+  silent: "SOUND: ambient only. Let the product make the noise.",
+};
+
+/**
+ * Picks one treatment from a list for this particular video.
+ *
+ * An empty list means the brand had no preference, so every option is on the
+ * table. `seed` is the video's own number, so a month with two captions styles
+ * alternates between them rather than choosing at random each time.
+ */
+function pick(chosen: string[], all: string[], seed: number): string {
+  const pool = chosen.length ? chosen : all;
+  return pool[seed % pool.length];
+}
+
 /** Turns the choices into the lines that go on the storyboard. */
-export function videoStyleNotes(style: VideoStyle | undefined): string[] {
+export function videoStyleNotes(style: VideoStyle | undefined, seed = 0): string[] {
   const s = style || DEFAULT_VIDEO_STYLE;
-  const lines: string[] = [];
-
-  lines.push(
-    s.captions === "burned"
-      ? "CAPTIONS: burned in, high contrast, max 4 words per line, brand colour on the key word."
-      : s.captions === "soft"
-      ? "CAPTIONS: upload as a subtitle track. Keep the frame clean."
-      : "CAPTIONS: none. The visual has to carry it alone."
-  );
-
-  lines.push(
-    s.voice === "ai"
-      ? "VOICE: generated voiceover. Write to be read aloud — short sentences, no clauses."
-      : s.voice === "own"
-      ? "VOICE: record it yourself over this shot list. Speak, do not read."
-      : "VOICE: none. Tell it in pictures; the first frame must land without words."
-  );
-
-  lines.push(
-    s.talent === "presenter"
-      ? "TALENT: a presenter to camera. Product enters frame by 3s, face stays in shot."
-      : s.talent === "hands"
-      ? "TALENT: hands only. No faces. Shoot over the shoulder or top down."
-      : "TALENT: no people. Product, surface and light do the work."
-  );
-
-  lines.push(
-    s.sound === "trending"
-      ? "SOUND: trending audio, low under the voice. Cut on the beat."
-      : s.sound === "licensed"
-      ? "SOUND: licensed track so it is safe to boost as an ad."
-      : "SOUND: ambient only. Let the product make the noise."
-  );
-
-  return lines;
+  return [
+    CAPTION_NOTE[pick(s.captions, ["burned", "soft", "none"], seed)],
+    VOICE_NOTE[pick(s.voice, ["ai", "own", "music"], seed + 1)],
+    TALENT_NOTE[pick(s.talent, ["presenter", "hands", "product"], seed + 2)],
+    SOUND_NOTE[pick(s.sound, ["trending", "licensed", "silent"], seed)],
+  ];
 }

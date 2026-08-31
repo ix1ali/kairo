@@ -1,5 +1,5 @@
 import { json, requireUser } from "@/lib/api";
-import { mutate } from "@/lib/db";
+import { mutateForUser } from "@/lib/db";
 import { sanitisePreferences } from "@/lib/preferences";
 
 /** Stores account defaults. Everything is narrowed before it is written. */
@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
   const prefs = sanitisePreferences(body);
 
-  await mutate((d) => {
+  await mutateForUser(auth.user.id, (d) => {
     const u = d.users.find((x) => x.id === auth.user.id);
     if (u) u.preferences = prefs;
   });

@@ -41,6 +41,12 @@ function Icon({ name }: { name: string }) {
         <path d="M9 1.8v1.6M9 14.6v1.6M16.2 9h-1.6M3.4 9H1.8M14.1 3.9l-1.1 1.1M5 13l-1.1 1.1M14.1 14.1 13 13M5 5 3.9 3.9" />
       </>
     ),
+    wand: (
+      <>
+        <path d="M3 15 13 5" />
+        <path d="M11.5 3.5 12.5 2M15 6.5 16.5 5.5M13.5 2.5 14.5 4M10.5 6 12 7" />
+      </>
+    ),
     support: (
       <>
         <path d="M2.5 4.5h13v9h-13z" />
@@ -92,6 +98,7 @@ export default function Sidebar({
 
   const nav = [
     { href: "/dashboard", label: "Overview", icon: "home" },
+    { href: "/dashboard/generate", label: "Generate", icon: "wand" },
     { href: "/dashboard/credits", label: "Credits", icon: "credit" },
     { href: "/dashboard/billing", label: "Billing", icon: "billing" },
     { href: "/dashboard/settings", label: "Settings", icon: "settings" },

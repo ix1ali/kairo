@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { currentUser } from "@/lib/auth";
-import { read } from "@/lib/db";
+import { readForUser } from "@/lib/db";
 import { getPackage } from "@/lib/plans";
 import { projectStats } from "@/lib/projects";
 import SeedDemoButton from "@/components/dashboard/SeedDemoButton";
@@ -24,7 +24,7 @@ function Stat({ label, value, accent }: { label: string; value: string | number;
 
 export default async function DashboardHome() {
   const user = (await currentUser())!;
-  const db = await read();
+  const db = await readForUser(user.id);
   const projects = db.projects.filter((p) => p.userId === user.id);
   const pkg = getPackage(user.packageId);
   const active = user.subscriptionStatus === "active" && !!user.packageId;

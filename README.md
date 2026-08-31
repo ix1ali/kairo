@@ -176,9 +176,18 @@ The schema is created on first use; there is no migration step to run.
 `read` / `write` / `mutate` are **async**. They could not stay synchronous once
 the data lives across a network.
 
-**Known limit:** `read()` loads every row from every table, exactly as the JSON
-file did. That is fine at current volumes and will need scoping by user before
-the post table gets large — the seam for it is those three functions.
+**Scoping.** Prefer `readForUser` / `mutateForUser` / `getUserById` /
+`updateUser`. `read()` and `write()` move the whole database and exist only for
+genuinely global callers.
+
+That distinction is not stylistic. The first version used the whole-database
+functions everywhere, carried over unchanged from the JSON file: every
+authenticated request pulled every post belonging to every user, and every
+credit decrement rewrote them all. On Neon's free plan that exhausted the data
+transfer quota and the database began answering `402` to everything, which took
+the app down. The scoped functions read and write one account's rows, and their
+deletes are scoped to that account so a slice can never remove someone else's
+data.
 
 ### Files — Vercel Blob
 

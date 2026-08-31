@@ -168,7 +168,7 @@ export interface Project {
   goals: string[];
   goal: string;
   contentMix: { static: boolean; carousel: boolean; video: boolean; story: boolean };
-  videoStyle: { captions: string; voice: string; talent: string; sound: string };
+  videoStyle: { captions: string[]; voice: string[]; talent: string[]; sound: string[] };
   competitorsInput: string;
   competitorProfiles: CompetitorProfile[];
   strategy: Strategy | null;

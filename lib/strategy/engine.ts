@@ -411,7 +411,10 @@ function buildVideoScript(
   t: TokenBag,
   playbook: (typeof CATEGORIES)[string],
   hook: string,
-  style?: VideoStyle
+  style?: VideoStyle,
+  // The day number, so a mixed selection alternates across the month rather
+  // than landing on the same treatment every time.
+  seed = 0
 ) {
   const idea = pick(rng, playbook.videoIdeas);
   return [
@@ -424,7 +427,7 @@ function buildVideoScript(
     `20–26s    PAYOFF: the result, clean and well lit.`,
     `26–30s    CTA: "${fill(pick(rng, playbook.ctas), t)}" — text on screen, hold 2s.`,
     "",
-    ...videoStyleNotes(style),
+    ...videoStyleNotes(style, seed),
     `LOOP: final frame should visually match the first frame so it loops seamlessly.`,
   ].join("\n");
 }
@@ -575,7 +578,7 @@ export function buildCalendar(
 
         const visualDirection = isVideo
           ? [
-              buildVideoScript(rng, pillar, t, playbook, hook, project.videoStyle as VideoStyle),
+              buildVideoScript(rng, pillar, t, playbook, hook, project.videoStyle as VideoStyle, day),
               "",
               `FORMAT: ${contentType.name}`,
               contentType.production,

@@ -1,12 +1,12 @@
 import CreditsClient from "@/components/dashboard/CreditsClient";
 import { currentUser } from "@/lib/auth";
-import { read } from "@/lib/db";
+import { readForUser } from "@/lib/db";
 
 export const metadata = { title: "Credits" };
 
 export default async function CreditsPage() {
   const user = (await currentUser())!;
-  const db = await read();
+  const db = await readForUser(user.id);
   const spend = db.posts
     .filter((p) => db.projects.some((x) => x.id === p.projectId && x.userId === user.id))
     .flatMap((p) =>

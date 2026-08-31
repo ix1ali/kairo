@@ -1,5 +1,5 @@
 import { requireUser } from "@/lib/api";
-import { read } from "@/lib/db";
+import { readForUser } from "@/lib/db";
 import { renderPosterSVG } from "@/lib/render/poster";
 import { createZip, type ZipEntry } from "@/lib/zip";
 import { logoDataUri } from "@/lib/render/logo";
@@ -17,7 +17,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ projectI
   if ("response" in auth) return auth.response;
   const { projectId } = await params;
 
-  const db = await read();
+  const db = await readForUser(auth.user.id);
   const project = db.projects.find((p) => p.id === projectId && p.userId === auth.user.id);
   if (!project) return new Response("Not found", { status: 404 });
   const posts = db.posts

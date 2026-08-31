@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { currentUser } from "@/lib/auth";
-import { read } from "@/lib/db";
+import { readForUser } from "@/lib/db";
 import { getPackage } from "@/lib/plans";
 import PreferencesForm from "@/components/dashboard/PreferencesForm";
 
@@ -8,7 +8,7 @@ export const metadata = { title: "Settings" };
 
 export default async function SettingsPage() {
   const user = (await currentUser())!;
-  const db = await read();
+  const db = await readForUser(user.id);
   const projects = db.projects.filter((p) => p.userId === user.id);
   const pkg = getPackage(user.packageId);
 

@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import ProjectWizard, { type WizardOptions } from "@/components/dashboard/ProjectWizard";
 import { currentUser } from "@/lib/auth";
-import { read } from "@/lib/db";
+import { readForUser } from "@/lib/db";
 import { getPackage } from "@/lib/plans";
 import { BRAND_THEMES, DEFAULT_COLORS, GOAL_OPTIONS, PLATFORM_OPTIONS, VOICE_OPTIONS } from "@/lib/projects";
 import { CATEGORY_OPTIONS } from "@/lib/strategy/categories";
@@ -15,7 +15,7 @@ export default async function NewProjectPage() {
   if (user.subscriptionStatus !== "active" || !user.packageId) redirect("/dashboard/billing");
 
   const pkg = getPackage(user.packageId);
-  const owned = (await read()).projects.filter((p) => p.userId === user.id).length;
+  const owned = (await readForUser(user.id)).projects.filter((p) => p.userId === user.id).length;
   if (owned >= pkg.projects) redirect("/dashboard/billing");
 
   const options: WizardOptions = {

@@ -1,5 +1,5 @@
 import { fail, json, requireUser } from "@/lib/api";
-import { mutate, read } from "@/lib/db";
+import { mutateForUser, readForUser } from "@/lib/db";
 import type { PostStatus } from "@/lib/types";
 
 const STATUSES: PostStatus[] = ["draft", "approved", "scheduled", "posted", "skipped"];
@@ -10,13 +10,13 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   const { id } = await params;
   const body = await req.json().catch(() => ({}));
 
-  const db = await read();
+  const db = await readForUser(auth.user.id);
   const post = db.posts.find((p) => p.id === id);
   if (!post) return fail("Post not found.", 404);
   const project = db.projects.find((p) => p.id === post.projectId && p.userId === auth.user.id);
   if (!project) return fail("Post not found.", 404);
 
-  await mutate((d) => {
+  await mutateForUser(auth.user.id, (d) => {
     const target = d.posts.find((p) => p.id === id)!;
     if (typeof body.caption === "string") target.caption = body.caption;
     if (typeof body.hook === "string") target.hook = body.hook;
@@ -46,5 +46,5 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     }
   });
 
-  return json({ post: (await read()).posts.find((p) => p.id === id) });
+  return json({ post: (await readForUser(auth.user.id)).posts.find((p) => p.id === id) });
 }

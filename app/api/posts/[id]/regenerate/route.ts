@@ -1,5 +1,5 @@
 import { fail, json, requireUser } from "@/lib/api";
-import { mutate, read, uid } from "@/lib/db";
+import { mutateForUser, readForUser, uid } from "@/lib/db";
 import { CREDIT_COSTS, getPackage } from "@/lib/plans";
 import { regenerateSinglePost } from "@/lib/strategy/engine";
 import { generateImage } from "@/lib/ai";
@@ -27,7 +27,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   if (!(action in CREDIT_COSTS)) return fail("Unknown action.");
   const cost = CREDIT_COSTS[action];
 
-  const db = await read();
+  const db = await readForUser(auth.user.id);
   const post = db.posts.find((p) => p.id === id);
   if (!post) return fail("Post not found.", 404);
   const project = db.projects.find((p) => p.id === post.projectId && p.userId === auth.user.id);
@@ -85,7 +85,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     }
   }
 
-  await mutate((d) => {
+  await mutateForUser(auth.user.id, (d) => {
     const target = d.posts.find((p) => p.id === id)!;
     Object.assign(target, patch);
     target.assetUrl = assetUrl;
@@ -100,7 +100,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     u.credits -= cost;
   });
 
-  const fresh = await read();
+  const fresh = await readForUser(auth.user.id);
   return json({
     post: fresh.posts.find((p) => p.id === id),
     credits: fresh.users.find((u) => u.id === auth.user.id)!.credits,

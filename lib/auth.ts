@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import { cookies } from "next/headers";
-import { read, mutate, uid } from "./db";
+import { getUserByEmail, getUserById, insertUser, uid } from "./db";
 import type { User } from "./types";
 
 const COOKIE = "koala_session";
@@ -77,10 +77,9 @@ export async function currentUser(): Promise<User | null> {
   const store = await cookies();
   const token = store.get(COOKIE)?.value;
   if (!token) return null;
-  const userId = verifyToken(token);
-  if (!userId) return null;
-  const db = await read();
-  return db.users.find((u) => u.id === userId) || null;
+  const id = verifyToken(token);
+  if (!id) return null;
+  return getUserById(id);
 }
 
 export function publicUser(u: User) {
@@ -105,6 +104,6 @@ export async function createUser(email: string, name: string, password: string):
     credits: 0,
     onboarded: false,
   };
-  await mutate((db) => db.users.push(user));
+  await insertUser(user);
   return user;
 }

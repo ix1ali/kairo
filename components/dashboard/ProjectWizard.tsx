@@ -839,7 +839,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                   How should the videos be made?
                 </p>
                 <p className="mb-4 text-[12.5px] text-[#7C7C90]">
-                  Asked now so no script is written the wrong way round.
+                  Pick as many as you like and the month mixes between them. Choose none and we pick per video.
                 </p>
 
                 <div className="space-y-3.5">
@@ -850,14 +850,34 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
                           <Icon name={pref.icon} size={12} />
                         </span>
                         {pref.label}
+                        {videoStyle[pref.key].length === 0 && (
+                          <span className="ms-2 rounded-md bg-[#7C5CFF]/12 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#C9BEFF]">
+                            We choose
+                          </span>
+                        )}
+                        {videoStyle[pref.key].length > 1 && (
+                          <span className="ms-2 rounded-md bg-[#22D3EE]/12 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#7DE7F7]">
+                            Mixed
+                          </span>
+                        )}
                       </p>
                       <div className="grid gap-1.5 sm:grid-cols-3">
                         {pref.choices.map((c) => {
-                          const on = videoStyle[pref.key] === c.value;
+                          const on = videoStyle[pref.key].includes(c.value);
                           return (
                             <button
                               key={c.value}
-                              onClick={() => setVideoStyle((v) => ({ ...v, [pref.key]: c.value }))}
+                              onClick={() =>
+                                setVideoStyle((v) => {
+                                  const current = v[pref.key];
+                                  return {
+                                    ...v,
+                                    [pref.key]: current.includes(c.value)
+                                      ? current.filter((x) => x !== c.value)
+                                      : [...current, c.value],
+                                  };
+                                })
+                              }
                               className={`rounded-xl border px-3 py-2 text-left transition-colors ${
                                 on ? "" : "border-[#1E1E28] bg-white/[0.02] hover:border-[#33333F]"
                               }`}

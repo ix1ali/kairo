@@ -1,13 +1,13 @@
 import { Suspense } from "react";
 import BillingClient from "@/components/dashboard/BillingClient";
 import { currentUser } from "@/lib/auth";
-import { read } from "@/lib/db";
+import { readForUser } from "@/lib/db";
 
 export const metadata = { title: "Billing" };
 
 export default async function BillingPage() {
   const user = (await currentUser())!;
-  const db = await read();
+  const db = await readForUser(user.id);
   const projectCount = db.projects.filter((p) => p.userId === user.id).length;
   const transactions = db.transactions
     .filter((t) => t.userId === user.id)

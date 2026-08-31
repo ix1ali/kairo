@@ -1,5 +1,5 @@
 import { fail, json, requireUser } from "@/lib/api";
-import { mutate, uid } from "@/lib/db";
+import { mutateForUser, uid } from "@/lib/db";
 
 const TOPICS = ["content", "billing", "bug", "feature", "other"];
 
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     status: "open" as const,
   };
 
-  await mutate((d) => {
+  await mutateForUser(auth.user.id, (d) => {
     d.supportMessages = [...(d.supportMessages || []), entry];
   });
 

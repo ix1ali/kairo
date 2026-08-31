@@ -1,5 +1,5 @@
 import { publicUser, setSession, verifyPassword } from "@/lib/auth";
-import { read } from "@/lib/db";
+import { getUserByEmail } from "@/lib/db";
 import { fail, json } from "@/lib/api";
 
 export async function POST(req: Request) {
@@ -7,8 +7,7 @@ export async function POST(req: Request) {
   const email = String(body.email || "").trim().toLowerCase();
   const password = String(body.password || "");
 
-  const db = await read();
-  const user = db.users.find((u) => u.email === email);
+  const user = await getUserByEmail(String(body.email || ""));
   if (!user || !verifyPassword(password, user.salt, user.passwordHash)) {
     return fail("Email or password is incorrect.", 401);
   }

@@ -1,5 +1,5 @@
 import { fail, json, requireUser } from "@/lib/api";
-import { mutate, read } from "@/lib/db";
+import { mutateForUser, readForUser } from "@/lib/db";
 import { getProjectFor, projectStats, regeneratePlan } from "@/lib/projects";
 import { localeLabel } from "@/lib/languages";
 
@@ -18,7 +18,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   const { id } = await params;
   const body = await req.json().catch(() => ({}));
 
-  const db = await read();
+  const db = await readForUser(auth.user.id);
   const project = db.projects.find((p) => p.id === id && p.userId === auth.user.id);
   if (!project) return fail("Project not found.", 404);
 
@@ -28,7 +28,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     "platforms", "products", "goals", "goal", "contentMix", "videoStyle", "competitorsInput", "competitorProfiles",
   ];
 
-  await mutate((d) => {
+  await mutateForUser(auth.user.id, (d) => {
     const target = d.projects.find((p) => p.id === id)!;
     for (const key of editable) {
       if (key in body) (target as unknown as Record<string, unknown>)[key] = body[key];
@@ -38,7 +38,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   });
 
   if (body.regenerate) {
-    const fresh = (await read()).projects.find((p) => p.id === id)!;
+    const fresh = (await readForUser(auth.user.id)).projects.find((p) => p.id === id)!;
     await regeneratePlan(fresh, auth.user);
   }
 
@@ -51,11 +51,11 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
   if ("response" in auth) return auth.response;
   const { id } = await params;
 
-  const db = await read();
+  const db = await readForUser(auth.user.id);
   const project = db.projects.find((p) => p.id === id && p.userId === auth.user.id);
   if (!project) return fail("Project not found.", 404);
 
-  await mutate((d) => {
+  await mutateForUser(auth.user.id, (d) => {
     d.projects = d.projects.filter((p) => p.id !== id);
     d.posts = d.posts.filter((p) => p.projectId !== id);
   });

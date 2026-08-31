@@ -35,7 +35,7 @@ export function demoProject(): Project {
     goals: ["More sales from social", "Clear slow-moving stock"],
     goal: "sales",
     contentMix: { static: true, carousel: true, video: true, story: false },
-    videoStyle: { captions: "burned", voice: "ai", talent: "product", sound: "trending" },
+    videoStyle: { captions: ["burned"], voice: ["ai"], talent: ["product", "presenter"], sound: ["trending"] },
     competitorProfiles: [],
     competitorsInput: "",
     strategy: null,
