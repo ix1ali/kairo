@@ -102,14 +102,22 @@ function emblem(cc: string) {
     case "SA":
       return (
         <>
+          {/* the shahada, suggested rather than spelled: at 20px anything
+              more literal turns to mud, so this is a calligraphic rhythm */}
           <path
-            d="M4.6 6.4c1 .9 2 .9 3 0 1 .9 2 .9 3 0 1 .9 2 .9 3 0 1 .9 2 .9 3 0"
+            d="M4.6 7.2c.6-1.1 1.3-1.1 1.9 0M7 7.2c.5-1.5 1.2-1.5 1.7 0M9.4 7.2c.6-1 1.3-1 1.9 0M11.9 7.2c.5-1.6 1.2-1.6 1.7 0M14.3 7.2c.6-1.1 1.3-1.1 1.9 0M16.8 7.2c.5-1.3 1.2-1.3 1.7 0"
             stroke="#FFFFFF"
-            strokeWidth="1.15"
+            strokeWidth="0.95"
             fill="none"
             strokeLinecap="round"
           />
-          <path d="M4.4 10.4h13.4M17.8 10.4l-1.5-1.1M17.8 10.4l-1.5 1.1" stroke="#FFFFFF" strokeWidth="1.05" strokeLinecap="round" fill="none" />
+          <path d="M5.4 8.8h13.2" stroke="#FFFFFF" strokeWidth="0.75" strokeLinecap="round" />
+          {/* the sword, point toward the hoist, hilt at the fly */}
+          <path d="M4.4 11.5l2.2-.75v1.5z" fill="#FFFFFF" />
+          <path d="M6.4 11.5h10.4" stroke="#FFFFFF" strokeWidth="1.15" strokeLinecap="butt" />
+          <path d="M16.9 10.1v2.8" stroke="#FFFFFF" strokeWidth="0.85" strokeLinecap="round" />
+          <path d="M17.4 11.5h1.6" stroke="#FFFFFF" strokeWidth="0.85" strokeLinecap="round" />
+          <circle cx="19.4" cy="11.5" r="0.75" fill="#FFFFFF" />
         </>
       );
     case "QA":
@@ -117,7 +125,8 @@ function emblem(cc: string) {
     case "BH":
       return <rect x="0" y="0" width="7" height="16" fill="#FFFFFF" />;
     case "KW":
-      return <path d="M0 0h9L5.6 5.33v5.34L9 16H0z" fill="#000000" />;
+      // Trapezoid: full height at the hoist, meeting the middle third at x=6.
+      return <path d="M0 0L6 5.33V10.67L0 16Z" fill="#000000" />;
     case "AE":
       return <rect x="0" y="0" width="6.5" height="16" fill="#FF0000" />;
     case "OM":
@@ -132,7 +141,16 @@ function emblem(cc: string) {
         </>
       );
     case "MA":
-      return <path d="M12 4.6l1.6 4.9-4.2-3h5.2l-4.2 3z" fill="none" stroke="#006233" strokeWidth="1.1" />;
+      // Proper interlaced pentagram, drawn as one closed path.
+      return (
+        <path
+          d="M12 4.2l1.76 5.42-4.61-3.35h5.7l-4.61 3.35z"
+          fill="none"
+          stroke="#006233"
+          strokeWidth="1"
+          strokeLinejoin="round"
+        />
+      );
     case "TN":
       return (
         <>
