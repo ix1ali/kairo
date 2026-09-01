@@ -32,9 +32,9 @@ export const en = {
 
   difference: {
     eyebrow: "The problem",
-    h1: "Nobody has time to post every day.",
-    h2: "So we do it for you.",
-    sub: "Most businesses stop posting after two weeks, because there is never anything ready. We give you the whole month up front.",
+    h1: "Posting once is easy.",
+    h2: "Posting every day is not.",
+    sub: "Most businesses start strong and go quiet by week two. We hand you the whole month up front, so you never miss a day.",
     chaosTitle: "Posting randomly",
     chaosSub: "What most brands actually do",
     chaosPoints: [
