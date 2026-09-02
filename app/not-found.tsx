@@ -10,7 +10,7 @@ export default function NotFound() {
       <div className="relative">
         <Logo size={32} />
         <div className="mt-8 flex justify-center">
-          <Koala size={160} mood="sleepy" />
+          <Koala size={200} mood="sleepy" />
         </div>
         <p className="display mt-2 text-6xl grad-text">404</p>
         <h1 className="display mt-4 text-2xl">This page is not in the plan.</h1>

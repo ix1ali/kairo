@@ -44,7 +44,7 @@ export default async function DashboardHome() {
       <main className="mx-auto max-w-3xl px-5 py-20 sm:px-8">
         <div className="panel p-8 text-center">
           <div className="mb-2 flex justify-center">
-            <Koala size={130} mood="thinking" />
+            <Koala size={165} mood="thinking" />
           </div>
           <span className="chip chip-on">Step 1 of 2</span>
           <h1 className="display mt-5 text-3xl">Choose a plan to begin</h1>
@@ -79,7 +79,7 @@ export default async function DashboardHome() {
       {projects.length === 0 ? (
         <div className="panel p-10 text-center">
           <div className="mx-auto mb-2 flex justify-center">
-            <Koala size={150} mood="happy" />
+            <Koala size={185} mood="happy" />
           </div>
           <h2 className="display text-2xl">Add your first brand</h2>
           <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-[#55556B]">

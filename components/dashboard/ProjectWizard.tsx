@@ -344,7 +344,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
   if (busy) {
     return (
       <div className="mx-auto flex min-h-[70vh] max-w-lg flex-col items-center justify-center px-5 text-center">
-        <Koala size={190} mood="thinking" />
+        <Koala size={235} mood="thinking" />
         <h2 className="display mt-4 text-2xl">Kai is building your month</h2>
         <p className="mt-2 text-[14px] leading-relaxed text-[#55556B]">
           Reading your brand, mapping your competitors, then writing and designing all{" "}
@@ -1399,7 +1399,7 @@ export default function ProjectWizard({ options }: { options: WizardOptions }) {
 
             {sampleBusy && (
               <div className="flex flex-col items-center gap-3 py-10">
-                <Koala size={110} mood="thinking" />
+                <Koala size={140} mood="thinking" />
                 <p className="text-[13px] text-[#63637A]">Making three samples…</p>
               </div>
             )}

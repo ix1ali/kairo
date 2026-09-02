@@ -73,7 +73,7 @@ export default function HeroStage({
           style={{ transform: "translateZ(70px)" }}
         >
           <Koala
-            sizeClass="h-[190px] w-[190px] sm:h-[248px] sm:w-[248px]"
+            sizeClass="h-[236px] w-[236px] sm:h-[320px] sm:w-[320px]"
             mood="happy"
             className="drop-shadow-[0_26px_40px_rgba(11,11,18,0.16)]"
           />

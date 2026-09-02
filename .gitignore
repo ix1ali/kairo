@@ -60,3 +60,6 @@ next-env.d.ts
 /carousel-v2
 /carousel-dir
 /coming-soon
+
+# 4K source renders for the mascot. The shipped assets are public/kai/*.webp.
+/kai-src

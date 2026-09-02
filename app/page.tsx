@@ -153,7 +153,7 @@ export default async function Home() {
         <section className="relative overflow-hidden py-16 sm:py-24">
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[24rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7C5CFF]/16 blur-[130px]" />
           <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 text-center sm:px-6 lg:px-8">
-            <Koala sizeClass="h-[120px] w-[120px] sm:h-[150px] sm:w-[150px]" mood="wow" />
+            <Koala sizeClass="h-[150px] w-[150px] sm:h-[190px] sm:w-[190px]" mood="wow" />
             <h2 className="display mt-5 text-[1.875rem] leading-[1.1] text-balance sm:mt-6 sm:text-4xl lg:text-5xl">
               {t.finalCta.h1}
             </h2>
