@@ -109,18 +109,31 @@ export const PLATFORM_ICONS: Record<string, (p: P) => React.JSX.Element> = {
   google: GoogleIcon,
 };
 
+/**
+ * Brand colours, in each brand's light-background variant.
+ *
+ * Several of these only ever worked because the page was black. X and Threads
+ * were near-white, and Snapchat's yellow measures 1.1:1 on white — the mark
+ * was there, you simply could not see it.
+ *
+ * The replacements are not inventions. X, Threads, TikTok and Snapchat all
+ * publish a black mark for light backgrounds, which is the correct lockup
+ * here rather than a compromise. WhatsApp's darker green and Google's blue
+ * are both from their own palettes; the previous Google value was Gemini's
+ * pale blue, not Google's.
+ */
 export const PLATFORM_COLOR: Record<string, string> = {
   instagram: "#E1306C",
-  tiktok: "#25F4EE",
+  tiktok: "#0B0B12",
   facebook: "#1877F2",
   linkedin: "#0A66C2",
-  x: "#ECECF3",
+  x: "#0B0B12",
   youtube: "#FF0033",
   pinterest: "#E60023",
-  threads: "#ECECF3",
-  snapchat: "#FFFC00",
-  whatsapp: "#25D366",
-  google: "#8AB4F8",
+  threads: "#0B0B12",
+  snapchat: "#0B0B12",
+  whatsapp: "#128C7E",
+  google: "#4285F4",
 };
 
 export function PlatformIcon({ platform, size = 20, className }: { platform: string } & P) {

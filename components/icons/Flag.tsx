@@ -340,7 +340,10 @@ export function Flag({ cc, size = 20, className = "" }: { cc: string; size?: num
         {h && bands(h, false)}
         {v && bands(v, true)}
         {emblem(cc)}
-        <rect x="0" y="0" width="24" height="16" rx="2.4" fill="none" stroke="#FFFFFF" strokeOpacity="0.16" />
+        {/* The edge, not part of any flag. It was white for a black page;
+            on white it disappeared and flags with white fields — Kuwait,
+            the UAE, Qatar — lost their outline completely. */}
+        <rect x="0" y="0" width="24" height="16" rx="2.4" fill="none" stroke="#0B0B12" strokeOpacity="0.22" />
       </g>
     </svg>
   );
