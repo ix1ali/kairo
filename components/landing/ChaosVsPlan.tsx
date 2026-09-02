@@ -83,7 +83,7 @@ export default async function ChaosVsPlan() {
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       {/* ---------- chaos ---------- */}
-      <div className="relative overflow-hidden rounded-3xl border border-[#3A2028] bg-gradient-to-b from-[#1A1013] to-[#FFFFFF] p-6 sm:p-7">
+      <div className="relative overflow-hidden rounded-3xl border border-[#F3D4DB] bg-gradient-to-b from-[#FFF1F4] to-[#FFFFFF] p-6 sm:p-7">
         <div className="mb-6 flex items-center gap-3">
           <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#C2255C]/15 text-[#C2255C]">
             <Icon name="shuffle" size={19} />
@@ -111,7 +111,7 @@ export default async function ChaosVsPlan() {
       </div>
 
       {/* ---------- plan ---------- */}
-      <div className="relative overflow-hidden rounded-3xl border border-[#DCDCE8] bg-gradient-to-b from-[#141130] to-[#FFFFFF] p-6 sm:p-7">
+      <div className="relative overflow-hidden rounded-3xl border border-[#DCD4FA] bg-gradient-to-b from-[#F4F1FF] to-[#FFFFFF] p-6 sm:p-7">
         <div className="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-[#7C5CFF]/20 blur-[70px]" />
 
         <div className="relative mb-6 flex items-center gap-3">

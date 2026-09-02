@@ -112,7 +112,7 @@ export default function Savings() {
       </div>
 
       {/* the Koala way */}
-      <div className="relative overflow-hidden rounded-3xl border border-[#22D3EE]/30 bg-gradient-to-b from-[#0A1620] to-[#FFFFFF] p-6 sm:p-7">
+      <div className="relative overflow-hidden rounded-3xl border border-[#A9E4F0] bg-gradient-to-b from-[#ECFDFF] to-[#FFFFFF] p-6 sm:p-7">
         <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#22D3EE]/12 blur-[70px]" />
 
         <div className="relative">

@@ -52,7 +52,7 @@ export default function HeroStage({
     >
       {/* aurora, sized to sit behind Kai like a spotlight */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="animate-drift absolute left-1/2 top-1/2 h-[58%] w-[58%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7C5CFF]/40 blur-[70px]" />
+        <div className="animate-drift absolute left-1/2 top-1/2 h-[58%] w-[58%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7C5CFF]/28 blur-[70px]" />
         <div
           className="animate-drift absolute left-[38%] top-[58%] h-[42%] w-[42%] rounded-full bg-[#22D3EE]/25 blur-[60px]"
           style={{ animationDelay: "-6s", animationDuration: "22s" }}
@@ -75,7 +75,7 @@ export default function HeroStage({
           <Koala
             sizeClass="h-[190px] w-[190px] sm:h-[248px] sm:w-[248px]"
             mood="happy"
-            className="drop-shadow-[0_28px_44px_rgba(0,0,0,0.7)]"
+            className="drop-shadow-[0_26px_40px_rgba(11,11,18,0.16)]"
           />
         </div>
       </div>

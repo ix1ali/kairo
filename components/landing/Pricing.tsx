@@ -35,8 +35,8 @@ export async function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: stri
               key={pkg.id}
               className={`relative flex w-[78vw] shrink-0 snap-center flex-col rounded-3xl p-5 transition-transform duration-300 sm:w-auto sm:shrink sm:p-6 lg:p-7 ${
                 featured
-                  ? "border border-[#7C5CFF]/45 bg-gradient-to-b from-[#F7F7FB] to-[#FFFFFF] shadow-[0_30px_90px_-30px_rgba(124,92,255,0.45)] lg:-translate-y-3"
-                  : "border border-[#E7E7EF] bg-[#0B0B12]/[0.025]"
+                  ? "border border-[#7C5CFF]/45 bg-gradient-to-b from-[#F4F1FF] to-[#FFFFFF] shadow-[0_30px_90px_-30px_rgba(124,92,255,0.35)] lg:-translate-y-3"
+                  : "border border-[#E7E7EF] bg-[#FFFFFF]"
               }`}
             >
               {featured && (
