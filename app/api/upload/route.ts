@@ -2,6 +2,13 @@ import { fail, json, requireUser } from "@/lib/api";
 import { uid } from "@/lib/db";
 import { putPublicFile, StorageUnavailableError } from "@/lib/storage";
 
+/**
+ * Never cached. Every response here is specific to the signed-in account, and
+ * a cached one would show a customer another customer's data or their own
+ * stale state — a project created a second ago appearing to be missing.
+ */
+export const dynamic = "force-dynamic";
+
 const ALLOWED = ["image/png", "image/jpeg", "image/webp", "image/svg+xml", "image/gif"];
 const MAX_BYTES = 8 * 1024 * 1024;
 

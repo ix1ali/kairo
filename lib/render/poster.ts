@@ -100,6 +100,8 @@ interface Ctx {
   muted: string;
   brand: string;
   logo: string | null;
+  /** Generated artwork composited behind the type, when one exists. */
+  photo: string | null;
   post: Post;
 }
 
@@ -128,6 +130,11 @@ function defs(c: Ctx) {
       <feGaussianBlur stdDeviation="60"/>
     </filter>
     <clipPath id="round"><rect x="0" y="0" width="${c.w}" height="${c.h}" rx="0"/></clipPath>
+    <linearGradient id="scrim" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${c.bg}" stop-opacity="0.88"/>
+      <stop offset="45%" stop-color="${c.bg}" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="${c.bg}" stop-opacity="0.80"/>
+    </linearGradient>
   </defs>`;
 }
 
@@ -143,6 +150,16 @@ function footer(c: Ctx) {
 }
 
 function ambience(c: Ctx) {
+  // With a generated photograph behind it, the opaque brand field would hide
+  // the very thing we paid a model to make. The photo takes its place and the
+  // brand glows drop to a tint, so the frame still reads as this brand.
+  if (c.photo) {
+    return `
+  <rect width="${c.w}" height="${c.h}" fill="${c.bg}"/>
+  <image href="${esc(c.photo)}" x="0" y="0" width="${c.w}" height="${c.h}" preserveAspectRatio="xMidYMid slice"/>
+  <rect width="${c.w}" height="${c.h}" fill="url(#scrim)"/>
+  <ellipse cx="${c.w * 0.15}" cy="${c.h * 0.12}" rx="${c.w * 0.6}" ry="${c.h * 0.35}" fill="url(#glow)" opacity="0.35"/>`;
+  }
   return `
   <rect width="${c.w}" height="${c.h}" fill="${c.bg}"/>
   <ellipse cx="${c.w * 0.15}" cy="${c.h * 0.12}" rx="${c.w * 0.6}" ry="${c.h * 0.35}" fill="url(#glow)"/>
@@ -315,7 +332,13 @@ const layouts: Record<string, Layout> = {
 /* entry point                                                         */
 /* ------------------------------------------------------------------ */
 
-export function renderPosterSVG(post: Post, project: Project, logoDataUri: string | null = null): string {
+export function renderPosterSVG(
+  post: Post,
+  project: Project,
+  logoDataUri: string | null = null,
+  /** The generated artwork, composited beneath the type when present. */
+  photoUrl: string | null = null
+): string {
   const vertical = post.format === "reel" || post.format === "video" || post.format === "story";
   const w = 1080;
   const h = vertical ? 1920 : 1350;
@@ -329,6 +352,10 @@ export function renderPosterSVG(post: Post, project: Project, logoDataUri: strin
   const ink = ref.length ? readableOn(bg) : project.colors.text || readableOn(bg);
   const muted = mix(bg, ink, 0.62);
 
+  // Only still imagery composites. A video asset has no meaningful single
+  // frame here, so those posts keep the drawn poster as their thumbnail.
+  const photo = photoUrl && !/\.(mp4|webm|mov)(\?|$)/i.test(photoUrl) ? photoUrl : null;
+
   const ctx: Ctx = {
     w,
     h,
@@ -339,6 +366,7 @@ export function renderPosterSVG(post: Post, project: Project, logoDataUri: strin
     muted,
     brand: project.name,
     logo: logoDataUri,
+    photo,
     post,
   };
 

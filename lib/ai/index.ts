@@ -1,4 +1,4 @@
-import { gatewayConfigured, gatewayImage, gatewayText, gatewayVideo } from "./gateway";
+import { GatewayError, gatewayConfigured, gatewayImage, gatewayText, gatewayVideo } from "./gateway";
 import { imageModel, textModel, videoModel } from "./models";
 
 /**
@@ -98,9 +98,47 @@ async function safeFetch(url: string, init: RequestInit, timeoutMs = 60000) {
 /* image                                                               */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Why the last generation failed, in words a customer can act on.
+ *
+ * Generation returns null rather than throwing, because a failed image should
+ * leave the drawn poster in place instead of failing the whole request. That
+ * swallowed the reason though, so every failure reached the customer as
+ * "Generation is not available yet" — including the one that actually means
+ * "the account needs a card on file", which is trivially fixable and was
+ * completely invisible.
+ *
+ * Module-level state is acceptable here only because it is read immediately
+ * after the call that set it, on the same request.
+ */
+let lastFailure: string | null = null;
+
+function describeFailure(err: unknown): string {
+  if (err instanceof GatewayError) {
+    return err.actionable || err.message;
+  }
+  return err instanceof Error ? err.message : String(err);
+}
+
+/** Consumes the reason, so a later unrelated failure cannot report a stale one. */
+export function takeLastGenerationFailure(): string | null {
+  const value = lastFailure;
+  lastFailure = null;
+  return value;
+}
+
 export interface ImageRequest {
   prompt: string;
   aspect: "1:1" | "4:5" | "9:16";
+  /**
+   * The customer's own photographs — product shots, logo, past posts.
+   *
+   * This is the difference between advertising their product and advertising
+   * a plausible imitation of it. Without a reference the model invents the
+   * bottle, the label and the colour, and the result is recognisably not the
+   * thing the customer sells.
+   */
+  references?: string[];
   /** Attributed in gateway cost reporting. */
   userId?: string;
 }
@@ -110,13 +148,19 @@ export async function generateImage(req: ImageRequest): Promise<string | null> {
   const provider = activeImageProvider();
   try {
     if (provider === "gateway") {
-      return await gatewayImage({ prompt: req.prompt, aspect: req.aspect, userId: req.userId });
+      return await gatewayImage({
+        prompt: req.prompt,
+        aspect: req.aspect,
+        references: req.references,
+        userId: req.userId,
+      });
     }
     if (provider === "gemini") return await geminiImage(req);
     if (provider === "openai") return await openaiImage(req);
     if (provider === "higgsfield") return await higgsfieldImage(req);
   } catch (err) {
     console.error("[koala:ai] image generation failed", err);
+    lastFailure = describeFailure(err);
   }
   return null;
 }
@@ -186,12 +230,18 @@ async function higgsfieldImage(req: ImageRequest): Promise<string | null> {
 /* video                                                               */
 /* ------------------------------------------------------------------ */
 
-export async function generateVideo(prompt: string, userId?: string): Promise<string | null> {
+export async function generateVideo(
+  prompt: string,
+  userId?: string,
+  /** A still to animate — normally the customer's own product photograph. */
+  reference?: string
+): Promise<string | null> {
   if (gatewayConfigured()) {
     try {
-      return await gatewayVideo({ prompt, userId });
+      return await gatewayVideo({ prompt, userId, reference });
     } catch (err) {
       console.error("[koala:ai] gateway video failed", err);
+      lastFailure = describeFailure(err);
       return null;
     }
   }

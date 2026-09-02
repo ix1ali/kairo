@@ -3,6 +3,13 @@ import { mutateForUser, readForUser } from "@/lib/db";
 import { getProjectFor, projectStats, regeneratePlan } from "@/lib/projects";
 import { localeLabel } from "@/lib/languages";
 
+/**
+ * Never cached. Every response here is specific to the signed-in account, and
+ * a cached one would show a customer another customer's data or their own
+ * stale state — a project created a second ago appearing to be missing.
+ */
+export const dynamic = "force-dynamic";
+
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const auth = await requireUser();
   if ("response" in auth) return auth.response;

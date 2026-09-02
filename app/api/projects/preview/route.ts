@@ -10,6 +10,13 @@ import { renderPosterSVG } from "@/lib/render/poster";
 import type { Post, Product, Project } from "@/lib/types";
 
 /**
+ * Never cached. Every response here is specific to the signed-in account, and
+ * a cached one would show a customer another customer's data or their own
+ * stale state — a project created a second ago appearing to be missing.
+ */
+export const dynamic = "force-dynamic";
+
+/**
  * Builds a throwaway plan and returns three representative days, so the brand
  * can be judged before committing to a whole month. Nothing is saved.
  */

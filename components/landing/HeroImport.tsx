@@ -20,7 +20,7 @@ export default function HeroImport({ compact = false }: { compact?: boolean }) {
     <form onSubmit={go} className={compact ? "w-full max-w-md" : "w-full max-w-lg"}>
       <div className="flex flex-col gap-2.5 sm:flex-row">
         <div className="relative flex-1">
-          <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7E7E93]">
+          <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6E6E85]">
             <Icon name="link" size={17} />
           </span>
           <input
@@ -36,8 +36,8 @@ export default function HeroImport({ compact = false }: { compact?: boolean }) {
           <Icon name="arrowRight" size={16} strokeWidth={2} className="flip-rtl" />
         </button>
       </div>
-      <p className="mt-2.5 flex items-center gap-1.5 text-[12.5px] text-[#7E7E93]">
-        <Icon name="sparkle" size={13} className="text-[#7C5CFF]" filled />
+      <p className="mt-2.5 flex items-center gap-1.5 text-[12.5px] text-[#6E6E85]">
+        <Icon name="sparkle" size={13} className="text-[#5B3FE0]" filled />
         {t.hero.hint}
       </p>
     </form>

@@ -80,7 +80,7 @@ export default function Showcase() {
                   key={`${copy}-${item.src}`}
                   className="w-[168px] shrink-0 sm:w-[210px] lg:w-[236px]"
                 >
-                  <div className="relative aspect-[9/16] overflow-hidden rounded-2xl border border-[#22222E] bg-[#0C0C13]">
+                  <div className="relative aspect-[9/16] overflow-hidden rounded-2xl border border-[#E7E7EF] bg-[#FFFFFF]">
                     {item.media === "video" ? (
                       <Clip src={item.src} poster={item.poster} />
                     ) : (
@@ -94,7 +94,7 @@ export default function Showcase() {
                     )}
                   </div>
                   {/* Naming the kind is the point: it shows the range, not just the look. */}
-                  <figcaption className="mt-3 text-center text-[13px] font-semibold text-[#C4C4D4] sm:text-[14px]">
+                  <figcaption className="mt-3 text-center text-[13px] font-semibold text-[#33334A] sm:text-[14px]">
                     {item.kind}
                   </figcaption>
                 </figure>
@@ -111,7 +111,7 @@ export default function Showcase() {
             <button key={x.key} onClick={() => setTab(i)} className="group relative pb-3 text-center">
               <span
                 className={`block text-[13.5px] font-semibold transition-colors sm:text-[15px] ${
-                  on ? "text-white" : "text-[#75758C] group-hover:text-[#C4C4D4]"
+                  on ? "text-[#0B0B12]" : "text-[#6E6E85] group-hover:text-[#33334A]"
                 }`}
               >
                 {t.showcase.tabs[i]}
@@ -120,7 +120,7 @@ export default function Showcase() {
                 className={`absolute inset-x-0 bottom-0 h-[2px] rounded-full transition-all duration-500 ${
                   on
                     ? "bg-gradient-to-r from-[#7C5CFF] to-[#22D3EE] opacity-100"
-                    : "bg-[#22222E] opacity-60"
+                    : "bg-[#E7E7EF] opacity-60"
                 }`}
               />
             </button>

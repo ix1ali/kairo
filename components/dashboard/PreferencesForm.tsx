@@ -52,7 +52,7 @@ export default function PreferencesForm({ initial }: { initial?: UserPreferences
   return (
     <section className="panel p-6">
       <h2 className="display mb-2 text-lg">Preferences</h2>
-      <p className="mb-5 text-[13px] leading-relaxed text-[#7C7C90]">
+      <p className="mb-5 text-[13px] leading-relaxed text-[#63637A]">
         Defaults for every new project and every export. Changing these does not touch months you
         have already generated.
       </p>
@@ -70,15 +70,15 @@ export default function PreferencesForm({ initial }: { initial?: UserPreferences
                 onClick={() => set("weekStartsOn", d.v)}
                 className={`rounded-xl border px-3 py-2.5 text-[13px] font-medium transition-colors ${
                   prefs.weekStartsOn === d.v
-                    ? "border-[#7C5CFF] bg-[#7C5CFF]/12 text-[#C9BEFF]"
-                    : "border-[#1E1E28] bg-white/[0.02] text-[#9B9BAE] hover:border-[#3A3355]"
+                    ? "border-[#7C5CFF] bg-[#7C5CFF]/12 text-[#5B3FE0]"
+                    : "border-[#E7E7EF] bg-[#0B0B12]/[0.025] text-[#55556B] hover:border-[#C9BEEB]"
                 }`}
               >
                 {d.label}
               </button>
             ))}
           </div>
-          <p className="mt-1.5 text-[11px] text-[#7E7E93]">
+          <p className="mt-1.5 text-[11px] text-[#6E6E85]">
             Sets how the calendar groups a week. Sunday is the working week across the Gulf.
           </p>
         </div>
@@ -93,11 +93,11 @@ export default function PreferencesForm({ initial }: { initial?: UserPreferences
                 className={`rounded-xl border p-3 text-start transition-colors ${
                   prefs.rhythm === r.key
                     ? "border-[#7C5CFF] bg-[#7C5CFF]/12"
-                    : "border-[#1E1E28] bg-white/[0.02] hover:border-[#3A3355]"
+                    : "border-[#E7E7EF] bg-[#0B0B12]/[0.025] hover:border-[#C9BEEB]"
                 }`}
               >
-                <p className="text-[13px] font-semibold text-white">{r.label}</p>
-                <p className="mt-0.5 text-[11.5px] leading-snug text-[#7C7C90]">{r.note}</p>
+                <p className="text-[13px] font-semibold text-[#0B0B12]">{r.label}</p>
+                <p className="mt-0.5 text-[11.5px] leading-snug text-[#63637A]">{r.note}</p>
               </button>
             ))}
           </div>
@@ -132,20 +132,20 @@ export default function PreferencesForm({ initial }: { initial?: UserPreferences
             <button
               key={key}
               onClick={() => set(key, !prefs[key])}
-              className="flex w-full items-start gap-3 rounded-xl border border-[#1E1E28] bg-white/[0.02] p-3.5 text-start transition-colors hover:border-[#3A3355]"
+              className="flex w-full items-start gap-3 rounded-xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] p-3.5 text-start transition-colors hover:border-[#C9BEEB]"
             >
               <span
                 className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border transition-colors ${
                   prefs[key]
                     ? "border-[#7C5CFF] bg-[#7C5CFF] text-white"
-                    : "border-[#33333F] bg-transparent text-transparent"
+                    : "border-[#C9C9D8] bg-transparent text-transparent"
                 }`}
               >
                 <Icon name="check" size={12} strokeWidth={3} />
               </span>
               <span className="min-w-0">
-                <span className="block text-[13.5px] font-medium text-white">{label}</span>
-                <span className="mt-0.5 block text-[12px] leading-snug text-[#7C7C90]">{note}</span>
+                <span className="block text-[13.5px] font-medium text-[#0B0B12]">{label}</span>
+                <span className="mt-0.5 block text-[12px] leading-snug text-[#63637A]">{note}</span>
               </span>
             </button>
           ))}
@@ -157,13 +157,13 @@ export default function PreferencesForm({ initial }: { initial?: UserPreferences
           {state === "saving" ? "Saving…" : "Save preferences"}
         </button>
         {state === "saved" && (
-          <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[#C8F751]">
+          <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[#4D7C0F]">
             <Icon name="checkCircle" size={13} />
             Saved
           </span>
         )}
         {state === "error" && (
-          <span className="text-[12.5px] text-[#FF6B8A]">{error}</span>
+          <span className="text-[12.5px] text-[#C2255C]">{error}</span>
         )}
       </div>
     </section>

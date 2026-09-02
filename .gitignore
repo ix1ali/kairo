@@ -53,3 +53,10 @@ next-env.d.ts
 # .env.example carries no secrets and documents the optional keys.
 # This negation must stay below the .env* rule above, or it is overridden.
 !.env.example
+
+# Generated marketing renders. These are 4K PNGs — a few hundred megabytes per
+# set — and they are produced on demand, so they do not belong in the history.
+/carousel-en
+/carousel-v2
+/carousel-dir
+/coming-soon

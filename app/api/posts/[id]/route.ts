@@ -2,6 +2,13 @@ import { fail, json, requireUser } from "@/lib/api";
 import { mutateForUser, readForUser } from "@/lib/db";
 import type { PostStatus } from "@/lib/types";
 
+/**
+ * Never cached. Every response here is specific to the signed-in account, and
+ * a cached one would show a customer another customer's data or their own
+ * stale state — a project created a second ago appearing to be missing.
+ */
+export const dynamic = "force-dynamic";
+
 const STATUSES: PostStatus[] = ["draft", "approved", "scheduled", "posted", "skipped"];
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {

@@ -16,7 +16,7 @@ export default async function GeneratePage() {
       <div className="mb-8">
         <p className="eyebrow">Generate</p>
         <h1 className="display mt-2 text-3xl">Make one thing.</h1>
-        <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-[#9B9BAE]">
+        <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-[#55556B]">
           For everything that comes up between months. One image or one video, on its own,
           without touching your calendar.
         </p>

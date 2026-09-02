@@ -34,11 +34,21 @@ export default function BillingClient({
       body: JSON.stringify({ kind: "subscription", packageId }),
     });
     const data = await res.json().catch(() => ({}));
-    setBusy("");
     if (!res.ok) {
+      setBusy("");
       setError(data.error || "Could not update your plan.");
       return;
     }
+
+    // With a gateway configured the plan is not active yet — the customer pays
+    // on Stripe's page and the webhook grants it. Keep the button disabled
+    // through the redirect so it cannot be clicked twice.
+    if (data.checkoutUrl) {
+      window.location.assign(data.checkoutUrl);
+      return;
+    }
+
+    setBusy("");
     const suffix = seedUrl ? `?url=${encodeURIComponent(seedUrl)}` : "";
     router.push(projectCount && !seedUrl ? "/dashboard" : `/dashboard/projects/new${suffix}`);
     router.refresh();
@@ -68,15 +78,15 @@ export default function BillingClient({
               <h2 className="display mt-2 text-2xl">
                 {PACKAGES.find((p) => p.id === currentPackage)?.name}
               </h2>
-              <p className="mt-1.5 text-[13px] text-[#7C7C90]">
+              <p className="mt-1.5 text-[13px] text-[#63637A]">
                 {renewsAt ? `Renews ${new Date(renewsAt).toLocaleDateString()}` : "Active"} ·{" "}
                 {credits.toLocaleString()} credits in balance
               </p>
             </div>
             {confirmCancel ? (
               <div className="flex items-center gap-2">
-                <span className="text-[12.5px] text-[#FF6B8A]">Cancel at period end?</span>
-                <button className="btn btn-sm bg-[#FF6B8A] text-white" onClick={cancel} disabled={!!busy}>
+                <span className="text-[12.5px] text-[#C2255C]">Cancel at period end?</span>
+                <button className="btn btn-sm bg-[#C2255C] text-white" onClick={cancel} disabled={!!busy}>
                   Confirm
                 </button>
                 <button className="btn btn-quiet btn-sm" onClick={() => setConfirmCancel(false)}>
@@ -93,9 +103,9 @@ export default function BillingClient({
       )}
 
       {status === "cancelled" && (
-        <div className="rounded-2xl border border-[#FFB443]/30 bg-[#FFB443]/[0.07] p-5">
-          <p className="text-[14px] font-semibold text-[#E0B77A]">Your subscription is cancelled</p>
-          <p className="mt-1 text-[13px] leading-relaxed text-[#B99A6B]">
+        <div className="rounded-2xl border border-[#B45309]/30 bg-[#B45309]/[0.07] p-5">
+          <p className="text-[14px] font-semibold text-[#B45309]">Your subscription is cancelled</p>
+          <p className="mt-1 text-[13px] leading-relaxed text-[#8A6D3B]">
             Your projects and calendars are kept. Choose a plan below to reactivate.
           </p>
         </div>
@@ -103,7 +113,7 @@ export default function BillingClient({
 
       {suggested && !active && (
         <div className="rounded-2xl border border-[#7C5CFF]/30 bg-[#7C5CFF]/[0.07] p-5">
-          <p className="text-[14px] text-[#C9BEFF]">
+          <p className="text-[14px] text-[#5B3FE0]">
             You picked the{" "}
             <span className="font-semibold">{PACKAGES.find((p) => p.id === suggested)?.name}</span>{" "}
             plan. Confirm below to activate it and start your first campaign.
@@ -120,40 +130,40 @@ export default function BillingClient({
               key={pkg.id}
               className={`flex flex-col rounded-2xl border p-6 ${
                 isCurrent
-                  ? "border-[#C8F751]/40 bg-[#C8F751]/[0.05]"
+                  ? "border-[#4D7C0F]/40 bg-[#4D7C0F]/[0.05]"
                   : featured
                   ? "border-[#7C5CFF]/45 bg-[#7C5CFF]/[0.06]"
-                  : "border-[#1E1E28] bg-white/[0.02]"
+                  : "border-[#E7E7EF] bg-[#0B0B12]/[0.025]"
               }`}
             >
               <div className="flex items-baseline justify-between">
                 <h3 className="display text-xl">{pkg.name}</h3>
                 {isCurrent && (
-                  <span className="chip" style={{ color: "#C8F751", borderColor: "#C8F75155" }}>
+                  <span className="chip" style={{ color: "#4D7C0F", borderColor: "#C8F75155" }}>
                     Current
                   </span>
                 )}
               </div>
-              <p className="mt-1.5 min-h-[38px] text-[13px] leading-relaxed text-[#7C7C90]">
+              <p className="mt-1.5 min-h-[38px] text-[13px] leading-relaxed text-[#63637A]">
                 {pkg.tagline}
               </p>
               <div className="mt-4 flex items-baseline gap-1">
                 <span className="display text-4xl">${pkg.price}</span>
-                <span className="text-[13px] text-[#7E7E93]">/month</span>
+                <span className="text-[13px] text-[#6E6E85]">/month</span>
               </div>
 
-              <div className="mt-4 grid grid-cols-3 gap-2 rounded-xl border border-[#1E1E28] bg-white/[0.05] p-2.5 text-center">
+              <div className="mt-4 grid grid-cols-3 gap-2 rounded-xl border border-[#E7E7EF] bg-[#0B0B12]/[0.045] p-2.5 text-center">
                 <div>
                   <p className="display text-base">{pkg.totalPosts}</p>
-                  <p className="text-[9.5px] uppercase tracking-wider text-[#7E7E93]">posts</p>
+                  <p className="text-[9.5px] uppercase tracking-wider text-[#6E6E85]">posts</p>
                 </div>
                 <div>
                   <p className="display text-base">{pkg.videosPerMonth || "—"}</p>
-                  <p className="text-[9.5px] uppercase tracking-wider text-[#7E7E93]">videos</p>
+                  <p className="text-[9.5px] uppercase tracking-wider text-[#6E6E85]">videos</p>
                 </div>
                 <div>
                   <p className="display text-base">{pkg.projects}</p>
-                  <p className="text-[9.5px] uppercase tracking-wider text-[#7E7E93]">projects</p>
+                  <p className="text-[9.5px] uppercase tracking-wider text-[#6E6E85]">projects</p>
                 </div>
               </div>
 
@@ -171,13 +181,13 @@ export default function BillingClient({
                   : `Choose ${pkg.name}`}
               </button>
 
-              <p className="mt-2.5 text-center text-[11px] text-[#7E7E93]">
+              <p className="mt-2.5 text-center text-[11px] text-[#6E6E85]">
                 Includes {pkg.credits} credits
               </p>
 
-              <ul className="mt-5 space-y-2 border-t border-[#16161F] pt-4">
+              <ul className="mt-5 space-y-2 border-t border-[#E7E7EF] pt-4">
                 {pkg.features.slice(0, 6).map((f) => (
-                  <li key={f} className="text-[12.5px] leading-relaxed text-[#7C7C90]">
+                  <li key={f} className="text-[12.5px] leading-relaxed text-[#63637A]">
                     {f}
                   </li>
                 ))}
@@ -188,15 +198,21 @@ export default function BillingClient({
       </div>
 
       {error && (
-        <p className="rounded-lg border border-[#FF6B8A]/30 bg-[#FF6B8A]/10 px-3 py-2.5 text-[13px] text-[#FF6B8A]">
+        <p className="rounded-lg border border-[#C2255C]/30 bg-[#C2255C]/10 px-3 py-2.5 text-[13px] text-[#C2255C]">
           {error}
         </p>
       )}
 
-      <p className="rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3 text-[12px] leading-relaxed text-[#7E7E93]">
-        This build processes plan changes locally so you can use the whole product end to end. Wire{" "}
-        <code className="text-[#9B9BAE]">/api/billing</code> to Stripe Checkout and fulfil on the
-        webhook to take real payments — the app already reads plan and credits from the user record.
+      <p className="rounded-xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] px-4 py-3 text-[12px] leading-relaxed text-[#6E6E85]">
+        Plans renew monthly and you can cancel any time from this page. See our{" "}
+        <a className="text-[#55556B] underline" href="/legal/refund">
+          refund policy
+        </a>{" "}
+        and{" "}
+        <a className="text-[#55556B] underline" href="/legal/terms">
+          terms
+        </a>
+        .
       </p>
     </div>
   );

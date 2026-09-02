@@ -19,11 +19,19 @@ export default function CreditsClient({ credits }: { credits: number }) {
       body: JSON.stringify({ kind: "credits", packId }),
     });
     const data = await res.json().catch(() => ({}));
-    setBusy("");
     if (!res.ok) {
+      setBusy("");
       setError(data.error || "Could not add credits.");
       return;
     }
+
+    // Paid gateways hand back a checkout page; credits land via the webhook.
+    if (data.checkoutUrl) {
+      window.location.assign(data.checkoutUrl);
+      return;
+    }
+
+    setBusy("");
     setBalance(data.credits);
     router.refresh();
   }
@@ -33,14 +41,14 @@ export default function CreditsClient({ credits }: { credits: number }) {
       <div className="panel p-7 text-center">
         <p className="eyebrow">Balance</p>
         <p className="display mt-3 text-6xl grad-text-soft">{balance.toLocaleString()}</p>
-        <p className="mt-2 text-[13px] text-[#7C7C90]">
+        <p className="mt-2 text-[13px] text-[#63637A]">
           Roughly {Math.floor(balance / CREDIT_COSTS.redesignVisual)} visual redesigns, or{" "}
           {Math.floor(balance / CREDIT_COSTS.regenerateDay)} full days rebuilt.
         </p>
       </div>
 
       <div>
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#7E7E93]">
+        <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#6E6E85]">
           Top up
         </h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -48,12 +56,12 @@ export default function CreditsClient({ credits }: { credits: number }) {
             <div
               key={p.id}
               className={`flex flex-col rounded-2xl border p-5 ${
-                p.popular ? "border-[#7C5CFF]/45 bg-[#7C5CFF]/[0.07]" : "border-[#1E1E28] bg-white/[0.02]"
+                p.popular ? "border-[#7C5CFF]/45 bg-[#7C5CFF]/[0.07]" : "border-[#E7E7EF] bg-[#0B0B12]/[0.025]"
               }`}
             >
               <p className="display text-3xl">{p.credits.toLocaleString()}</p>
-              <p className="text-[11px] uppercase tracking-wider text-[#7E7E93]">credits</p>
-              {p.save && <p className="mt-1.5 text-[11.5px] font-semibold text-[#C8F751]">{p.save}</p>}
+              <p className="text-[11px] uppercase tracking-wider text-[#6E6E85]">credits</p>
+              {p.save && <p className="mt-1.5 text-[11.5px] font-semibold text-[#4D7C0F]">{p.save}</p>}
               <div className="mt-auto pt-5">
                 <button
                   className={`btn w-full ${p.popular ? "btn-primary" : "btn-ghost"}`}
@@ -67,22 +75,22 @@ export default function CreditsClient({ credits }: { credits: number }) {
           ))}
         </div>
         {error && (
-          <p className="mt-3 rounded-lg border border-[#FF6B8A]/30 bg-[#FF6B8A]/10 px-3 py-2.5 text-[13px] text-[#FF6B8A]">
+          <p className="mt-3 rounded-lg border border-[#C2255C]/30 bg-[#C2255C]/10 px-3 py-2.5 text-[13px] text-[#C2255C]">
             {error}
           </p>
         )}
       </div>
 
       <div>
-        <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#7E7E93]">
+        <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#6E6E85]">
           What credits buy
         </h2>
-        <div className="panel divide-y divide-[#16161F]">
+        <div className="panel divide-y divide-[#E7E7EF]">
           {CREDIT_ACTIONS.map((a) => (
             <div key={a.key} className="flex items-center justify-between gap-4 px-5 py-3.5">
               <div>
-                <p className="text-[14px] font-medium text-white">{a.label}</p>
-                <p className="text-[12px] text-[#7E7E93]">{a.description}</p>
+                <p className="text-[14px] font-medium text-[#0B0B12]">{a.label}</p>
+                <p className="text-[12px] text-[#6E6E85]">{a.description}</p>
               </div>
               <span className="chip shrink-0">{CREDIT_COSTS[a.key]} cr</span>
             </div>
@@ -90,7 +98,7 @@ export default function CreditsClient({ credits }: { credits: number }) {
         </div>
       </div>
 
-      <p className="rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3 text-[12px] leading-relaxed text-[#7E7E93]">
+      <p className="rounded-xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] px-4 py-3 text-[12px] leading-relaxed text-[#6E6E85]">
         You never need credits to receive your monthly calendar — every plan delivers it in full.
         Credits only apply when you want something rebuilt differently.
       </p>

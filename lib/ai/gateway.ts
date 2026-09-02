@@ -73,12 +73,49 @@ export interface GatewayImageRequest {
   userId?: string;
 }
 
+/**
+ * Turns a stored reference into bytes the model can actually see.
+ *
+ * References arrive as whatever `putPublicFile` returned: an absolute blob URL
+ * in production, a `/uploads/...` path in local development. Neither can be
+ * handed to the SDK as-is, so both are resolved to bytes here. A reference
+ * that cannot be loaded is dropped rather than failing the generation — losing
+ * the likeness is bad, losing the whole post is worse.
+ */
+async function loadReference(ref: string): Promise<Uint8Array | null> {
+  try {
+    if (ref.startsWith("data:")) {
+      const b64 = ref.slice(ref.indexOf(",") + 1);
+      return new Uint8Array(Buffer.from(b64, "base64"));
+    }
+    if (/^https?:\/\//i.test(ref)) {
+      const res = await fetch(ref);
+      if (!res.ok) return null;
+      return new Uint8Array(await res.arrayBuffer());
+    }
+    if (ref.startsWith("/")) {
+      const fs = await import("fs/promises");
+      const path = await import("path");
+      return new Uint8Array(await fs.readFile(path.join(process.cwd(), "public", ref)));
+    }
+  } catch {
+    /* fall through */
+  }
+  return null;
+}
+
 /** Returns a data URI, or throws a GatewayError the caller can surface. */
 export async function gatewayImage(req: GatewayImageRequest): Promise<string> {
   try {
+    // At most three: past that, models start averaging the references together
+    // instead of holding the product's likeness.
+    const loaded = (
+      await Promise.all((req.references || []).slice(0, 3).map(loadReference))
+    ).filter((b): b is Uint8Array => !!b);
+
     const { images } = await generateImageSDK({
       model: imageModel(),
-      prompt: req.prompt,
+      prompt: loaded.length ? { images: loaded, text: req.prompt } : req.prompt,
       aspectRatio: ASPECT[req.aspect],
       providerOptions: {
         gateway: {
@@ -103,15 +140,25 @@ export interface GatewayVideoRequest {
   prompt: string;
   /** Seconds. Providers clamp to what they support. */
   duration?: number;
+  /**
+   * A still to animate — normally the customer's own product photograph.
+   *
+   * Text-to-video invents the product, and it invents it slightly differently
+   * in every frame, which is why generated product video reads as fake. Giving
+   * the model a real first frame is the single biggest quality lever here.
+   */
+  reference?: string;
   userId?: string;
 }
 
 /** Returns a URL or data URI for the finished clip. */
 export async function gatewayVideo(req: GatewayVideoRequest): Promise<string> {
   try {
+    const first = req.reference ? await loadReference(req.reference) : null;
+
     const { videos } = await generateVideoSDK({
       model: videoModel(),
-      prompt: req.prompt,
+      prompt: first ? { image: first, text: req.prompt } : req.prompt,
       aspectRatio: "9:16",
       ...(req.duration ? { duration: req.duration } : {}),
       providerOptions: {

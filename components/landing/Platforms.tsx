@@ -31,7 +31,7 @@ const SOCIAL = [
 
 /** Destinations that are not a social feed and have no brand mark of their own. */
 const OTHER: { key: string; icon: IconName; color: string }[] = [
-  { key: "email", icon: "send", color: "#A78BFA" },
+  { key: "email", icon: "send", color: "#6D4DF6" },
   { key: "banners", icon: "grid", color: "#22D3EE" },
 ];
 
@@ -53,8 +53,8 @@ function Tile({
     <div
       className={`${TILE} ${
         featured
-          ? "border-[#2A2438] bg-[#7C5CFF]/[0.07] hover:bg-[#7C5CFF]/[0.12]"
-          : "border-[#1E1E28] bg-white/[0.02] hover:bg-white/[0.045]"
+          ? "border-[#DCDCE8] bg-[#7C5CFF]/[0.07] hover:bg-[#7C5CFF]/[0.12]"
+          : "border-[#E7E7EF] bg-[#0B0B12]/[0.025] hover:bg-[#0B0B12]/[0.045]"
       }`}
     >
       <span
@@ -63,7 +63,7 @@ function Tile({
       >
         {children}
       </span>
-      <p className="text-[12px] font-semibold leading-none text-[#C4C4D4] transition-colors group-hover:text-white sm:text-[12.5px]">
+      <p className="text-[12px] font-semibold leading-none text-[#33334A] transition-colors group-hover:text-[#0B0B12] sm:text-[12.5px]">
         {label}
       </p>
     </div>

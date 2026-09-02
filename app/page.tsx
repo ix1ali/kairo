@@ -36,7 +36,7 @@ export default async function Home() {
           <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-10 sm:px-6 sm:pt-16 lg:px-8 lg:pb-16 lg:pt-20">
             <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
               <div className="order-1">
-                <span className="animate-rise inline-flex items-center gap-2 rounded-full border border-[#2A2438] bg-white/[0.05]/80 px-3 py-1.5 text-[11px] font-medium text-[#C9BEFF] backdrop-blur sm:px-3.5 sm:text-xs">
+                <span className="animate-rise inline-flex items-center gap-2 rounded-full border border-[#DCDCE8] bg-[#0B0B12]/[0.045]/80 px-3 py-1.5 text-[11px] font-medium text-[#5B3FE0] backdrop-blur sm:px-3.5 sm:text-xs">
                   <Icon name="sparkle" size={13} filled />
                   {t.hero.badge}
                 </span>
@@ -49,7 +49,7 @@ export default async function Home() {
                 </h1>
 
                 <p
-                  className="animate-rise mt-4 max-w-md text-[15px] leading-relaxed text-[#9B9BAE] sm:mt-5 sm:text-[16px]"
+                  className="animate-rise mt-4 max-w-md text-[15px] leading-relaxed text-[#55556B] sm:mt-5 sm:text-[16px]"
                   style={{ animationDelay: "220ms" }}
                 >
                   {t.hero.sub}
@@ -88,7 +88,7 @@ export default async function Home() {
             eyebrow={t.difference.eyebrow}
             title={
               <>
-                {t.difference.h1} <span className="text-[#7E7E93]">{t.difference.h2}</span>
+                {t.difference.h1} <span className="text-[#6E6E85]">{t.difference.h2}</span>
               </>
             }
             sub={t.difference.sub}
@@ -100,7 +100,7 @@ export default async function Home() {
         <Section tone="raised" id="how">
           <SectionHead eyebrow={t.how.eyebrow} title={t.how.h1} />
           <HowItWorks />
-          <div className="mt-14 border-t border-[#16161F] pt-12 sm:mt-16 sm:pt-14">
+          <div className="mt-14 border-t border-[#E7E7EF] pt-12 sm:mt-16 sm:pt-14">
             <Rivals />
           </div>
         </Section>
@@ -135,9 +135,9 @@ export default async function Home() {
         <Section id="pricing">
           <SectionHead eyebrow={t.pricing.eyebrow} title={t.pricing.h1} sub={t.pricing.sub} />
           <PricingCards />
-          <p className="mt-8 text-center text-[13px] text-[#7E7E93]">
+          <p className="mt-8 text-center text-[13px] text-[#6E6E85]">
             {t.pricing.creditsLink}{" "}
-            <Link href="/pricing" className="text-[#7C5CFF] hover:text-[#C9BEFF]">
+            <Link href="/pricing" className="text-[#5B3FE0] hover:text-[#4A31C4]">
               {t.pricing.creditsLinkCta}
             </Link>
           </p>
@@ -157,7 +157,7 @@ export default async function Home() {
             <h2 className="display mt-5 text-[1.875rem] leading-[1.1] text-balance sm:mt-6 sm:text-4xl lg:text-5xl">
               {t.finalCta.h1}
             </h2>
-            <p className="mx-auto mt-3.5 max-w-md text-[15px] leading-relaxed text-[#9B9BAE] sm:mt-4 sm:text-[15.5px]">
+            <p className="mx-auto mt-3.5 max-w-md text-[15px] leading-relaxed text-[#55556B] sm:mt-4 sm:text-[15.5px]">
               {t.finalCta.sub}
             </p>
             <div className="mt-7 w-full sm:mt-8">

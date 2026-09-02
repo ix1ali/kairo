@@ -27,7 +27,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const active = user.subscriptionStatus === "active" && !!user.packageId;
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F]">
+    <div className="min-h-screen bg-[#FFFFFF]">
       <Sidebar
         projects={projects}
         credits={user.credits}

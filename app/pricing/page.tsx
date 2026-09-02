@@ -27,7 +27,7 @@ export default function PricingPage() {
               <h1 className="display mt-4 text-4xl sm:text-5xl lg:text-6xl">
                 Pick your <span className="grad-text">posting volume</span>.
               </h1>
-              <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-[#9B9BAE]">
+              <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-[#55556B]">
                 Every plan includes the full strategy document, the competitor teardown and a
                 complete 30-day calendar. The difference is how much you post — and whether you
                 need video.
@@ -38,9 +38,9 @@ export default function PricingPage() {
               <PricingCards />
             </div>
 
-            <div className="mx-auto mt-8 max-w-2xl rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-5 text-center">
-              <p className="text-[13px] leading-relaxed text-[#7C7C90]">
-                <span className="font-semibold text-white">Why no free trial?</span> Koala does not
+            <div className="mx-auto mt-8 max-w-2xl rounded-2xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] p-5 text-center">
+              <p className="text-[13px] leading-relaxed text-[#63637A]">
+                <span className="font-semibold text-[#0B0B12]">Why no free trial?</span> Koala does not
                 hand you a sample — it hands you a finished month the moment you add a project.
                 There is no meaningful half version. Cancel before your renewal if it is not for you.
               </p>
@@ -49,7 +49,7 @@ export default function PricingPage() {
         </section>
 
         {/* volume comparison */}
-        <section className="border-y border-[#1E1E28] bg-white/[0.05] py-20">
+        <section className="border-y border-[#E7E7EF] bg-[#0B0B12]/[0.045] py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-10 max-w-2xl">
               <p className="eyebrow">Daily rhythm</p>
@@ -61,19 +61,19 @@ export default function PricingPage() {
                 <div key={pkg.id} className="panel p-6">
                   <div className="flex items-baseline justify-between">
                     <h3 className="display text-xl">{pkg.name}</h3>
-                    <span className="text-sm text-[#7E7E93]">${pkg.price}/mo</span>
+                    <span className="text-sm text-[#6E6E85]">${pkg.price}/mo</span>
                   </div>
                   <div className="mt-5 space-y-2.5">
                     {pkg.slots.map((s, i) => (
                       <div
                         key={i}
-                        className="rounded-xl border border-[#1E1E28] bg-white/[0.05] px-4 py-3"
+                        className="rounded-xl border border-[#E7E7EF] bg-[#0B0B12]/[0.045] px-4 py-3"
                       >
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-semibold text-white">{s.label}</span>
+                          <span className="text-sm font-semibold text-[#0B0B12]">{s.label}</span>
                           <span className="chip">{s.time}</span>
                         </div>
-                        <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#7E7E93]">
+                        <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#6E6E85]">
                           {s.intent}
                         </p>
                       </div>
@@ -81,16 +81,16 @@ export default function PricingPage() {
                     {pkg.videosPerMonth > 0 && (
                       <div className="rounded-xl border border-[#22D3EE]/30 bg-[#22D3EE]/[0.06] px-4 py-3">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-semibold text-[#67E8F9]">Video</span>
+                          <span className="text-sm font-semibold text-[#0E7490]">Video</span>
                           <span className="chip">every {pkg.videoEveryNDays} days</span>
                         </div>
-                        <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#6C8F97]">
+                        <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#41666E]">
                           {pkg.videosPerMonth} scripted videos with shot lists and sound direction.
                         </p>
                       </div>
                     )}
                   </div>
-                  <p className="mt-5 border-t border-[#16161F] pt-4 text-[12px] text-[#7E7E93]">
+                  <p className="mt-5 border-t border-[#E7E7EF] pt-4 text-[12px] text-[#6E6E85]">
                     {pkg.totalPosts} posts + {pkg.videosPerMonth} videos per 30-day cycle across{" "}
                     {pkg.projects} project{pkg.projects > 1 ? "s" : ""}.
                   </p>
@@ -105,7 +105,7 @@ export default function PricingPage() {
           <div className="mb-10 max-w-2xl">
             <p className="eyebrow">The honest comparison</p>
             <h2 className="display mt-4 text-3xl sm:text-4xl">One tool instead of five.</h2>
-            <p className="mt-4 text-[15px] leading-relaxed text-[#9B9BAE]">
+            <p className="mt-4 text-[15px] leading-relaxed text-[#55556B]">
               An agency does this well and charges accordingly. A generic AI tool is cheap and
               forgets your brand between chats. Koala sits deliberately in the middle.
             </p>
@@ -114,7 +114,7 @@ export default function PricingPage() {
         </section>
 
         {/* credits */}
-        <section className="border-y border-[#1E1E28] bg-white/[0.05] py-20">
+        <section className="border-y border-[#E7E7EF] bg-[#0B0B12]/[0.045] py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-10 max-w-2xl">
               <p className="eyebrow">Credits</p>

@@ -5,6 +5,13 @@ import { regenerateSinglePost } from "@/lib/strategy/engine";
 import { generateImage } from "@/lib/ai";
 import { putPublicFile, StorageUnavailableError } from "@/lib/storage";
 
+/**
+ * Never cached. Every response here is specific to the signed-in account, and
+ * a cached one would show a customer another customer's data or their own
+ * stale state — a project created a second ago appearing to be missing.
+ */
+export const dynamic = "force-dynamic";
+
 type Action = keyof typeof CREDIT_COSTS;
 
 const MODE_FOR: Record<Action, "caption" | "angle" | "visual" | "full"> = {
@@ -65,9 +72,22 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   let assetUrl: string | null = post.assetUrl;
   if (action === "redesignVisual" || action === "regenerateDay" || action === "recreateReference") {
     const vertical = post.format === "reel" || post.format === "video" || post.format === "story";
+
+    // The customer's own photographs of this product, so the model reproduces
+    // the real thing rather than inventing a lookalike. Falls back to any
+    // project-level imagery when the post is not tied to one product.
+    const product = post.productId
+      ? project.products.find((p) => p.id === post.productId)
+      : undefined;
+    const references = [...(product?.images || []), ...(project.images || [])]
+      .filter(Boolean)
+      .slice(0, 3);
+
     const image = await generateImage({
       prompt: String(patch.visualPrompt || post.visualPrompt),
       aspect: vertical ? "9:16" : "4:5",
+      references,
+      userId: auth.user.id,
     });
     if (image && image.startsWith("data:")) {
       const [, meta, b64] = image.match(/^data:([^;]+);base64,(.*)$/) || [];

@@ -146,7 +146,7 @@ const MODELS: Mark[] = [
   },
   {
     name: "ElevenLabs",
-    color: "#FBBF24",
+    color: "#B45309",
     job: "video",
     glyph: g(
       <>
@@ -171,7 +171,7 @@ const MODELS: Mark[] = [
 const JOB_COLOR: Record<Mark["job"], string> = {
   image: "#7C5CFF",
   video: "#22D3EE",
-  copy: "#C8F751",
+  copy: "#4D7C0F",
 };
 
 export default async function Models() {
@@ -188,7 +188,7 @@ export default async function Models() {
               {MODELS.map((m) => (
                 <span
                   key={`${copy}-${m.name}`}
-                  className="inline-flex shrink-0 items-center gap-2.5 rounded-2xl border border-[#1E1E28] bg-white/[0.025] px-4 py-3 text-[14px] font-medium text-[#C4C4D4]"
+                  className="inline-flex shrink-0 items-center gap-2.5 rounded-2xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] px-4 py-3 text-[14px] font-medium text-[#33334A]"
                 >
                   <span style={{ color: m.color }}>{m.glyph}</span>
                   {m.name}
@@ -207,7 +207,7 @@ export default async function Models() {
       {/* what each dot means */}
       <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
         {(["image", "video", "copy"] as const).map((k) => (
-          <span key={k} className="inline-flex items-center gap-2 text-[12px] text-[#7E7E93]">
+          <span key={k} className="inline-flex items-center gap-2 text-[12px] text-[#6E6E85]">
             <span
               className="h-1.5 w-1.5 rounded-full"
               style={{ background: JOB_COLOR[k] }}

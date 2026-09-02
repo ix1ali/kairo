@@ -146,16 +146,16 @@ export default function GenerateStudio({
               className={`rounded-xl border p-3.5 text-start transition-colors ${
                 kind === k
                   ? "border-[#7C5CFF] bg-[#7C5CFF]/12"
-                  : "border-[#1E1E28] bg-white/[0.02] hover:border-[#33333F]"
+                  : "border-[#E7E7EF] bg-[#0B0B12]/[0.025] hover:border-[#C9C9D8]"
               }`}
             >
               <span className="flex items-center gap-2">
                 <Icon name={k === "image" ? "image" : "video"} size={15} />
-                <span className="text-[14px] font-semibold text-white">
+                <span className="text-[14px] font-semibold text-[#0B0B12]">
                   {k === "image" ? "An image" : "A video"}
                 </span>
               </span>
-              <span className="mt-1 block text-[12px] text-[#7C7C90]">{COST[k]} credits</span>
+              <span className="mt-1 block text-[12px] text-[#63637A]">{COST[k]} credits</span>
             </button>
           ))}
         </div>
@@ -193,11 +193,11 @@ export default function GenerateStudio({
                   className={`rounded-xl border p-2.5 text-center transition-colors ${
                     aspect === a.value
                       ? "border-[#7C5CFF] bg-[#7C5CFF]/12"
-                      : "border-[#1E1E28] bg-white/[0.02] hover:border-[#33333F]"
+                      : "border-[#E7E7EF] bg-[#0B0B12]/[0.025] hover:border-[#C9C9D8]"
                   }`}
                 >
-                  <p className="text-[13px] font-semibold text-white">{a.label}</p>
-                  <p className="text-[11px] text-[#7C7C90]">{a.note}</p>
+                  <p className="text-[13px] font-semibold text-[#0B0B12]">{a.label}</p>
+                  <p className="text-[11px] text-[#63637A]">{a.note}</p>
                 </button>
               ))}
             </div>
@@ -205,9 +205,9 @@ export default function GenerateStudio({
         )}
 
         {/* reference */}
-        <div className="mt-5 rounded-xl border border-[#1E1E28] bg-white/[0.02] p-4">
-          <p className="text-[13.5px] font-semibold text-white">Copy a look you like</p>
-          <p className="mt-1 text-[12px] leading-relaxed text-[#7C7C90]">
+        <div className="mt-5 rounded-xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] p-4">
+          <p className="text-[13.5px] font-semibold text-[#0B0B12]">Copy a look you like</p>
+          <p className="mt-1 text-[12px] leading-relaxed text-[#63637A]">
             Add a picture or a frame from a video and we match its colours and mood. The file
             stays on your device: only the colours are sent.
           </p>
@@ -222,7 +222,7 @@ export default function GenerateStudio({
                 {palette.map((c) => (
                   <span
                     key={c}
-                    className="h-6 w-6 rounded-md border border-white/10"
+                    className="h-6 w-6 rounded-md border border-[#0B0B12]/10"
                     style={{ background: c }}
                     title={c}
                   />
@@ -276,7 +276,7 @@ export default function GenerateStudio({
         )}
 
         {error && (
-          <p className="mt-4 rounded-lg border border-[#FF6B8A]/30 bg-[#FF6B8A]/10 px-3 py-2.5 text-[13px] text-[#FF6B8A]">
+          <p className="mt-4 rounded-lg border border-[#C2255C]/30 bg-[#C2255C]/10 px-3 py-2.5 text-[13px] text-[#C2255C]">
             {error}
           </p>
         )}
@@ -289,7 +289,7 @@ export default function GenerateStudio({
           >
             {busy ? "Making it…" : `Generate for ${cost} credits`}
           </button>
-          <span className="text-[12.5px] text-[#7E7E93]">
+          <span className="text-[12.5px] text-[#6E6E85]">
             {affordable ? `${balance} credits left` : "Not enough credits"}
           </span>
         </div>
@@ -299,14 +299,14 @@ export default function GenerateStudio({
       <div className="panel flex min-h-[380px] flex-col items-center justify-center p-6">
         {busy ? (
           <div className="text-center">
-            <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-[#22222E] border-t-[#7C5CFF]" />
-            <p className="text-[14px] text-[#9B9BAE]">
+            <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-[#E7E7EF] border-t-[#7C5CFF]" />
+            <p className="text-[14px] text-[#55556B]">
               {kind === "video" ? "Videos take a minute or so." : "Usually about ten seconds."}
             </p>
           </div>
         ) : result ? (
           <div className="w-full">
-            <div className="overflow-hidden rounded-xl border border-[#1E1E28] bg-black">
+            <div className="overflow-hidden rounded-xl border border-[#E7E7EF] bg-black">
               {result.kind === "video" ? (
                 <video src={result.url} controls loop className="w-full" />
               ) : (
@@ -327,11 +327,11 @@ export default function GenerateStudio({
           </div>
         ) : (
           <div className="text-center">
-            <span className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-[#7C5CFF]/12 text-[#A78BFA]">
+            <span className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-[#7C5CFF]/12 text-[#6D4DF6]">
               <Icon name="wand" size={22} />
             </span>
-            <p className="text-[14px] font-medium text-white">Nothing made yet</p>
-            <p className="mx-auto mt-1.5 max-w-[30ch] text-[12.5px] leading-relaxed text-[#7C7C90]">
+            <p className="text-[14px] font-medium text-[#0B0B12]">Nothing made yet</p>
+            <p className="mx-auto mt-1.5 max-w-[30ch] text-[12.5px] leading-relaxed text-[#63637A]">
               Describe what you want, or drop in a picture whose look you want to copy.
             </p>
           </div>

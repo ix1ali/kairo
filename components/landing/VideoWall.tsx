@@ -35,7 +35,7 @@ function Clip({ src, poster, label }: { src: string; poster: string; label: stri
   }, [src]);
 
   return (
-    <figure className="relative aspect-[9/16] w-[150px] shrink-0 overflow-hidden rounded-2xl border border-[#1E1E28] bg-[#0C0C13] sm:w-[186px] lg:w-[212px]">
+    <figure className="relative aspect-[9/16] w-[150px] shrink-0 overflow-hidden rounded-2xl border border-[#E7E7EF] bg-[#FFFFFF] sm:w-[186px] lg:w-[212px]">
       <video
         ref={ref}
         poster={poster}
@@ -46,7 +46,7 @@ function Clip({ src, poster, label }: { src: string; poster: string; label: stri
         className="h-full w-full object-cover"
       />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/60 to-transparent" />
-      <span className="pointer-events-none absolute start-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-2 py-1 text-[10px] font-semibold text-white backdrop-blur">
+      <span className="pointer-events-none absolute start-2.5 top-2.5 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-2 py-1 text-[10px] font-semibold text-[#0B0B12] backdrop-blur">
         <span className="h-1.5 w-1.5 rounded-full bg-[#22D3EE]" />
         {label}
       </span>
@@ -80,7 +80,7 @@ export default function VideoWall() {
       </div>
 
       <div className="mx-auto mt-6 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <p className="text-[12px] leading-relaxed text-[#75758C] sm:text-[12.5px]">
+        <p className="text-[12px] leading-relaxed text-[#6E6E85] sm:text-[12.5px]">
           {t.wall.videoFooter}
         </p>
       </div>

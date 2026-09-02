@@ -9,6 +9,13 @@ import {
 } from "@/lib/importer";
 
 /**
+ * Never cached. Every response here is specific to the signed-in account, and
+ * a cached one would show a customer another customer's data or their own
+ * stale state — a project created a second ago appearing to be missing.
+ */
+export const dynamic = "force-dynamic";
+
+/**
  * Reads a competitor's public pages and reports what can actually be observed —
  * how they position themselves, how big the catalogue is, where they post.
  *

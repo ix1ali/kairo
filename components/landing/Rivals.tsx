@@ -23,26 +23,26 @@ export default async function Rivals() {
         {t.steps.map((s, i) => (
           <div
             key={s.title}
-            className="relative overflow-hidden rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-5 sm:p-6"
+            className="relative overflow-hidden rounded-2xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] p-5 sm:p-6"
           >
-            <span className="absolute -right-4 -top-3 text-[64px] font-black leading-none text-white/[0.03]">
+            <span className="absolute -right-4 -top-3 text-[64px] font-black leading-none text-[#0B0B12]/[0.03]">
               {i + 1}
             </span>
-            <span className="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-[#7C5CFF]/25 to-[#22D3EE]/12 text-[#A78BFA]">
+            <span className="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-[#7C5CFF]/25 to-[#22D3EE]/12 text-[#6D4DF6]">
               <Icon name={ICONS[i]} size={19} />
             </span>
             <p className="display text-[17px] sm:text-lg">{s.title}</p>
-            <p className="mt-2 text-[13.5px] leading-relaxed text-[#9B9BAE]">{s.body}</p>
+            <p className="mt-2 text-[13.5px] leading-relaxed text-[#55556B]">{s.body}</p>
           </div>
         ))}
       </div>
 
       {/* the payoff, stated plainly */}
-      <div className="mt-4 rounded-2xl border border-[#2A2438] bg-gradient-to-r from-[#7C5CFF]/10 to-[#22D3EE]/[0.06] p-5 sm:mt-5 sm:p-6">
+      <div className="mt-4 rounded-2xl border border-[#DCDCE8] bg-gradient-to-r from-[#7C5CFF]/10 to-[#22D3EE]/[0.06] p-5 sm:mt-5 sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0">
             <p className="display text-[17px] sm:text-xl">{t.payoffTitle}</p>
-            <p className="mt-1.5 max-w-xl text-[13.5px] leading-relaxed text-[#9B9BAE]">
+            <p className="mt-1.5 max-w-xl text-[13.5px] leading-relaxed text-[#55556B]">
               {t.payoffBody}
             </p>
           </div>
@@ -50,7 +50,7 @@ export default async function Rivals() {
             {t.payoffTags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-[#3A3355] bg-[#7C5CFF]/10 px-3 py-1.5 text-[12px] font-medium text-[#C9BEFF]"
+                className="rounded-full border border-[#C9BEEB] bg-[#7C5CFF]/10 px-3 py-1.5 text-[12px] font-medium text-[#5B3FE0]"
               >
                 {tag}
               </span>

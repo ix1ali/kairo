@@ -2,6 +2,7 @@ import type { Post, PostFormat, Product, Project, Strategy } from "../types";
 import type { PackageDef } from "../plans";
 import { CATEGORIES, categoryNoun, resolveCategory } from "./categories";
 import { THEME_LAYOUTS } from "../projects";
+import { buildArtPrompt } from "../ai/craft";
 import { typesFor } from "./contentTypes";
 import { DEFAULT_GOAL, DEFAULT_MIX, getGoal, mixToFormats, videoStyleNotes, type VideoStyle } from "./goals";
 import {
@@ -565,16 +566,17 @@ export function buildCalendar(
         const caption = buildCaption(rng, pillar, t, playbook, project, product, hook);
         const cta = fill(pick(rng, [...playbook.ctas, ...UNIVERSAL_CTAS]), t);
 
-        const visualPrompt = [
-          `${visual.name} composition for ${project.name}.`,
-          `Subject: ${product ? product.name : `${project.name} brand statement`}.`,
-          `Direction: ${visual.note}`,
-          `Brand colours: primary ${project.colors.primary}, secondary ${project.colors.secondary}, background ${project.colors.background}.`,
-          `Theme: ${project.brandTheme}. Tone: ${project.voice}.`,
-          `Headline to render: "${hook}"`,
-          `Aspect: ${format === "reel" || format === "video" || format === "story" ? "9:16 vertical" : "4:5 portrait"}.`,
-          `Must feel like it belongs in a ${playbook.label} feed, not stock photography.`,
-        ].join(" ");
+        // The headline is deliberately absent from this brief. It is drawn as
+        // real vector type by the poster renderer afterwards; asking the model
+        // for it as well produces bent, doubled lettering underneath our own.
+        const visualPrompt = buildArtPrompt({
+          subject: product ? product.name : `${project.name} brand statement`,
+          brandName: project.name,
+          palette: [project.colors.primary, project.colors.secondary, project.colors.background],
+          direction: `${visual.name} — ${visual.note} Theme: ${project.brandTheme}. Tone: ${project.voice}.`,
+          seed: day * 31 + slotIndex,
+          hasReference: !!product?.images?.length,
+        });
 
         const visualDirection = isVideo
           ? [
@@ -672,7 +674,14 @@ export function regenerateSinglePost(
     return {
       layout: visualKey,
       visualDirection: `${visual.name} — ${visual.note}\n\nSteer: ${steer || "fresh take, same message"}\nCopy on artwork: "${base.hook}"`,
-      visualPrompt: `${visual.name} composition for ${project.name}. ${steer || visual.note} Brand colours ${project.colors.primary} on ${project.colors.background}. Headline: "${base.hook}".`,
+      visualPrompt: buildArtPrompt({
+        subject: base.productName || `${project.name} brand statement`,
+        brandName: project.name,
+        palette: [project.colors.primary, project.colors.secondary, project.colors.background],
+        direction: `${visual.name} — ${steer || visual.note}`,
+        seed: base.day * 31 + base.slot,
+        hasReference: !!project.products.find((p) => p.id === base.productId)?.images?.length,
+      }),
     };
   }
 
@@ -687,6 +696,13 @@ export function regenerateSinglePost(
     contentWhy: ct.why,
     caption: buildCaption(rng, pillar, t, playbook, project, product, hook),
     cta: fill(pick(rng, [...playbook.ctas, ...UNIVERSAL_CTAS]), t),
-    visualPrompt: `${base.layout} composition for ${project.name}. ${steer || ""} Headline: "${hook}". Brand colours ${project.colors.primary} on ${project.colors.background}.`.trim(),
+    visualPrompt: buildArtPrompt({
+      subject: product ? product.name : `${project.name} brand statement`,
+      brandName: project.name,
+      palette: [project.colors.primary, project.colors.secondary, project.colors.background],
+      direction: `${base.layout} composition. ${steer || ""}`.trim(),
+      seed: base.day * 31 + base.slot,
+      hasReference: !!product?.images?.length,
+    }),
   };
 }

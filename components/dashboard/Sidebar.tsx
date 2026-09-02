@@ -113,7 +113,7 @@ export default function Sidebar({
 
   const body = (
     <div className="flex h-full flex-col">
-      <div className="flex h-16 shrink-0 items-center justify-between border-b border-[#16161F] px-5">
+      <div className="flex h-16 shrink-0 items-center justify-between border-b border-[#E7E7EF] px-5">
         <Logo size={26} href="/dashboard" />
         <button className="btn btn-quiet btn-sm lg:hidden" onClick={() => setOpen(false)} aria-label="Close menu">
           ✕
@@ -131,8 +131,8 @@ export default function Sidebar({
                 onClick={() => setOpen(false)}
                 className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
                   active
-                    ? "bg-[#7C5CFF]/13 text-white"
-                    : "text-[#7C7C90] hover:bg-white/[0.02] hover:text-white"
+                    ? "bg-[#7C5CFF]/13 text-[#5B3FE0]"
+                    : "text-[#63637A] hover:bg-[#0B0B12]/[0.035] hover:text-[#0B0B12]"
                 }`}
               >
                 <Icon name={n.icon} />
@@ -144,7 +144,7 @@ export default function Sidebar({
 
         <div className="mt-6">
           <div className="mb-2 flex items-center justify-between px-3">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-[#7E7E93]">Projects</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-[#6E6E85]">Projects</p>
             <span className="text-[10px] text-[#3E3E4E]">{projects.length}</span>
           </div>
 
@@ -158,7 +158,7 @@ export default function Sidebar({
                   href={`/dashboard/projects/${p.id}`}
                   onClick={() => setOpen(false)}
                   className={`block rounded-xl px-3 py-2.5 transition-colors ${
-                    active ? "bg-white/[0.05]" : "hover:bg-white/[0.02]"
+                    active ? "bg-[#0B0B12]/[0.045]" : "hover:bg-[#0B0B12]/[0.035]"
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
@@ -170,14 +170,14 @@ export default function Sidebar({
                     />
                     <span
                       className={`flex-1 truncate text-[13px] font-medium ${
-                        active ? "text-white" : "text-[#9B9BAE]"
+                        active ? "text-[#0B0B12]" : "text-[#55556B]"
                       }`}
                     >
                       {p.name}
                     </span>
-                    <span className="text-[10px] text-[#7E7E93]">{pct}%</span>
+                    <span className="text-[10px] text-[#6E6E85]">{pct}%</span>
                   </div>
-                  <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
+                  <div className="mt-2 h-1 overflow-hidden rounded-full bg-[#0B0B12]/[0.07]">
                     <div
                       className="h-full rounded-full bg-gradient-to-r from-[#7C5CFF] to-[#22D3EE] transition-all"
                       style={{ width: `${pct}%` }}
@@ -191,7 +191,7 @@ export default function Sidebar({
               <Link
                 href="/dashboard/projects/new"
                 onClick={() => setOpen(false)}
-                className="mt-1 flex items-center gap-3 rounded-xl border border-dashed border-[#2A2A38] px-3 py-2.5 text-[13px] font-medium text-[#7E7E93] transition-colors hover:border-[#7C5CFF]/50 hover:text-[#7C5CFF]"
+                className="mt-1 flex items-center gap-3 rounded-xl border border-dashed border-[#DCDCE8] px-3 py-2.5 text-[13px] font-medium text-[#6E6E85] transition-colors hover:border-[#7C5CFF]/50 hover:text-[#5B3FE0]"
               >
                 <Icon name="plus" />
                 New project
@@ -200,7 +200,7 @@ export default function Sidebar({
               <Link
                 href="/dashboard/billing"
                 onClick={() => setOpen(false)}
-                className="mt-1 block rounded-xl border border-dashed border-[#2A2A38] px-3 py-2.5 text-[12px] leading-snug text-[#7E7E93] hover:border-[#7C5CFF]/40 hover:text-[#9B9BAE]"
+                className="mt-1 block rounded-xl border border-dashed border-[#DCDCE8] px-3 py-2.5 text-[12px] leading-snug text-[#6E6E85] hover:border-[#7C5CFF]/40 hover:text-[#55556B]"
               >
                 {hasPlan ? "Project limit reached — upgrade to add more" : "Choose a plan to add your first project"}
               </Link>
@@ -209,28 +209,28 @@ export default function Sidebar({
         </div>
       </div>
 
-      <div className="shrink-0 border-t border-[#16161F] p-3">
+      <div className="shrink-0 border-t border-[#E7E7EF] p-3">
         <Link
           href="/dashboard/credits"
-          className="mb-2 block rounded-xl border border-[#1E1E28] bg-gradient-to-br from-[#7C5CFF]/12 to-transparent px-3.5 py-3 transition-colors hover:border-[#7C5CFF]/40"
+          className="mb-2 block rounded-xl border border-[#E7E7EF] bg-gradient-to-br from-[#7C5CFF]/12 to-transparent px-3.5 py-3 transition-colors hover:border-[#7C5CFF]/40"
         >
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#7E7E93]">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-[#6E6E85]">
               Credits
             </span>
-            <span className="display text-lg text-[#C9BEFF]">{credits.toLocaleString()}</span>
+            <span className="display text-lg text-[#5B3FE0]">{credits.toLocaleString()}</span>
           </div>
-          <p className="mt-0.5 text-[11px] text-[#7E7E93]">{planName} plan</p>
+          <p className="mt-0.5 text-[11px] text-[#6E6E85]">{planName} plan</p>
         </Link>
 
         <div className="flex items-center gap-2.5 rounded-xl px-2 py-2">
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-[#7C5CFF] to-[#22D3EE] text-[12px] font-bold text-white">
             {userName.charAt(0).toUpperCase()}
           </span>
-          <span className="flex-1 truncate text-[13px] font-medium text-[#9B9BAE]">{userName}</span>
+          <span className="flex-1 truncate text-[13px] font-medium text-[#55556B]">{userName}</span>
           <button
             onClick={logout}
-            className="rounded-lg p-1.5 text-[#7E7E93] transition-colors hover:bg-white/[0.05] hover:text-[#FF6B8A]"
+            className="rounded-lg p-1.5 text-[#6E6E85] transition-colors hover:bg-[#0B0B12]/[0.05] hover:text-[#C2255C]"
             aria-label="Sign out"
             title="Sign out"
           >
@@ -244,7 +244,7 @@ export default function Sidebar({
   return (
     <>
       {/* mobile bar */}
-      <div className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-[#16161F] bg-[#0A0A0F]/95 px-4 backdrop-blur lg:hidden">
+      <div className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-[#E7E7EF] bg-[#FFFFFF]/95 px-4 backdrop-blur lg:hidden">
         <Logo size={24} href="/dashboard" />
         <button className="btn btn-ghost btn-sm" onClick={() => setOpen(true)} aria-label="Open menu">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -256,13 +256,13 @@ export default function Sidebar({
       {open && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black/70" onClick={() => setOpen(false)} />
-          <aside className="absolute left-0 top-0 h-full w-[17rem] border-r border-[#16161F] bg-[#0A0A0F]">
+          <aside className="absolute left-0 top-0 h-full w-[17rem] border-r border-[#E7E7EF] bg-[#FFFFFF]">
             {body}
           </aside>
         </div>
       )}
 
-      <aside className="fixed left-0 top-0 hidden h-screen w-[17rem] border-r border-[#16161F] bg-[#0A0A0F] lg:block">
+      <aside className="fixed left-0 top-0 hidden h-screen w-[17rem] border-r border-[#E7E7EF] bg-[#FFFFFF] lg:block">
         {body}
       </aside>
     </>

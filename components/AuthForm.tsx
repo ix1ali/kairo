@@ -89,7 +89,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
 
         <div className="panel p-7">
           <h1 className="display text-2xl">{isSignup ? "Create your account" : "Welcome back"}</h1>
-          <p className="mt-1.5 text-sm text-[#7C7C90]">
+          <p className="mt-1.5 text-sm text-[#63637A]">
             {isSignup
               ? "Set up your brand and get thirty days of content."
               : "Log in to your calendar and projects."}
@@ -147,7 +147,7 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
             </div>
 
             {error && (
-              <p className="rounded-lg border border-[#FF6B8A]/30 bg-[#FF6B8A]/10 px-3 py-2.5 text-[13px] text-[#FF6B8A]">
+              <p className="rounded-lg border border-[#C2255C]/30 bg-[#C2255C]/10 px-3 py-2.5 text-[13px] text-[#C2255C]">
                 {error}
               </p>
             )}
@@ -157,25 +157,25 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
             </button>
           </form>
 
-          <p className="mt-5 text-center text-[13px] text-[#7E7E93]">
+          <p className="mt-5 text-center text-[13px] text-[#6E6E85]">
             {isSignup ? "Already have an account? " : "New to Koala? "}
             <Link
               href={isSignup ? "/login" : `/signup${plan ? `?plan=${plan}` : ""}`}
-              className="font-semibold text-[#7C5CFF] hover:text-[#C9BEFF]"
+              className="font-semibold text-[#5B3FE0] hover:text-[#5B3FE0]"
             >
               {isSignup ? "Log in" : "Create an account"}
             </Link>
           </p>
         </div>
 
-        <p className="mt-6 text-center text-[11px] leading-relaxed text-[#7E7E93]">
+        <p className="mt-6 text-center text-[11px] leading-relaxed text-[#6E6E85]">
           {isSignup
             ? "You will choose a plan next. There is no free trial — every plan delivers a full 30-day campaign immediately."
             : "Trouble signing in? Check the email address you registered with."}
         </p>
 
         <p className="mt-4 text-center">
-          <Link href="/" className="text-[12px] text-[#7E7E93] hover:text-[#9B9BAE]">
+          <Link href="/" className="text-[12px] text-[#6E6E85] hover:text-[#55556B]">
             ← Back to site
           </Link>
         </p>

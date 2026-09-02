@@ -1,6 +1,13 @@
 import { fail, json, requireUser } from "@/lib/api";
 import { mutateForUser, uid } from "@/lib/db";
 
+/**
+ * Never cached. Every response here is specific to the signed-in account, and
+ * a cached one would show a customer another customer's data or their own
+ * stale state — a project created a second ago appearing to be missing.
+ */
+export const dynamic = "force-dynamic";
+
 const TOPICS = ["content", "billing", "bug", "feature", "other"];
 
 /**

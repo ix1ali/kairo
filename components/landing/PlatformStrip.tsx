@@ -42,7 +42,7 @@ export default async function PlatformStrip() {
     return (
       <span
         key={b.label}
-        className="inline-flex shrink-0 items-center gap-2.5 rounded-full border px-4 py-2.5 text-[13.5px] font-medium text-[#C4C4D4] transition-colors duration-300 hover:text-white"
+        className="inline-flex shrink-0 items-center gap-2.5 rounded-full border px-4 py-2.5 text-[13.5px] font-medium text-[#33334A] transition-colors duration-300 hover:text-[#0B0B12]"
         style={{
           borderColor: `${color}33`,
           background: `linear-gradient(180deg, ${color}18, ${color}08)`,
@@ -58,7 +58,7 @@ export default async function PlatformStrip() {
 
   return (
     <div className="space-y-5">
-      <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-[#7E7E93]">
+      <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6E6E85]">
         {t.ticker}
       </p>
       <div className="marquee-mask marquee-hover overflow-hidden">

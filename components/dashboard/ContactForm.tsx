@@ -56,11 +56,11 @@ export default function ContactForm({ name, email }: { name: string; email: stri
   if (state === "sent") {
     return (
       <div className="panel p-7 text-center">
-        <span className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-[#C8F751]/15 text-[#C8F751]">
+        <span className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-[#4D7C0F]/15 text-[#4D7C0F]">
           <Icon name="checkCircle" size={22} />
         </span>
         <h2 className="display text-xl">Message received.</h2>
-        <p className="mx-auto mt-2 max-w-sm text-[14px] leading-relaxed text-[#9B9BAE]">
+        <p className="mx-auto mt-2 max-w-sm text-[14px] leading-relaxed text-[#55556B]">
           We reply to {email} within one working day. If it is urgent and about a post going out
           today, say so in a follow-up and we will jump the queue.
         </p>
@@ -74,13 +74,13 @@ export default function ContactForm({ name, email }: { name: string; email: stri
   return (
     <div className="panel p-6 sm:p-7">
       <div className="mb-5 grid gap-3 sm:grid-cols-2">
-        <div className="rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3">
-          <p className="text-[11px] uppercase tracking-wider text-[#7E7E93]">From</p>
-          <p className="mt-0.5 truncate text-[14px] text-white">{name}</p>
+        <div className="rounded-xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] px-4 py-3">
+          <p className="text-[11px] uppercase tracking-wider text-[#6E6E85]">From</p>
+          <p className="mt-0.5 truncate text-[14px] text-[#0B0B12]">{name}</p>
         </div>
-        <div className="rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3">
-          <p className="text-[11px] uppercase tracking-wider text-[#7E7E93]">We reply to</p>
-          <p className="mt-0.5 truncate text-[14px] text-white">{email}</p>
+        <div className="rounded-xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] px-4 py-3">
+          <p className="text-[11px] uppercase tracking-wider text-[#6E6E85]">We reply to</p>
+          <p className="mt-0.5 truncate text-[14px] text-[#0B0B12]">{email}</p>
         </div>
       </div>
 
@@ -92,8 +92,8 @@ export default function ContactForm({ name, email }: { name: string; email: stri
             onClick={() => setTopic(t.key)}
             className={`flex items-center gap-2.5 rounded-xl border px-3.5 py-3 text-start text-[13.5px] transition-colors ${
               topic === t.key
-                ? "border-[#7C5CFF] bg-[#7C5CFF]/12 text-white"
-                : "border-[#1E1E28] bg-white/[0.02] text-[#9B9BAE] hover:border-[#3A3355]"
+                ? "border-[#7C5CFF] bg-[#7C5CFF]/12 text-[#5B3FE0]"
+                : "border-[#E7E7EF] bg-[#0B0B12]/[0.025] text-[#55556B] hover:border-[#C9BEEB]"
             }`}
           >
             <Icon name={t.icon} size={15} />
@@ -118,7 +118,7 @@ export default function ContactForm({ name, email }: { name: string; email: stri
       />
 
       {state === "error" && (
-        <p className="mt-3 rounded-lg border border-[#FF6B8A]/30 bg-[#FF6B8A]/10 px-3 py-2.5 text-[13px] text-[#FF6B8A]">
+        <p className="mt-3 rounded-lg border border-[#C2255C]/30 bg-[#C2255C]/10 px-3 py-2.5 text-[13px] text-[#C2255C]">
           {error}
         </p>
       )}
@@ -127,7 +127,7 @@ export default function ContactForm({ name, email }: { name: string; email: stri
         <button onClick={send} className="btn btn-primary" disabled={state === "sending"}>
           {state === "sending" ? "Sending…" : "Send message"}
         </button>
-        <p className="text-[12px] text-[#7E7E93]">Replies within one working day.</p>
+        <p className="text-[12px] text-[#6E6E85]">Replies within one working day.</p>
       </div>
     </div>
   );

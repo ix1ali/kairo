@@ -14,7 +14,7 @@ export default function NotFound() {
         </div>
         <p className="display mt-2 text-6xl grad-text">404</p>
         <h1 className="display mt-4 text-2xl">This page is not in the plan.</h1>
-        <p className="mx-auto mt-3 max-w-sm text-[14px] leading-relaxed text-[#7C7C90]">
+        <p className="mx-auto mt-3 max-w-sm text-[14px] leading-relaxed text-[#63637A]">
           The link is wrong or the thing you are looking for has moved.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">

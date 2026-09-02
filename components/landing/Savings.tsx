@@ -48,16 +48,16 @@ export default function Savings() {
       <div className="panel p-4 sm:p-7">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-[15px] font-semibold text-white">{t.savings.oldWay}</p>
-            <p className="text-[12.5px] text-[#7E7E93]">{t.savings.oldWaySub}</p>
+            <p className="text-[15px] font-semibold text-[#0B0B12]">{t.savings.oldWay}</p>
+            <p className="text-[12.5px] text-[#6E6E85]">{t.savings.oldWaySub}</p>
           </div>
-          <div className="flex gap-1 rounded-xl border border-[#1E1E28] bg-white/[0.02] p-1">
+          <div className="flex gap-1 rounded-xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] p-1">
             {PACKAGES.map((p) => (
               <button
                 key={p.id}
                 onClick={() => setPlanId(p.id)}
                 className={`rounded-lg px-2.5 py-1.5 text-[12px] font-semibold transition-colors ${
-                  planId === p.id ? "bg-white/10 text-white" : "text-[#7E7E93] hover:text-white"
+                  planId === p.id ? "bg-[#0B0B12]/[0.07] text-[#0B0B12]" : "text-[#6E6E85] hover:text-[#0B0B12]"
                 }`}
               >
                 {p.name}
@@ -70,34 +70,34 @@ export default function Savings() {
           {rows.map((r) => (
             <div
               key={r.key}
-              className={`flex flex-wrap items-center gap-x-3 gap-y-2.5 rounded-xl border border-[#1E1E28] bg-white/[0.02] px-3 py-3 sm:flex-nowrap sm:px-4 ${
+              className={`flex flex-wrap items-center gap-x-3 gap-y-2.5 rounded-xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] px-3 py-3 sm:flex-nowrap sm:px-4 ${
                 r.qty === 0 ? "opacity-40" : ""
               }`}
             >
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#FF6B8A]/12 text-[#FF6B8A]">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[#C2255C]/12 text-[#C2255C]">
                 <Icon name={r.icon} size={16} />
               </span>
               <div className="min-w-0 flex-1">
-                <p className="text-[13.5px] font-medium text-white">
+                <p className="text-[13.5px] font-medium text-[#0B0B12]">
                   {t.savings.lines[r.key as keyof typeof t.savings.lines].label}
                 </p>
-                <p className="text-[11.5px] text-[#7E7E93]">
+                <p className="text-[11.5px] text-[#6E6E85]">
                   {t.savings.lines[r.key as keyof typeof t.savings.lines].note}
                 </p>
               </div>
               <div className="flex w-full shrink-0 items-center justify-end gap-1.5 sm:w-auto">
-                <span className="text-[12px] text-[#7E7E93]">$</span>
+                <span className="text-[12px] text-[#6E6E85]">$</span>
                 <input
                   type="number"
                   min={0}
                   value={rates[r.key]}
                   onChange={(e) => setRates((v) => ({ ...v, [r.key]: Math.max(0, Number(e.target.value) || 0) }))}
-                  className="w-16 rounded-lg border border-[#22222E] bg-white/[0.05] px-2 py-1 text-right text-[13px] text-white outline-none focus:border-[#7C5CFF]"
+                  className="w-16 rounded-lg border border-[#E7E7EF] bg-[#0B0B12]/[0.045] px-2 py-1 text-right text-[13px] text-[#0B0B12] outline-none focus:border-[#7C5CFF]"
                 />
-                <span className="w-16 text-right text-[12px] text-[#7E7E93]">
+                <span className="w-16 text-right text-[12px] text-[#6E6E85]">
                   × {r.qty || 0}
                 </span>
-                <span className="w-20 text-right text-[13px] font-semibold text-[#C4C4D4]">
+                <span className="w-20 text-right text-[13px] font-semibold text-[#33334A]">
                   ${r.total.toLocaleString()}
                 </span>
               </div>
@@ -105,41 +105,41 @@ export default function Savings() {
           ))}
         </div>
 
-        <div className="mt-4 flex items-center justify-between border-t border-[#1E1E28] pt-4">
-          <p className="text-[13.5px] text-[#9B9BAE]">{t.savings.total}</p>
-          <p className="display text-2xl text-[#FF6B8A]">${traditional.toLocaleString()}</p>
+        <div className="mt-4 flex items-center justify-between border-t border-[#E7E7EF] pt-4">
+          <p className="text-[13.5px] text-[#55556B]">{t.savings.total}</p>
+          <p className="display text-2xl text-[#C2255C]">${traditional.toLocaleString()}</p>
         </div>
       </div>
 
       {/* the Koala way */}
-      <div className="relative overflow-hidden rounded-3xl border border-[#22D3EE]/30 bg-gradient-to-b from-[#0A1620] to-[#0A0A0F] p-6 sm:p-7">
+      <div className="relative overflow-hidden rounded-3xl border border-[#22D3EE]/30 bg-gradient-to-b from-[#0A1620] to-[#FFFFFF] p-6 sm:p-7">
         <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#22D3EE]/12 blur-[70px]" />
 
         <div className="relative">
-          <p className="text-[15px] font-semibold text-white">{t.savings.withKoala}</p>
-          <p className="text-[12.5px] text-[#6C8F97]">
+          <p className="text-[15px] font-semibold text-[#0B0B12]">{t.savings.withKoala}</p>
+          <p className="text-[12.5px] text-[#41666E]">
             {plan.name} · {t.savings.sameposts} {plan.totalPosts} {t.savings.posts}
           </p>
 
           <div className="mt-6 flex items-baseline gap-2">
             <span className="display text-5xl">${plan.price}</span>
-            <span className="text-[14px] text-[#7E7E93]">{t.savings.perMonth}</span>
+            <span className="text-[14px] text-[#6E6E85]">{t.savings.perMonth}</span>
           </div>
 
           <div className="mt-7 rounded-2xl border border-[#22D3EE]/25 bg-[#22D3EE]/[0.07] p-5 text-center">
-            <p className="text-[11px] font-bold uppercase tracking-widest text-[#7DD3FC]">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-[#0E7490]">
               {t.savings.youKeep}
             </p>
-            <p className="display mt-1.5 text-4xl text-[#22D3EE]">${saved.toLocaleString()}</p>
-            <p className="mt-1 text-[13px] text-[#6C8F97]">
+            <p className="display mt-1.5 text-4xl text-[#0E7490]">${saved.toLocaleString()}</p>
+            <p className="mt-1 text-[13px] text-[#41666E]">
               {t.savings.everyMonth}, {pct}% {t.savings.less}
             </p>
           </div>
 
           <ul className="mt-6 space-y-2.5">
             {t.savings.points.map((point) => (
-              <li key={point} className="flex gap-2.5 text-[13px] leading-relaxed text-[#6C8F97]">
-                <Icon name="check" size={14} className="mt-0.5 shrink-0 text-[#22D3EE]" strokeWidth={2.6} />
+              <li key={point} className="flex gap-2.5 text-[13px] leading-relaxed text-[#41666E]">
+                <Icon name="check" size={14} className="mt-0.5 shrink-0 text-[#0E7490]" strokeWidth={2.6} />
                 {point}
               </li>
             ))}

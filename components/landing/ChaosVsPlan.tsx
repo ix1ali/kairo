@@ -4,16 +4,16 @@ import { getLang } from "@/lib/i18n/server";
 
 /* Deterministic, so server and client render identically. */
 const CHAOS = [
-  { rot: -7, c: "#FFB443", h: 62, kind: "photo" },
+  { rot: -7, c: "#B45309", h: 62, kind: "photo" },
   { rot: 4, c: "#4E8DF5", h: 48, kind: "text" },
-  { rot: -3, c: "#7E7E93", h: 70, kind: "blank" },
+  { rot: -3, c: "#6E6E85", h: 70, kind: "blank" },
   { rot: 9, c: "#D8574F", h: 44, kind: "photo" },
   { rot: -5, c: "#3FA871", h: 66, kind: "text" },
   { rot: 6, c: "#9B5DE5", h: 52, kind: "photo" },
-  { rot: -9, c: "#E0B77A", h: 58, kind: "blank" },
-  { rot: 3, c: "#7E7E93", h: 46, kind: "text" },
-  { rot: -4, c: "#FF6B8A", h: 68, kind: "photo" },
-  { rot: 7, c: "#7DE7F7", h: 50, kind: "blank" },
+  { rot: -9, c: "#B45309", h: 58, kind: "blank" },
+  { rot: 3, c: "#6E6E85", h: 46, kind: "text" },
+  { rot: -4, c: "#C2255C", h: 68, kind: "photo" },
+  { rot: 7, c: "#0E7490", h: 50, kind: "blank" },
   { rot: -6, c: "#7C8A5F", h: 60, kind: "text" },
   { rot: 5, c: "#7A5C9E", h: 54, kind: "photo" },
 ];
@@ -23,7 +23,7 @@ const WEEK_TINTS = [0.3, 0.5, 0.85, 0.45];
 function ChaosCard({ item }: { item: (typeof CHAOS)[number] }) {
   return (
     <div
-      className="relative overflow-hidden rounded-lg border border-[#1E1E28]"
+      className="relative overflow-hidden rounded-lg border border-[#E7E7EF]"
       style={{ transform: `rotate(${item.rot}deg)`, background: `${item.c}22` }}
     >
       <div className="aspect-[4/5] p-2">
@@ -38,7 +38,7 @@ function ChaosCard({ item }: { item: (typeof CHAOS)[number] }) {
           </div>
         )}
         {item.kind === "blank" && (
-          <div className="grid h-full place-items-center text-lg font-bold text-[#7E7E93]">?</div>
+          <div className="grid h-full place-items-center text-lg font-bold text-[#6E6E85]">?</div>
         )}
       </div>
     </div>
@@ -58,7 +58,7 @@ function PlanCard({ tint, accent }: { tint: number; accent: boolean }) {
         <div className="flex h-full flex-col justify-between">
           <div
             className="h-1 w-5 rounded-full"
-            style={{ background: accent ? "#C8F751" : `rgba(255,255,255,${0.25 + tint * 0.4})` }}
+            style={{ background: accent ? "#4D7C0F" : `rgba(255,255,255,${0.25 + tint * 0.4})` }}
           />
           <div className="space-y-1">
             <div
@@ -83,14 +83,14 @@ export default async function ChaosVsPlan() {
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       {/* ---------- chaos ---------- */}
-      <div className="relative overflow-hidden rounded-3xl border border-[#3A2028] bg-gradient-to-b from-[#1A1013] to-[#0A0A0F] p-6 sm:p-7">
+      <div className="relative overflow-hidden rounded-3xl border border-[#3A2028] bg-gradient-to-b from-[#1A1013] to-[#FFFFFF] p-6 sm:p-7">
         <div className="mb-6 flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#FF6B8A]/15 text-[#FF6B8A]">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#C2255C]/15 text-[#C2255C]">
             <Icon name="shuffle" size={19} />
           </span>
           <div>
-            <p className="text-base font-semibold text-white">{t.chaosTitle}</p>
-            <p className="text-[12.5px] text-[#9A7A82]">{t.chaosSub}</p>
+            <p className="text-base font-semibold text-[#0B0B12]">{t.chaosTitle}</p>
+            <p className="text-[12.5px] text-[#7A5560]">{t.chaosSub}</p>
           </div>
         </div>
 
@@ -102,8 +102,8 @@ export default async function ChaosVsPlan() {
 
         <ul className="mt-6 space-y-2">
           {t.chaosPoints.map((point) => (
-            <li key={point} className="flex items-center gap-2.5 text-[13px] text-[#9A7A82]">
-              <Icon name="close" size={13} className="text-[#FF6B8A]" strokeWidth={2.4} />
+            <li key={point} className="flex items-center gap-2.5 text-[13px] text-[#7A5560]">
+              <Icon name="close" size={13} className="text-[#C2255C]" strokeWidth={2.4} />
               {point}
             </li>
           ))}
@@ -111,16 +111,16 @@ export default async function ChaosVsPlan() {
       </div>
 
       {/* ---------- plan ---------- */}
-      <div className="relative overflow-hidden rounded-3xl border border-[#2A2438] bg-gradient-to-b from-[#141130] to-[#0A0A0F] p-6 sm:p-7">
+      <div className="relative overflow-hidden rounded-3xl border border-[#DCDCE8] bg-gradient-to-b from-[#141130] to-[#FFFFFF] p-6 sm:p-7">
         <div className="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-[#7C5CFF]/20 blur-[70px]" />
 
         <div className="relative mb-6 flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#C8F751]/15 text-[#C8F751]">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#4D7C0F]/15 text-[#4D7C0F]">
             <Icon name="checkCircle" size={19} />
           </span>
           <div>
-            <p className="text-base font-semibold text-white">{t.planTitle}</p>
-            <p className="text-[12.5px] text-[#7C7C90]">{t.planSub}</p>
+            <p className="text-base font-semibold text-[#0B0B12]">{t.planTitle}</p>
+            <p className="text-[12.5px] text-[#63637A]">{t.planSub}</p>
           </div>
         </div>
 
@@ -128,8 +128,8 @@ export default async function ChaosVsPlan() {
           {WEEKS.map((w) => (
             <div key={w.n} className="flex items-center gap-3">
               <div className="w-[74px] shrink-0">
-                <p className="text-[11px] font-bold text-white">W{w.n}</p>
-                <p className="text-[10.5px] leading-tight text-[#7C7C90]">{w.label}</p>
+                <p className="text-[11px] font-bold text-[#0B0B12]">W{w.n}</p>
+                <p className="text-[10.5px] leading-tight text-[#63637A]">{w.label}</p>
               </div>
               <div className="grid flex-1 grid-cols-7 gap-1.5">
                 {Array.from({ length: 7 }).map((_, d) => (
@@ -140,7 +140,7 @@ export default async function ChaosVsPlan() {
                 className="hidden w-14 shrink-0 rounded-md px-1.5 py-1 text-center text-[9.5px] font-semibold sm:block"
                 style={{
                   background: `rgba(124,92,255,${0.1 + w.tint * 0.16})`,
-                  color: w.n === 3 ? "#C8F751" : "#C9BEFF",
+                  color: w.n === 3 ? "#4D7C0F" : "#5B3FE0",
                 }}
               >
                 {w.goal}
@@ -150,15 +150,15 @@ export default async function ChaosVsPlan() {
 
           {/* progression arrow */}
           <div className="flex items-center gap-2 pt-1 pl-[74px]">
-            <div className="h-px flex-1 bg-gradient-to-r from-[#7C5CFF]/30 via-[#7C5CFF]/70 to-[#C8F751]/70" />
-            <Icon name="arrowRight" size={13} className="flip-rtl text-[#C8F751]" />
+            <div className="h-px flex-1 bg-gradient-to-r from-[#7C5CFF]/30 via-[#7C5CFF]/70 to-[#4D7C0F]/70" />
+            <Icon name="arrowRight" size={13} className="flip-rtl text-[#4D7C0F]" />
           </div>
         </div>
 
         <ul className="relative mt-5 space-y-2">
           {t.planPoints.map((point) => (
-            <li key={point} className="flex items-center gap-2.5 text-[13px] text-[#9B9BAE]">
-              <Icon name="check" size={13} className="text-[#C8F751]" strokeWidth={2.6} />
+            <li key={point} className="flex items-center gap-2.5 text-[13px] text-[#55556B]">
+              <Icon name="check" size={13} className="text-[#4D7C0F]" strokeWidth={2.6} />
               {point}
             </li>
           ))}

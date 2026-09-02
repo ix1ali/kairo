@@ -69,7 +69,7 @@ export const GOAL_OPTIONS = [
 export const DEFAULT_COLORS = {
   primary: "#7C5CFF",
   secondary: "#22D3EE",
-  background: "#0B0B12",
+  background: "#FFFFFF",
   text: "#FFFFFF",
 };
 

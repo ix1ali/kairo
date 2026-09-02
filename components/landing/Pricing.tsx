@@ -9,7 +9,7 @@ function Check({ dim = false }: { dim?: boolean }) {
       <circle cx="8" cy="8" r="8" fill={dim ? "rgba(255,255,255,0.07)" : "rgba(124,92,255,0.18)"} />
       <path
         d="M4.6 8.2l2.2 2.2 4.6-4.6"
-        stroke={dim ? "#7E7E93" : "#7C5CFF"}
+        stroke={dim ? "#6E6E85" : "#7C5CFF"}
         strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -35,8 +35,8 @@ export async function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: stri
               key={pkg.id}
               className={`relative flex w-[78vw] shrink-0 snap-center flex-col rounded-3xl p-5 transition-transform duration-300 sm:w-auto sm:shrink sm:p-6 lg:p-7 ${
                 featured
-                  ? "border border-[#7C5CFF]/45 bg-gradient-to-b from-[#171327] to-[#0D0D14] shadow-[0_30px_90px_-30px_rgba(124,92,255,0.45)] lg:-translate-y-3"
-                  : "border border-[#1E1E28] bg-white/[0.02]"
+                  ? "border border-[#7C5CFF]/45 bg-gradient-to-b from-[#F7F7FB] to-[#FFFFFF] shadow-[0_30px_90px_-30px_rgba(124,92,255,0.45)] lg:-translate-y-3"
+                  : "border border-[#E7E7EF] bg-[#0B0B12]/[0.025]"
               }`}
             >
               {featured && (
@@ -46,32 +46,32 @@ export async function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: stri
               )}
 
               <h3 className="display text-2xl">{pkg.name}</h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-[#9B9BAE] sm:min-h-[42px]">
+              <p className="mt-1.5 text-sm leading-relaxed text-[#55556B] sm:min-h-[42px]">
                 {pkg.tagline}
               </p>
 
               <div className="mt-5 flex items-baseline gap-1">
                 <span className="display text-[2.5rem] sm:text-[2.75rem] lg:text-5xl">${pkg.price}</span>
-                <span className="text-sm text-[#7E7E93]">{t.month}</span>
+                <span className="text-sm text-[#6E6E85]">{t.month}</span>
               </div>
 
-              <div className="mt-5 grid grid-cols-3 gap-2 rounded-xl border border-[#1E1E28] bg-white/[0.05] p-3 text-center">
+              <div className="mt-5 grid grid-cols-3 gap-2 rounded-xl border border-[#E7E7EF] bg-[#0B0B12]/[0.045] p-3 text-center">
                 <div>
                   <p className="display text-lg">{pkg.totalPosts}</p>
-                  <p className="text-[10px] uppercase tracking-wider text-[#7E7E93]">{t.posts}</p>
+                  <p className="text-[10px] uppercase tracking-wider text-[#6E6E85]">{t.posts}</p>
                 </div>
-                <div className="border-x border-[#16161F]">
-                  <p className="display text-lg text-[#7DE7F7]">{pkg.videosPerMonth}</p>
-                  <p className="text-[10px] uppercase tracking-wider text-[#7E7E93]">{t.videos}</p>
+                <div className="border-x border-[#E7E7EF]">
+                  <p className="display text-lg text-[#0E7490]">{pkg.videosPerMonth}</p>
+                  <p className="text-[10px] uppercase tracking-wider text-[#6E6E85]">{t.videos}</p>
                 </div>
                 <div>
                   <p className="display text-lg">{pkg.credits}</p>
-                  <p className="text-[10px] uppercase tracking-wider text-[#7E7E93]">{t.credits}</p>
+                  <p className="text-[10px] uppercase tracking-wider text-[#6E6E85]">{t.credits}</p>
                 </div>
               </div>
 
-              <p className="mt-2.5 flex items-center justify-center gap-1.5 text-[11.5px] text-[#7E7E93]">
-                <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" className="text-[#7DE7F7]">
+              <p className="mt-2.5 flex items-center justify-center gap-1.5 text-[11.5px] text-[#6E6E85]">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor" className="text-[#0E7490]">
                   <path d="M3 1.6 10 6l-7 4.4V1.6Z" />
                 </svg>
                 {t.videoNote.replace("{n}", String(pkg.videoEveryNDays))}
@@ -83,26 +83,26 @@ export async function PricingCards({ ctaPrefix = "/signup" }: { ctaPrefix?: stri
               >
                 {t.startWith} {pkg.name}
               </Link>
-              <p className="mt-2 text-center text-[11px] text-[#7E7E93]">{t.billed}</p>
+              <p className="mt-2 text-center text-[11px] text-[#6E6E85]">{t.billed}</p>
 
-              <ul className="mt-6 space-y-2.5 border-t border-[#16161F] pt-6">
+              <ul className="mt-6 space-y-2.5 border-t border-[#E7E7EF] pt-6">
                 {pkg.features.map((f) => (
-                  <li key={f} className="flex gap-2.5 text-[13px] leading-relaxed text-[#9B9BAE]">
+                  <li key={f} className="flex gap-2.5 text-[13px] leading-relaxed text-[#55556B]">
                     <Check dim={f.endsWith("plus:")} />
-                    <span className={f.endsWith("plus:") ? "font-semibold text-[#7E7E93]" : ""}>{f}</span>
+                    <span className={f.endsWith("plus:") ? "font-semibold text-[#6E6E85]" : ""}>{f}</span>
                   </li>
                 ))}
               </ul>
 
-              <p className="mt-6 text-[11px] leading-relaxed text-[#7E7E93]">
-                <span className="font-semibold text-[#7E7E93]">{t.bestFor}</span> {pkg.bestFor}
+              <p className="mt-6 text-[11px] leading-relaxed text-[#6E6E85]">
+                <span className="font-semibold text-[#6E6E85]">{t.bestFor}</span> {pkg.bestFor}
               </p>
             </div>
           );
         })}
       </div>
 
-      <p className="mt-3 flex items-center justify-center gap-1.5 text-[12px] text-[#7E7E93] sm:hidden">
+      <p className="mt-3 flex items-center justify-center gap-1.5 text-[12px] text-[#6E6E85] sm:hidden">
         <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
           <path d="M10 4l4 4-4 4M6 4L2 8l4 4" />
         </svg>
@@ -117,13 +117,13 @@ export function CreditsExplainer() {
     <div className="grid gap-5 lg:grid-cols-[1.1fr_1fr]">
       <div className="panel p-7">
         <h3 className="display text-2xl">Credits are for changing your mind</h3>
-        <p className="mt-2.5 text-sm leading-relaxed text-[#9B9BAE]">
+        <p className="mt-2.5 text-sm leading-relaxed text-[#55556B]">
           Every plan arrives complete. You never need credits to receive your 30 days. Credits are
           what you spend when you want a post rebuilt your way: a different angle, a sharper caption,
           a whole new visual. Describe the change in a prompt and Koala rebuilds that post.
         </p>
 
-        <div className="mt-6 divide-y divide-[#16161F] overflow-hidden rounded-xl border border-[#1E1E28]">
+        <div className="mt-6 divide-y divide-[#E7E7EF] overflow-hidden rounded-xl border border-[#E7E7EF]">
           {[
             ["Rewrite caption", CREDIT_COSTS.rewriteCaption, "New copy, same visual"],
             ["New creative angle", CREDIT_COSTS.newAngle, "Different hook and concept"],
@@ -134,8 +134,8 @@ export function CreditsExplainer() {
           ].map(([label, cost, note]) => (
             <div key={String(label)} className="flex items-center justify-between gap-3 px-4 py-3">
               <div>
-                <p className="text-sm font-medium text-white">{label}</p>
-                <p className="text-[11px] text-[#7E7E93]">{note}</p>
+                <p className="text-sm font-medium text-[#0B0B12]">{label}</p>
+                <p className="text-[11px] text-[#6E6E85]">{note}</p>
               </div>
               <span className="chip shrink-0">{String(cost)} cr</span>
             </div>
@@ -145,7 +145,7 @@ export function CreditsExplainer() {
 
       <div className="panel p-7">
         <h3 className="display text-2xl">Top up any time</h3>
-        <p className="mt-2.5 text-sm leading-relaxed text-[#9B9BAE]">
+        <p className="mt-2.5 text-sm leading-relaxed text-[#55556B]">
           Credits roll over while your plan is active. Buy more only if you actually use them.
         </p>
         <div className="mt-6 space-y-2.5">
@@ -153,20 +153,20 @@ export function CreditsExplainer() {
             <div
               key={p.id}
               className={`flex items-center justify-between rounded-xl border px-4 py-3.5 ${
-                p.popular ? "border-[#7C5CFF]/45 bg-[#7C5CFF]/8" : "border-[#1E1E28] bg-white/[0.02]"
+                p.popular ? "border-[#7C5CFF]/45 bg-[#7C5CFF]/8" : "border-[#E7E7EF] bg-[#0B0B12]/[0.025]"
               }`}
             >
               <div>
-                <p className="text-base font-semibold text-white">
+                <p className="text-base font-semibold text-[#0B0B12]">
                   {p.credits.toLocaleString()} credits
                 </p>
-                {p.save && <p className="text-[11px] font-medium text-[#C8F751]">{p.save}</p>}
+                {p.save && <p className="text-[11px] font-medium text-[#4D7C0F]">{p.save}</p>}
               </div>
               <span className="display text-xl">${p.price}</span>
             </div>
           ))}
         </div>
-        <p className="mt-5 text-[11px] leading-relaxed text-[#7E7E93]">
+        <p className="mt-5 text-[11px] leading-relaxed text-[#6E6E85]">
           Roughly: 100 credits redesigns 25 visuals, or rewrites 100 captions, or rebuilds 16 full days.
         </p>
       </div>

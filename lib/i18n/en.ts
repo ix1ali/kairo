@@ -344,6 +344,9 @@ models: {
     credits: "Credits",
     rights: "Made for small brands that post every day.",
     noTrial: "No free trial. Every plan starts with a full 30-day calendar.",
+    terms: "Terms",
+    privacy: "Privacy",
+    refund: "Refunds",
   },
 };
 

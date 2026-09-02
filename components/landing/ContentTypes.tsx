@@ -8,7 +8,7 @@ const GROUP_META: { id: "ugc" | "teach" | "product" | "story" | "convert" | "com
   {
     id: "ugc",
     icon: "users",
-    accent: "#C8F751",
+    accent: "#4D7C0F",
     keys: ["ugc-review", "ugc-unboxing", "ugc-getready", "customer-feature", "review-dump"],
   },
   {
@@ -26,13 +26,13 @@ const GROUP_META: { id: "ugc" | "teach" | "product" | "story" | "convert" | "com
   {
     id: "story",
     icon: "megaphone",
-    accent: "#FFB443",
+    accent: "#B45309",
     keys: ["founder-story", "bts", "day-in-life", "team-spotlight", "standards"],
   },
   {
     id: "convert",
     icon: "target",
-    accent: "#FF6B8A",
+    accent: "#C2255C",
     keys: ["offer-launch", "bundle", "restock", "countdown", "objection-answer"],
   },
   {
@@ -64,7 +64,7 @@ export default async function ContentTypes() {
         {GROUPS.map((g) => (
           <div
             key={g.title}
-            className="rounded-2xl border border-[#1E1E28] bg-white/[0.02] p-5 transition-colors hover:border-[#33333F]"
+            className="rounded-2xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] p-5 transition-colors hover:border-[#C9C9D8]"
           >
             <div className="mb-3 flex items-center gap-2.5">
               <span
@@ -74,12 +74,12 @@ export default async function ContentTypes() {
                 <Icon name={g.icon} size={17} />
               </span>
               <div>
-                <p className="text-[14px] font-semibold text-white">{g.title}</p>
-                <p className="text-[11.5px] text-[#7E7E93]">{g.note}</p>
+                <p className="text-[14px] font-semibold text-[#0B0B12]">{g.title}</p>
+                <p className="text-[11.5px] text-[#6E6E85]">{g.note}</p>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-1.5 border-t border-[#16161F] pt-3.5">
+            <div className="flex flex-wrap gap-1.5 border-t border-[#E7E7EF] pt-3.5">
               {g.keys.slice(0, 4).map((k) => {
                 const c = byKey[k];
                 if (!c) return null;
@@ -87,14 +87,14 @@ export default async function ContentTypes() {
                   <span
                     key={k}
                     title={c.why}
-                    className="rounded-lg border border-[#1E1E28] bg-white/[0.02] px-2.5 py-1.5 text-[11.5px] text-[#9B9BAE]"
+                    className="rounded-lg border border-[#E7E7EF] bg-[#0B0B12]/[0.025] px-2.5 py-1.5 text-[11.5px] text-[#55556B]"
                   >
                     {c.name}
                   </span>
                 );
               })}
               {g.keys.length > 4 && (
-                <span className="rounded-lg px-2 py-1.5 text-[11.5px] text-[#7E7E93]">
+                <span className="rounded-lg px-2 py-1.5 text-[11.5px] text-[#6E6E85]">
                   +{g.keys.length - 4} {t.more}
                 </span>
               )}
@@ -103,7 +103,7 @@ export default async function ContentTypes() {
         ))}
       </div>
 
-      <p className="mt-8 text-center text-[13px] leading-relaxed text-[#7E7E93]">
+      <p className="mt-8 text-center text-[13px] leading-relaxed text-[#6E6E85]">
         {t.footer}
       </p>
     </div>

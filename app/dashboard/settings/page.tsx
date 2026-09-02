@@ -31,9 +31,9 @@ export default async function SettingsPage() {
               ["Projects", `${projects.length} of ${pkg.projects}`],
               ["Credits", user.credits.toLocaleString()],
             ].map(([k, v]) => (
-              <div key={k} className="rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3">
-                <p className="text-[11px] uppercase tracking-wider text-[#7E7E93]">{k}</p>
-                <p className="mt-0.5 truncate text-[14px] text-white">{v}</p>
+              <div key={k} className="rounded-xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] px-4 py-3">
+                <p className="text-[11px] uppercase tracking-wider text-[#6E6E85]">{k}</p>
+                <p className="mt-0.5 truncate text-[14px] text-[#0B0B12]">{v}</p>
               </div>
             ))}
           </div>
@@ -52,13 +52,13 @@ export default async function SettingsPage() {
         <section className="panel p-6">
           <h2 className="display mb-4 text-lg">Your projects</h2>
           {projects.length === 0 ? (
-            <p className="text-[14px] text-[#7C7C90]">No projects yet.</p>
+            <p className="text-[14px] text-[#63637A]">No projects yet.</p>
           ) : (
             <div className="space-y-2">
               {projects.map((p) => (
                 <div
                   key={p.id}
-                  className="flex items-center justify-between gap-3 rounded-xl border border-[#1E1E28] bg-white/[0.02] px-4 py-3"
+                  className="flex items-center justify-between gap-3 rounded-xl border border-[#E7E7EF] bg-[#0B0B12]/[0.025] px-4 py-3"
                 >
                   <div className="flex min-w-0 items-center gap-3">
                     <span
@@ -68,8 +68,8 @@ export default async function SettingsPage() {
                       }}
                     />
                     <div className="min-w-0">
-                      <p className="truncate text-[14px] font-medium text-white">{p.name}</p>
-                      <p className="text-[12px] text-[#7E7E93]">
+                      <p className="truncate text-[14px] font-medium text-[#0B0B12]">{p.name}</p>
+                      <p className="text-[12px] text-[#6E6E85]">
                         Created {new Date(p.createdAt).toLocaleDateString()}
                       </p>
                     </div>

@@ -4,6 +4,13 @@ import { putPublicFile } from "@/lib/storage";
 import { resolveCategory } from "@/lib/strategy/categories";
 
 /**
+ * Never cached. Every response here is specific to the signed-in account, and
+ * a cached one would show a customer another customer's data or their own
+ * stale state — a project created a second ago appearing to be missing.
+ */
+export const dynamic = "force-dynamic";
+
+/**
  * Brand import: give Koala a website URL and it reads the public page to
  * pre-fill the project — name, description, palette, logo, socials and a
  * best-guess category. Everything stays editable in the wizard.

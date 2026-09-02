@@ -19,6 +19,10 @@ export interface User {
   credits: number;
   onboarded: boolean;
   preferences?: UserPreferences;
+  /** Stripe customer, so renewals and portal sessions map back to this account. */
+  stripeCustomerId?: string;
+  /** The live subscription, needed to cancel it at the gateway rather than only here. */
+  stripeSubscriptionId?: string;
 }
 
 export interface SocialLink {
@@ -199,6 +203,15 @@ export interface DBShape {
     amount: number;
     credits: number;
     createdAt: string;
+    /**
+     * The gateway event that produced this row.
+     *
+     * Stripe retries a webhook until it gets a 2xx, so the same payment can
+     * arrive several times. Fulfilment checks this first and does nothing when
+     * it has already been recorded — otherwise a retry hands out a second
+     * month of credits.
+     */
+    gatewayId?: string;
   }[];
   supportMessages?: SupportMessage[];
 }

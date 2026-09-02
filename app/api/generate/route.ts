@@ -1,7 +1,15 @@
 import { fail, json, requireUser } from "@/lib/api";
 import { mutateForUser, readForUser, uid } from "@/lib/db";
-import { generateImage, generateVideo } from "@/lib/ai";
+import { generateImage, generateVideo, takeLastGenerationFailure } from "@/lib/ai";
+import { NO_TEXT_CLAUSE, stripSlopVocabulary } from "@/lib/ai/craft";
 import { putPublicFile, StorageUnavailableError } from "@/lib/storage";
+
+/**
+ * Never cached. Every response here is specific to the signed-in account, and
+ * a cached one would show a customer another customer's data or their own
+ * stale state — a project created a second ago appearing to be missing.
+ */
+export const dynamic = "force-dynamic";
 
 /**
  * One-off generation, outside the monthly calendar.
@@ -14,7 +22,13 @@ import { putPublicFile, StorageUnavailableError } from "@/lib/storage";
 
 const COST = { image: 4, video: 20 } as const;
 
-/** A reference is described, not uploaded: the palette is sampled in the browser. */
+/**
+ * A user-picked reference is still described rather than uploaded — its palette
+ * is sampled in the browser, so that file never leaves the device. Separately,
+ * photographs the customer has already stored on the project are sent as real
+ * references, because those are ours to use and they are what keeps the product
+ * recognisable.
+ */
 interface Body {
   kind?: "image" | "video";
   prompt?: string;
@@ -53,14 +67,25 @@ export async function POST(req: Request) {
         .slice(0, 5)
     : [];
 
+  // The customer's own photographs, so a one-off render shows their actual
+  // product rather than a convincing lookalike.
+  const references = (project?.products || [])
+    .flatMap((p) => p.images || [])
+    .concat(project?.images || [])
+    .filter(Boolean)
+    .slice(0, 3);
+
   const brief = [
-    prompt,
+    stripSlopVocabulary(prompt),
     project ? `Brand: ${project.name}. Voice: ${project.voice}.` : "",
-    palette.length ? `Match this colour palette exactly: ${palette.join(", ")}.` : "",
+    references.length
+      ? "Keep the product in the reference images exactly as it is — same shape, colour, label and proportions."
+      : "",
+    palette.length ? `Work these brand colours into the set and lighting: ${palette.join(", ")}.` : "",
     body.referenceNote ? `Match the style of the reference: ${body.referenceNote}.` : "",
     kind === "image"
-      ? "Editorial product photography. No watermark, no stock-photo look."
-      : "Short-form vertical video, six to ten seconds, no watermark.",
+      ? NO_TEXT_CLAUSE
+      : "Short-form vertical video, six to ten seconds. No captions burned in, no watermark.",
   ]
     .filter(Boolean)
     .join(" ");
@@ -69,7 +94,7 @@ export async function POST(req: Request) {
   try {
     if (kind === "image") {
       const aspect = body.aspect === "1:1" || body.aspect === "9:16" ? body.aspect : "4:5";
-      const data = await generateImage({ prompt: brief, aspect, userId: auth.user.id });
+      const data = await generateImage({ prompt: brief, aspect, references, userId: auth.user.id });
       if (data?.startsWith("data:")) {
         const [, meta, b64] = data.match(/^data:([^;]+);base64,(.*)$/) || [];
         if (b64) {
@@ -80,7 +105,7 @@ export async function POST(req: Request) {
         url = data;
       }
     } else {
-      const data = await generateVideo(brief, auth.user.id);
+      const data = await generateVideo(brief, auth.user.id, references[0]);
       if (data?.startsWith("data:")) {
         const [, , b64] = data.match(/^data:([^;]+);base64,(.*)$/) || [];
         if (b64) url = await putPublicFile(`gen_${uid()}.mp4`, Buffer.from(b64, "base64"));
@@ -94,8 +119,13 @@ export async function POST(req: Request) {
   }
 
   if (!url) {
+    // Say why, when the provider told us. "Not available yet" is true but
+    // useless; "the account needs a card on file" is something you can fix.
+    const reason = takeLastGenerationFailure();
     return fail(
-      "Generation is not available yet. No credits were charged.",
+      reason
+        ? `${reason} No credits were charged.`
+        : "Generation is not available yet. No credits were charged.",
       503
     );
   }
