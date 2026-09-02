@@ -1,5 +1,7 @@
 import { GatewayError, gatewayConfigured, gatewayImage, gatewayText, gatewayVideo } from "./gateway";
 import { imageModel, textModel, videoModel } from "./models";
+import { HiggsfieldError, higgsfieldConfigured, higgsfieldImage as hfImage } from "./higgsfield";
+import { VeoError, veoConfigured, veoVideo } from "./veo";
 
 /**
  * Pluggable generation layer.
@@ -53,10 +55,17 @@ export function providerStatus(): ProviderStatus[] {
     },
     {
       name: "Higgsfield",
-      key: "HIGGSFIELD_API_KEY",
-      configured: !!process.env.HIGGSFIELD_API_KEY,
+      key: "HIGGSFIELD_API_KEY_ID + HIGGSFIELD_API_KEY_SECRET",
+      configured: higgsfieldConfigured(),
+      kind: "image",
+      note: "Post artwork. Leads over the gateway when configured.",
+    },
+    {
+      name: "Google Veo",
+      key: "GEMINI_API_KEY",
+      configured: veoConfigured(),
       kind: "video",
-      note: "Short-form video generation from the storyboard.",
+      note: `Video from the storyboard, using ${process.env.KOALA_VEO_MODEL || "veo-3.1-generate-preview"}.`,
     },
     {
       name: "Anthropic",
@@ -68,11 +77,16 @@ export function providerStatus(): ProviderStatus[] {
   ];
 }
 
+/**
+ * Higgsfield leads for stills. It is the house look for this product — the
+ * marketing renders were made with it — so when it is configured it wins over
+ * the general-purpose gateway rather than being a last resort.
+ */
 export function activeImageProvider(): ImageProviderName {
+  if (higgsfieldConfigured()) return "higgsfield";
   if (gatewayConfigured()) return "gateway";
   if (process.env.GEMINI_API_KEY) return "gemini";
   if (process.env.OPENAI_API_KEY) return "openai";
-  if (process.env.HIGGSFIELD_API_KEY) return "higgsfield";
   return "local";
 }
 
@@ -114,7 +128,7 @@ async function safeFetch(url: string, init: RequestInit, timeoutMs = 60000) {
 let lastFailure: string | null = null;
 
 function describeFailure(err: unknown): string {
-  if (err instanceof GatewayError) {
+  if (err instanceof GatewayError || err instanceof HiggsfieldError || err instanceof VeoError) {
     return err.actionable || err.message;
   }
   return err instanceof Error ? err.message : String(err);
@@ -155,9 +169,11 @@ export async function generateImage(req: ImageRequest): Promise<string | null> {
         userId: req.userId,
       });
     }
+    if (provider === "higgsfield") {
+      return await hfImage({ prompt: req.prompt, params: { aspect_ratio: req.aspect } });
+    }
     if (provider === "gemini") return await geminiImage(req);
     if (provider === "openai") return await openaiImage(req);
-    if (provider === "higgsfield") return await higgsfieldImage(req);
   } catch (err) {
     console.error("[koala:ai] image generation failed", err);
     lastFailure = describeFailure(err);
@@ -211,21 +227,6 @@ async function openaiImage(req: ImageRequest): Promise<string | null> {
   return url || null;
 }
 
-async function higgsfieldImage(req: ImageRequest): Promise<string | null> {
-  const base = process.env.HIGGSFIELD_API_URL || "https://platform.higgsfield.ai/v1/image/generate";
-  const res = await safeFetch(base, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.HIGGSFIELD_API_KEY}`,
-    },
-    body: JSON.stringify({ prompt: req.prompt, aspect_ratio: req.aspect }),
-  });
-  if (!res.ok) return null;
-  const json = await res.json();
-  return json?.url || json?.data?.[0]?.url || null;
-}
-
 /* ------------------------------------------------------------------ */
 /* video                                                               */
 /* ------------------------------------------------------------------ */
@@ -234,8 +235,22 @@ export async function generateVideo(
   prompt: string,
   userId?: string,
   /** A still to animate — normally the customer's own product photograph. */
-  reference?: string
+  reference?: string,
+  /** Veo accepts 4, 6 or 8 seconds. */
+  seconds?: number
 ): Promise<string | null> {
+  // Veo first when a Gemini key exists: it is the model this product's video
+  // pipeline is written for, and it takes the storyboard's first frame.
+  if (veoConfigured()) {
+    try {
+      return await veoVideo({ prompt, startImage: reference, seconds, aspect: "9:16" });
+    } catch (err) {
+      console.error("[koala:ai] veo video failed", err);
+      lastFailure = describeFailure(err);
+      // Fall through to the gateway rather than giving up, when one exists.
+    }
+  }
+
   if (gatewayConfigured()) {
     try {
       return await gatewayVideo({ prompt, userId, reference });
@@ -245,28 +260,8 @@ export async function generateVideo(
       return null;
     }
   }
-  if (!process.env.HIGGSFIELD_API_KEY) return null;
-  try {
-    const base = process.env.HIGGSFIELD_VIDEO_URL || "https://platform.higgsfield.ai/v1/video/generate";
-    const res = await safeFetch(
-      base,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.HIGGSFIELD_API_KEY}`,
-        },
-        body: JSON.stringify({ prompt, aspect_ratio: "9:16", duration: 8 }),
-      },
-      120000
-    );
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json?.url || json?.video_url || null;
-  } catch (err) {
-    console.error("[koala:ai] video generation failed", err);
-    return null;
-  }
+
+  return null;
 }
 
 /* ------------------------------------------------------------------ */

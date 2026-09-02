@@ -2,6 +2,7 @@ import crypto from "crypto";
 import { cookies } from "next/headers";
 import { getUserByEmail, getUserById, insertUser, uid } from "./db";
 import type { User } from "./types";
+import { SIGNUP_CREDITS } from "./plans";
 
 const COOKIE = "koala_session";
 const MAX_AGE = 60 * 60 * 24 * 30;
@@ -101,7 +102,7 @@ export async function createUser(email: string, name: string, password: string):
     packageId: null,
     subscriptionStatus: "none",
     renewsAt: null,
-    credits: 0,
+    credits: SIGNUP_CREDITS,
     onboarded: false,
   };
   await insertUser(user);

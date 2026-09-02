@@ -2,6 +2,7 @@ import { fail, json, requireUser } from "@/lib/api";
 import { mutateForUser, readForUser, uid } from "@/lib/db";
 import { generateImage, generateVideo, takeLastGenerationFailure } from "@/lib/ai";
 import { NO_TEXT_CLAUSE, stripSlopVocabulary } from "@/lib/ai/craft";
+import { buildStoryboard, storyboardToVideoPrompt, type Storyboard } from "@/lib/ai/storyboard";
 import { putPublicFile, StorageUnavailableError } from "@/lib/storage";
 
 /**
@@ -36,6 +37,13 @@ interface Body {
   aspect?: "1:1" | "4:5" | "9:16";
   referenceNote?: string;
   palette?: unknown;
+  /**
+   * A board the customer has already read and approved. When absent one is
+   * written here, so a video is never generated from a bare sentence — that
+   * is what produces eight seconds of a camera drifting past nothing.
+   */
+  storyboard?: Storyboard;
+  seconds?: number;
 }
 
 export async function POST(req: Request) {
@@ -90,6 +98,30 @@ export async function POST(req: Request) {
     .filter(Boolean)
     .join(" ");
 
+  // Video always runs from a storyboard: the approved one when the customer
+  // reviewed it, otherwise one written now from the same brief.
+  let board: Storyboard | null = null;
+  let videoPrompt = brief;
+  if (kind === "video") {
+    board =
+      body.storyboard && Array.isArray(body.storyboard.shots) && body.storyboard.shots.length
+        ? body.storyboard
+        : await buildStoryboard({
+            productName: project?.products?.[0]?.name || "the product",
+            brandName: project?.name || "the brand",
+            angle: stripSlopVocabulary(prompt),
+            voice: project?.voice,
+            audience: project?.audience,
+            seconds: [4, 6, 8].includes(Number(body.seconds)) ? (Number(body.seconds) as 4 | 6 | 8) : 8,
+          });
+    videoPrompt = storyboardToVideoPrompt(
+      board,
+      references.length
+        ? "Keep the product exactly as it appears in the reference frame."
+        : undefined
+    );
+  }
+
   let url: string | null = null;
   try {
     if (kind === "image") {
@@ -105,7 +137,7 @@ export async function POST(req: Request) {
         url = data;
       }
     } else {
-      const data = await generateVideo(brief, auth.user.id, references[0]);
+      const data = await generateVideo(videoPrompt, auth.user.id, references[0], board?.totalSeconds);
       if (data?.startsWith("data:")) {
         const [, , b64] = data.match(/^data:([^;]+);base64,(.*)$/) || [];
         if (b64) url = await putPublicFile(`gen_${uid()}.mp4`, Buffer.from(b64, "base64"));
@@ -148,6 +180,9 @@ export async function POST(req: Request) {
   return json({
     url,
     kind,
+    // Returned so the customer can see the beats the clip was built from,
+    // and reuse or edit the board for the next take.
+    storyboard: board,
     credits: fresh.users.find((u) => u.id === auth.user.id)!.credits,
   });
 }

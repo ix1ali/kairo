@@ -125,6 +125,15 @@ export const CREDIT_PACKS: CreditPack[] = [
   { id: "cp_3000", credits: 3000, price: 349, save: "Save 39%" },
 ];
 
+/**
+ * Credits handed to a brand-new account, before any plan is chosen.
+ *
+ * Sized against CREDIT_COSTS below: enough for roughly seven images, or one
+ * video with a little left over. That is enough to see what the output looks
+ * like, and not enough to run a month of content for free.
+ */
+export const SIGNUP_CREDITS = 30;
+
 export const CREDIT_COSTS = {
   rewriteCaption: 1,
   newAngle: 3,
